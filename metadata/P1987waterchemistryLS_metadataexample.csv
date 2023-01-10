@@ -1,0 +1,15 @@
+﻿Datset File Name:,P1987waterchemistryLS
+Dataset Title:,"Temperature, salinity, and disolved oxygen data from NCDMF P195 Survey"
+Dataset Author:,Lela Schlenker
+Dataset Author Contact:,lelaschlenker@gmail.com
+Data Owner:,North Carolina Division of Marine Fisheries
+Data Owner Contact:,NA
+Link to Publically Available Data (if applicable):,https://www2.dnr.sc.gov/seamap/Account/LogOn?ReturnUrl=%2fseamap%2fReports
+Raw Data Citation,"SEAMAP-SA Data Management Work Group . Year, Month, Day. SEAMAP-SA online database. Retrieved from: http://www.dnr.sc.gov/SEAMAP/data.html by: ""individual X""."
+Link to Code Creating Dataset:,github/lelaschlenker
+Variables Generated in Dataset:,"Summer temperature, fall temperature, summer salinity, fall salinity, summer dissolved oxygen, fall dissolved oxygen"
+Timeframe of Dataset:,1987-2021
+"Data Collection Period (e.g., June and September)",June and September
+Geographic Study Area:,Pamlico Sound Mainbody (>2 m)
+Does dataset include informaton governed under IRB or HIPAA?,No
+Comments:,"Dissolved oxygen measurements start in 1997, surface and bottom measurements averaged for one measurement per variable per station. Station measurements then averaged for each season"
