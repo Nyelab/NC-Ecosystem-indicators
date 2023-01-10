@@ -1,0 +1,15 @@
+﻿Datset File Name:,B1972landingsLS
+Dataset Title:,North Carolina Landings Data
+Dataset Author:,Lela Schlenker
+Dataset Author Contact:,lelaschlenker@gmail.com
+Data Owner:,North Carolina Division of Marine Fisheries
+Data Owner Contact:,NA
+Link to Publically Available Data (if applicable):,https://deq.nc.gov/about/divisions/marine-fisheries/science-and-statistics/fisheries-statistics#commercial-statistics
+Raw Data Citation,"NCDMF. 2022. North Carolina Division of Marine Fisheries License and Statistics Section Annual Report. North Carolina Department of Environmental Quality, Division of Marine Fisheries, Morehead City, NC."
+Link to Code Creating Dataset:,github/lelaschlenker
+Variables Generated in Dataset:,4 R datasets within R datafile: 'trunc_df' is a truncated dataset (1981-2021) truncated to a time series where missing data is minimized. In this dataset landings in kilograms are standardized to a mean of 0 and a standard deviation of 1. Despite the dataset being truncated there are still a few missing values for fishery closures and those missing values are replaced with zeros. 'df_truncraw' is the truncated dataset (1981-2021) with landings in kilograms. Despite the dataset being truncated there are still a few missing values for fishery closures and those missing values are replaced with zeros. 'full_df' is the landings data over the full time series (1972-2021) with landings standardized as described above. Missing data was replaced with the mean for each species before standardization. 'df_fullraw' is the full dataset (1972-2021) with landings in kilograms. Missing data was replaced with the mean for each species.
+Timeframe of Dataset:,1972-2021
+Data Collection Period,Year round landings
+Geographic Study Area:,State of North Carolina
+Does dataset include informaton governed under IRB or HIPAA?,No
+Comments:,None
