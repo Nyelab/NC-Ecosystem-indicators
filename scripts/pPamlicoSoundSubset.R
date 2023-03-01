@@ -69,7 +69,14 @@ season <- as.data.frame(season)
 season$month <- 1:12
 df <- merge(df, season, by = "month", all.x = TRUE)
 northdf <- df
-northfinaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp), sdtemp = sd(temp), meansal = mean(surfacesalinity), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO), sdDO = sd(surfaceDO), samplesize = n())
+northfinaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp), sdtemp = sd(temp), meansal = mean(surfacesalinity), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO), sdDO = sd(surfaceDO), samplesize = n()) %>% ungroup()
+
+ts_df <- northfinaldf %>% filter(season != "fall") %>% select(meantemp, meansal, meanDO) 
+ts_df <- ts(ts_df, frequency = 2, start = 1996)
+png(paste0("~/NC-Ecosystem-indicators/figures/pNorthPamlicoWatertimeseriesCB.png"))
+plot.ts(ts_df) + title(main = "Central Region", adj = 1)
+dev.off()
+
 write.csv(northfinaldf, "data/p1996NorthPamlicoWaterCB.csv")
 
 #subset central
@@ -87,6 +94,14 @@ season <- as.data.frame(season)
 season$month <- 1:12
 df <- merge(df, season, by = "month", all.x = TRUE)
 centraldf <- df
-centralfinaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp), sdtemp = sd(temp), meansal = mean(surfacesalinity), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO), sdDO = sd(surfaceDO), samplesize = n())
+centralfinaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp), sdtemp = sd(temp), meansal = mean(surfacesalinity), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO), sdDO = sd(surfaceDO), samplesize = n()) %>% ungroup()
+
+ts_df <- centralfinaldf %>% filter(season != "fall") %>% select(meantemp, meansal, meanDO)
+ts_df <- ts(ts_df, frequency = 2, start = 1996)
+png(paste0("~/NC-Ecosystem-indicators/figures/pCentralPamlicoWatertimeseriesCB.png"))
+plot.ts(ts_df) + title(main = "North Region", adj = 1)
+dev.off()
+
+
 write.csv(centralfinaldf, "data/p1996CentralPamlicoWaterCB.csv")
 
