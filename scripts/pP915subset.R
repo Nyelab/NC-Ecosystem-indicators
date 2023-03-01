@@ -77,6 +77,12 @@ season <- as.data.frame(season)
 season$month <- 1:12
 df <- merge(df, season, by = "month", all.x = TRUE)
 
-finaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp, na.rm=TRUE), sdtemp = sd(temp), meansal = mean(surfacesal,na.rm=TRUE), sdsal = sd(surfacesal), meanDO = mean(surfacedo, na.rm=TRUE), sdDO = sd(surfacedo), meanpH = mean(pH, na.rm=TRUE), sdpH = sd(pH), samplesize = n())
+finaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp, na.rm=TRUE), sdtemp = sd(temp), meansal = mean(surfacesal,na.rm=TRUE), sdsal = sd(surfacesal), meanDO = mean(surfacedo, na.rm=TRUE), sdDO = sd(surfacedo), meanpH = mean(pH, na.rm=TRUE), sdpH = sd(pH), samplesize = n()) %>% ungroup()
+
+ts_df <- select(finaldf, meantemp, meansal, meanDO, meanpH)
+ts_df <- ts(ts_df, frequency = 4, start = 2008)
+png(paste0("~/NC-Ecosystem-indicators/figures/p", min(finaldf$year), names[i], "timeseriesCB.png"))
+plot.ts(ts_df) + title(main = paste0(sub = label), adj = 1)
+dev.off()
 write.csv(finaldf, paste0("~/NC-Ecosystem-indicators/data/p", min(finaldf$year), names[i], "WaterCB.csv"))
 }
