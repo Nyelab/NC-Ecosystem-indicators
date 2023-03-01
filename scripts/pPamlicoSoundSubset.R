@@ -1,6 +1,7 @@
 #subset by SAV regions
+#set your working directory from github (should be NC-Ecosystem-indicators)
 require(sf)
-shape <- sf::read_sf(file.path("C:/Users/Camryn/Documents/ArcGIS/ExportFeature.shp"))
+shape <- sf::read_sf(file.path("data/shapefiles/SAVRegions.shp"))
 shape <- st_transform(shape, crs = 4326)
 
 
@@ -53,6 +54,7 @@ df_extract_2_2 <- df_extract_2[!duplicated(df_extract_2[c("date", "longitude","l
 ggplot(data = world) + geom_sf() + geom_sf(data = shape)  + geom_point(data = df_extract_2_2, aes(x = longitude, y = latitude, color = gridID)) +
   coord_sf(xlim=c(-80, -74), ylim=c(32,37), expand = TRUE) + theme(panel.background = element_rect(fill = "white", colour = "black")) + ggtitle(paste( "Subsetted Points")) + ggtitle(paste("Grid Subset")) + xlab("Longitude") + ylab("Latitude") 
 
+#subset north
 df <- df_extract_2_2
 df$date <- as.Date(df$date)
 df$year <- format(df$date,"%Y")
@@ -66,9 +68,11 @@ season <- c("winter", "winter", "winter", "spring", "spring", "spring", "summer"
 season <- as.data.frame(season)
 season$month <- 1:12
 df <- merge(df, season, by = "month", all.x = TRUE)
-northfinaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp), setemp = standard_error(temp), meansal = mean(surfacesalinity), sesal = standard_error(surfacesalinity), meanDO = mean(surfaceDO), seDO = standard_error(surfaceDO), samplesize = n())
-write.csv(northfinaldf, "C:/Users/Camryn/Documents/NC-Ecosystem-indicators/data/p1996NorthPamlicoWaterCB.csv")
+northdf <- df
+northfinaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp), sdtemp = sd(temp), meansal = mean(surfacesalinity), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO), sdDO = sd(surfaceDO), samplesize = n())
+write.csv(northfinaldf, "data/p1996NorthPamlicoWaterCB.csv")
 
+#subset central
 df <- df_extract_2_2
 df$date <- as.Date(df$date)
 df$year <- format(df$date,"%Y")
@@ -82,5 +86,7 @@ season <- c("winter", "winter", "winter", "spring", "spring", "spring", "summer"
 season <- as.data.frame(season)
 season$month <- 1:12
 df <- merge(df, season, by = "month", all.x = TRUE)
-centralfinaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp), setemp = standard_error(temp), meansal = mean(surfacesalinity), sesal = standard_error(surfacesalinity), meanDO = mean(surfaceDO), seDO = standard_error(surfaceDO), samplesize = n())
-write.csv(centralfinaldf, "C:/Users/Camryn/Documents/NC-Ecosystem-indicators/data/p1996CentralPamlicoWaterCB.csv")
+centraldf <- df
+centralfinaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp), sdtemp = sd(temp), meansal = mean(surfacesalinity), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO), sdDO = sd(surfaceDO), samplesize = n())
+write.csv(centralfinaldf, "data/p1996CentralPamlicoWaterCB.csv")
+
