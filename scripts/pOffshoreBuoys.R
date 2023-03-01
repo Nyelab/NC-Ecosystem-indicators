@@ -33,4 +33,4 @@ season <- as.data.frame(season)
 season$month <- 1:12
 buoydf <- merge(buoydf, season, by = "month", all.x = TRUE)
 buoyseason <- buoydf %>% group_by(id, year, season) %>% summarise(mean = mean(temp), sd = sd(temp), latitude = mean(latitude), longitude = mean(longitude), sample = n())
-write.csv(buoyseason, "~/NC-Ecosystem-indicators/data/pOffshoreWaterCB.csv")
+write.csv(buoyseason, "~/NC-Ecosystem-indicators/data/p1995OffshoreWaterCB.csv")
