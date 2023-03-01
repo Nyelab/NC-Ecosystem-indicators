@@ -77,6 +77,6 @@ season <- as.data.frame(season)
 season$month <- 1:12
 df <- merge(df, season, by = "month", all.x = TRUE)
 
-finaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp, na.rm=TRUE), setemp = standard_error(temp), meansal = mean(surfacesal,na.rm=TRUE), sesal = standard_error(surfacesal), meanDO = mean(surfacedo, na.rm=TRUE), seDO = standard_error(surfacedo), meanpH = mean(pH, na.rm=TRUE), sepH = standard_error(pH), samplesize = n())
+finaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp, na.rm=TRUE), sdtemp = sd(temp), meansal = mean(surfacesal,na.rm=TRUE), sdsal = sd(surfacesal), meanDO = mean(surfacedo, na.rm=TRUE), sdDO = sd(surfacedo), meanpH = mean(pH, na.rm=TRUE), sdpH = sd(pH), samplesize = n())
 write.csv(finaldf, paste0("~/NC-Ecosystem-indicators/data/p", min(finaldf$year), names[i], "WaterCB.csv"))
 }
