@@ -8,6 +8,7 @@ library(rnaturalearth)
 library(scales)
 library(ggpmisc)
 library(RColorBrewer)
+library(padr)
 
 beauf <- read.csv("G:/My Drive/NCTempProject/bestdatasets/beaufdaily")
 beauf$id <- "beauf"
@@ -32,5 +33,6 @@ season <- c("winter", "winter", "winter", "spring", "spring", "spring", "summer"
 season <- as.data.frame(season)
 season$month <- 1:12
 buoydf <- merge(buoydf, season, by = "month", all.x = TRUE)
+buoydf <- pad(buoydf, interval="month")
 buoyseason <- buoydf %>% group_by(id, year, season) %>% summarise(mean = mean(temp), sd = sd(temp), latitude = mean(latitude), longitude = mean(longitude), sample = n())
 write.csv(buoyseason, "~/NC-Ecosystem-indicators/data/p1995OffshoreWaterCB.csv")
