@@ -80,7 +80,7 @@ png(paste0("~/NC-Ecosystem-indicators/figures/pNorthPamlicoWatertimeseriesCB.png
 plot.ts(ts_df) + title(main = "Central Region", adj = 1)
 dev.off()
 
-write.csv(northfinaldf, "data/p1996NorthPamlicoWaterCB.csv")
+write.csv(northfinaldf, "data/p1987NorthPamlicoWaterCB.csv")
 
 #subset central
 df <- df_extract_2_2
@@ -106,5 +106,5 @@ plot.ts(ts_df) + title(main = "North Region", adj = 1)
 dev.off()
 
 
-write.csv(centralfinaldf, "data/p1996CentralPamlicoWaterCB.csv")
+write.csv(centralfinaldf, "data/p1987CentralPamlicoWaterCB.csv")
 
