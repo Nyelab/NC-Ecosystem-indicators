@@ -15,7 +15,7 @@ library(stringr)
 #######Load the datasets
 setwd("~/NC-Ecosystem-indicators/data")
 data_files <- list.files("~/NC-Ecosystem-indicators/data")
-data_files <- data_files[grepl("^p", data_files)]
+data_files <- data_files[grepl("^c", data_files)]
 
 for(i in 1:length(data_files)) {                              
   assign(paste0(str_sub(data_files[i], end=-12)),                                  
@@ -45,9 +45,26 @@ for(i in 1:length(data_files)){
 BT <- get(data_files[i])
 names(BT) <- tolower(names(BT))
 BT <- filter(BT, year < 2020)
-BT <- filter(BT, year > 1980)
+# BT <- filter(BT, year > 1980)
 #average on year
-BT <- BT %>% group_by(year, season) %>% filter(season == "fall") %>% summarise(avtemp = mean(mean_temperature, na.rm = TRUE))
+# BT <- BT %>% group_by(year, season) %>% filter(season == "fall") %>% summarise(avtemp = mean(meantemp, na.rm = TRUE))
+
+#other temps
+# BT <- BT %>% group_by(year) %>% summarise(avtemp = mean(meantemp, na.rm = TRUE))
+
+#DEQ sal
+# BT <- BT %>% group_by(year) %>% summarise(avtemp = mean(mean_dissolvedoxygen, na.rm = TRUE))
+
+
+#deq temps
+# BT <- BT %>% group_by(year) %>% summarise(avtemp = mean(mean_temperature, na.rm = TRUE))
+
+#flow 
+# BT <- BT %>% group_by(year) %>% summarise(avtemp = mean(annual.average.flow..m3.s., na.rm = TRUE))
+
+#chl a
+BT <- BT %>% group_by(year) %>% summarise(avtemp = mean(chlorophyll.a, na.rm = TRUE))
+
 
 # Creat a GAM - adjust k and remember to check model
 mod <- gam(avtemp ~ s(year, k=7), data = BT)
@@ -75,44 +92,67 @@ lines(p2_mod+intercept ~ year, data = pdata)
 lines(unlist(mod.dsig$incr)+intercept ~ year, data = pdata, col = "blue", lwd = 3)
 lines(unlist(mod.dsig$decr)+intercept ~ year, data = pdata, col = "red", lwd = 3)
 
-linearMod<- lm(avtemp ~ year, data=BT)
-summary(linearMod)
+# linearMod<- lm(avtemp ~ year, data=BT)
+# summary(linearMod)
 
 name <- str_sub(data_files[i], 6)
 name <- gsub("(?!^)(?=[[:upper:]])", " ", name, perl=T)
 
+BTpost1997 <- filter(BT, year > 1997)
+linearMod<- lm(avtemp ~ year, data=BTpost1997)
+summary(linearMod)
+
+name <- "Neuse River Chlorophyll a"
+
+#non significant linear
 ggplot() + 
-  geom_line(data = BT, aes(x = year, y = avtemp), color = 'grey53') +
-  geom_point(data = BT, aes(x = year, y = avtemp), color = 'gray53') + 
-  #geom_smooth(data = BT, aes(x = Year, y = Val), method = lm, se = FALSE, color = 'black') + 
+  geom_line(data = BT, aes(x = year, y = avtemp), color = 'grey53', alpha = 0.6) +
+  geom_point(data = BT, aes(x = year, y = avtemp), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "blue", size = 1) +  
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = 'red', size = 1) +  
+  theme_bw() +
+  labs (y = "Chlorophyll a (ug/L)", x = 'Year', title = paste0(name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
+
+ggsave(paste0("~/NC-Ecosystem-indicators/figures/GAMS/", data_files[i], "GAMwithTrendDO.png"))
+
+name <- "Albemarle Sound Chlorophyll a"
+
+#significant linear
+ggplot() + 
+  geom_line(data = BT, aes(x = year, y = avtemp), color = 'grey53', alpha = 0.6) +
+  geom_point(data = BT, aes(x = year, y = avtemp), color = 'gray53', alpha = 0.6) + 
   geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
   geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "blue", size = 1) + 
-  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = 'red', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = 'red', size = 1) +   geom_smooth(data = BTpost1997, aes(x = year, y = avtemp), method = lm, se = FALSE, color = 'darkgreen') +
   theme_bw() +
-  labs (y = "Temperature (\u00B0C)", x = 'Year', title = paste0("Fall ", name)) + 
+  labs (y = "Chlorophyll a (ug/L)", x = 'Year', title = paste0(name)) + 
   theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
 
 temp <- "Temperature (\u00B0C)"
 
-ggsave(paste0("~/NC-Ecosystem-indicators/figures/GAMS/", data_files[i], "FallGAM.png"))
+ggsave(paste0("~/NC-Ecosystem-indicators/figures/GAMS/", gsub(" ", "", name) , "GAMwithTrend.png"))
 }
 
 #### 
 #for biomass
+#import
+load("~/NC-Ecosystem-indicators/data/B1972landingsLS.RData")
 for(i in 1:length(data_files)){
   BT <- trunc_df
   names(BT) <- tolower(names(BT))
-  BT <- filter(BT , fish == "Southern Flounder")
+  BT <- filter(BT , fish == "Blue Crabs")
   BT <- BT[, -c(1, 2)]
   BT <- BT %>% pivot_longer(cols = everything(), names_to = "year", values_to = "landings")
   BT$year <- as.numeric(BT$year)
   BT <- filter(BT, year < 2020)
-  BT <- filter(BT, year > 1980)
+  # BT <- filter(BT, year > 1980)
   #average on year
   # BT <- BT %>% group_by(year, season)  %>% summarise(avtemp = mean(mean_temperature, na.rm = TRUE))
   
   # Creat a GAM - adjust k and remember to check model
-  mod <- gam(landings ~ s(year, k=20), data = BT)
+  mod <- gam(landings ~ s(year, k=7), data = BT)
   summary(mod) #check out model
   gam.check(mod)
   
@@ -137,25 +177,40 @@ for(i in 1:length(data_files)){
   lines(unlist(mod.dsig$incr)+intercept ~ year, data = pdata, col = "blue", lwd = 3)
   lines(unlist(mod.dsig$decr)+intercept ~ year, data = pdata, col = "red", lwd = 3)
   
-  linearMod<- lm(landings ~ year, data=BT)
+  
+  name <- "Blue Crab Landings"
+  
+  BTpost1997 <- filter(BT, year > 1997)
+  linearMod<- lm(landings ~ year, data=BTpost1997)
   summary(linearMod)
   
-  name <- "Southern Flounder Landings"
-  
+  #non significant linear
   ggplot() + 
-    geom_line(data = BT, aes(x = year, y = landings), color = 'grey53') +
-    geom_point(data = BT, aes(x = year, y = landings), color = 'gray53') + 
-    #geom_smooth(data = BT, aes(x = Year, y = Val), method = lm, se = FALSE, color = 'black') + 
+    geom_line(data = BT, aes(x = year, y = landings), color = 'grey53', alpha = 0.6) +
+    geom_point(data = BT, aes(x = year, y = landings), color = 'gray53', alpha = 0.6) + 
+    geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+    geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "blue", size = 1) +  
+    geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = 'red', size = 1) +  
+    theme_bw() +
+    labs (y = "Landings", x = 'Year', title = paste0(name)) + 
+    theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
+  
+  ggsave(paste0("~/NC-Ecosystem-indicators/figures/GAMS/", data_files[i], "GAMwithTrend.png"))
+  
+  #significant linear
+  ggplot() + 
+    geom_line(data = BT, aes(x = year, y = landings), color = 'grey53', alpha = 0.6) +
+    geom_point(data = BT, aes(x = year, y = landings), color = 'gray53', alpha = 0.6) + 
     geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
     geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "blue", size = 1) + 
-    geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = 'red', size = 1) + 
+    geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = 'red', size = 1) +   geom_smooth(data = BTpost1997, aes(x = year, y = landings), method = lm, se = FALSE, color = 'darkgreen') +
     theme_bw() +
     labs (y = "Landings", x = 'Year', title = paste0(name)) + 
     theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
   
   temp <- "Temperature (\u00B0C)"
   
-  ggsave(paste0("~/NC-Ecosystem-indicators/figures/GAMS/", name, "GAM.png"))
+  ggsave(paste0("~/NC-Ecosystem-indicators/figures/GAMS/",  gsub(" ", "", name), "GAMwithTrend.png"))
 }
 
 #for population
@@ -179,10 +234,10 @@ data_files <- str_sub(data_files, end=-4)
 for(i in 1:length(data_files)){
   BT <- get(data_files[i])
   names(BT) <- tolower(names(BT))
-  BT <- dplyr::select(BT, county, carteret)
+  BT <- dplyr::select(BT, county, beaufort)
   names(BT) <- c("year", "population")
   BT <- filter(BT, year < 2020)
-  BT <- filter(BT, year > 1980)
+  # BT <- filter(BT, year > 1980)
   BT$population <- as.numeric(gsub(",","",BT$population))
   
   # Creat a GAM - adjust k and remember to check model
@@ -211,18 +266,20 @@ for(i in 1:length(data_files)){
   lines(unlist(mod.dsig$incr)+intercept ~ year, data = pdata, col = "blue", lwd = 3)
   lines(unlist(mod.dsig$decr)+intercept ~ year, data = pdata, col = "red", lwd = 3)
   
-  linearMod<- lm(population ~ year, data=BT)
+  BTpost1997 <- filter(BT, year > 1997)
+  linearMod<- lm(population ~ year, data=BTpost1997)
   summary(linearMod)
   
-  name <- "Carteret County Population"
+  name <- "Beaufort County Population"
+  
+
   
   ggplot() + 
-    geom_line(data = BT, aes(x = year, y = population), color = 'grey53') +
-    geom_point(data = BT, aes(x = year, y = population), color = 'gray53') + 
-    #geom_smooth(data = BT, aes(x = Year, y = Val), method = lm, se = FALSE, color = 'black') + 
-    geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+    geom_line(data = BT, aes(x = year, y = population), color = 'grey53', alpha = 0.6) +
+    geom_point(data = BT, aes(x = year, y = population), color = 'gray53', alpha = 0.6) + 
+    geom_line(data = pdata, mapping = aes(x = year, y = p2_mod + intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
     geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "blue", size = 1) + 
-    geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = 'red', size = 1) + 
+    geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = 'red', size = 1) +   geom_smooth(data = BTpost1997, aes(x = year, y = population), method = lm, se = FALSE, color = 'darkgreen') +
     theme_bw() +
     labs (y = "Population", x = 'Year', title = paste0(name)) + 
     theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
