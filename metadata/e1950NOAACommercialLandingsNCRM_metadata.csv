@@ -1,0 +1,15 @@
+Datset File Name:,NOAAs_Commerical_Landings_NC
+Dataset Title:,Commerical Landing in North Carolina from 2021-1950
+Dataset Author:,Richard Mahoney
+Dataset Author Contact:,rmhao448@gmail.com
+Data Owner:,NOAA
+Data Owner Contact:,NOAA
+Link to Publically Available Data (if applicable):,HOME (noaa.gov)
+Raw Data Citation,HOME (noaa.gov)
+Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
+Variables Generated in Dataset:,"Year, State, NMFS Name, Pounds, Metric Tons, Dollars, Confidentiality, Collection, Scientific Name, Tsn, Source"
+Timeframe of Dataset:,2021-1950
+Data Collection Period,Every year up to 2021
+Geographic Study Area:,All of NC
+Does dataset include information governed under IRB or HIPAA?,Unknown
+Comments:,

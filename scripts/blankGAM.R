@@ -15,6 +15,7 @@ library(stringr)
 #######Load the datasets
 setwd("~/NC-Ecosystem-indicators/data")
 data_files <- list.files("~/NC-Ecosystem-indicators/data")
+datafiles <- list.files("~/DATA-20230523T151121Z-001/DATA")
 data_files <- data_files[grepl("^c", data_files)]
 
 for(i in 1:length(data_files)) {                              
