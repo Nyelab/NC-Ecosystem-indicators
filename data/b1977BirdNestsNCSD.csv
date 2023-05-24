@@ -1,0 +1,346 @@
+"","Year","Total","Species","NumNests"
+"1","1977",35486,"White Ibis",1939
+"2","1983",60014,"White Ibis",3825
+"3","1988",50661,"White Ibis",6332
+"4","1993",66850,"White Ibis",10455
+"5","1995",67719,"White Ibis",9571
+"6","1997",50766,"White Ibis",9446
+"7","1999",58091,"White Ibis",8711
+"8","2001",78250,"White Ibis",17043
+"9","2004",62680,"White Ibis",14392
+"10","2007",64961,"White Ibis",16962
+"11","2011",71702,"White Ibis",11178
+"12","2014",67952,"White Ibis",12454
+"13","2017",51602,"White Ibis",13019
+"14","2020",59118,"White Ibis",8262
+"15","14-year mean",60414,"White Ibis",10256
+"16","1977",35486,"Glossy Ibis",404
+"17","1983",60014,"Glossy Ibis",291
+"18","1988",50661,"Glossy Ibis",84
+"19","1993",66850,"Glossy Ibis",526
+"20","1995",67719,"Glossy Ibis",279
+"21","1997",50766,"Glossy Ibis",482
+"22","1999",58091,"Glossy Ibis",229
+"23","2001",78250,"Glossy Ibis",600
+"24","2004",62680,"Glossy Ibis",377
+"25","2007",64961,"Glossy Ibis",356
+"26","2011",71702,"Glossy Ibis",263
+"27","2014",67952,"Glossy Ibis",394
+"28","2017",51602,"Glossy Ibis",121
+"29","2020",59118,"Glossy Ibis",113
+"30","14-year mean",60414,"Glossy Ibis",323
+"31","1977",35486,"Brown Pelican",82
+"32","1983",60014,"Brown Pelican",1586
+"33","1988",50661,"Brown Pelican",2637
+"34","1993",66850,"Brown Pelican",3327
+"35","1995",67719,"Brown Pelican",3290
+"36","1997",50766,"Brown Pelican",4145
+"37","1999",58091,"Brown Pelican",4350
+"38","2001",78250,"Brown Pelican",4137
+"39","2004",62680,"Brown Pelican",5173
+"40","2007",64961,"Brown Pelican",3452
+"41","2011",71702,"Brown Pelican",5150
+"42","2014",67952,"Brown Pelican",4400
+"43","2017",51602,"Brown Pelican",5455
+"44","2020",59118,"Brown Pelican",5049
+"45","14-year mean",60414,"Brown Pelican",3731
+"46","1977",35486,"Green Heron",42
+"47","1983",60014,"Green Heron",24
+"48","1988",50661,"Green Heron",64
+"49","1993",66850,"Green Heron",8
+"50","1995",67719,"Green Heron",8
+"51","1997",50766,"Green Heron",4
+"52","1999",58091,"Green Heron",15
+"53","2001",78250,"Green Heron",30
+"54","2004",62680,"Green Heron",47
+"55","2007",64961,"Green Heron",117
+"56","2011",71702,"Green Heron",2
+"57","2014",67952,"Green Heron",13
+"58","2017",51602,"Green Heron",27
+"59","2020",59118,"Green Heron",6
+"60","14-year mean",60414,"Green Heron",29
+"61","1977",35486,"Black-crowned Night Heron",237
+"62","1983",60014,"Black-crowned Night Heron",269
+"63","1988",50661,"Black-crowned Night Heron",207
+"64","1993",66850,"Black-crowned Night Heron",251
+"65","1995",67719,"Black-crowned Night Heron",204
+"66","1997",50766,"Black-crowned Night Heron",233
+"67","1999",58091,"Black-crowned Night Heron",193
+"68","2001",78250,"Black-crowned Night Heron",262
+"69","2004",62680,"Black-crowned Night Heron",297
+"70","2007",64961,"Black-crowned Night Heron",177
+"71","2011",71702,"Black-crowned Night Heron",244
+"72","2014",67952,"Black-crowned Night Heron",415
+"73","2017",51602,"Black-crowned Night Heron",425
+"74","2020",59118,"Black-crowned Night Heron",306
+"75","14-year mean",60414,"Black-crowned Night Heron",266
+"76","1977",35486,"Yellow-crowned Night Heron",2
+"77","1983",60014,"Yellow-crowned Night Heron",9
+"78","1988",50661,"Yellow-crowned Night Heron",12
+"79","1993",66850,"Yellow-crowned Night Heron",18
+"80","1995",67719,"Yellow-crowned Night Heron",10
+"81","1997",50766,"Yellow-crowned Night Heron",21
+"82","1999",58091,"Yellow-crowned Night Heron",12
+"83","2001",78250,"Yellow-crowned Night Heron",10
+"84","2004",62680,"Yellow-crowned Night Heron",2
+"85","2007",64961,"Yellow-crowned Night Heron",14
+"86","2011",71702,"Yellow-crowned Night Heron",1
+"87","2014",67952,"Yellow-crowned Night Heron",0
+"88","2017",51602,"Yellow-crowned Night Heron",1
+"89","2020",59118,"Yellow-crowned Night Heron",1
+"90","14-year mean",60414,"Yellow-crowned Night Heron",8
+"91","1977",35486,"Great Egret",494
+"92","1983",60014,"Great Egret",832
+"93","1988",50661,"Great Egret",682
+"94","1993",66850,"Great Egret",1945
+"95","1995",67719,"Great Egret",1901
+"96","1997",50766,"Great Egret",3551
+"97","1999",58091,"Great Egret",1230
+"98","2001",78250,"Great Egret",1901
+"99","2004",62680,"Great Egret",1879
+"100","2007",64961,"Great Egret",1697
+"101","2011",71702,"Great Egret",2055
+"102","2014",67952,"Great Egret",1779
+"103","2017",51602,"Great Egret",2047
+"104","2020",59118,"Great Egret",1788
+"105","14-year mean",60414,"Great Egret",1699
+"106","1977",35486,"Cattle Egret",1137
+"107","1983",60014,"Cattle Egret",1754
+"108","1988",50661,"Cattle Egret",1919
+"109","1993",66850,"Cattle Egret",2271
+"110","1995",67719,"Cattle Egret",1517
+"111","1997",50766,"Cattle Egret",908
+"112","1999",58091,"Cattle Egret",3049
+"113","2001",78250,"Cattle Egret",342
+"114","2004",62680,"Cattle Egret",547
+"115","2007",64961,"Cattle Egret",479
+"116","2011",71702,"Cattle Egret",737
+"117","2014",67952,"Cattle Egret",264
+"118","2017",51602,"Cattle Egret",545
+"119","2020",59118,"Cattle Egret",257
+"120","14-year mean",60414,"Cattle Egret",1123
+"121","1977",35486,"Snowy Egret",1034
+"122","1983",60014,"Snowy Egret",716
+"123","1988",50661,"Snowy Egret",497
+"124","1993",66850,"Snowy Egret",904
+"125","1995",67719,"Snowy Egret",672
+"126","1997",50766,"Snowy Egret",676
+"127","1999",58091,"Snowy Egret",271
+"128","2001",78250,"Snowy Egret",349
+"129","2004",62680,"Snowy Egret",446
+"130","2007",64961,"Snowy Egret",386
+"131","2011",71702,"Snowy Egret",664
+"132","2014",67952,"Snowy Egret",477
+"133","2017",51602,"Snowy Egret",371
+"134","2020",59118,"Snowy Egret",225
+"135","14-year mean",60414,"Snowy Egret",549
+"136","1977",35486,"Tricolored Heron",1479
+"137","1983",60014,"Tricolored Heron",1436
+"138","1988",50661,"Tricolored Heron",869
+"139","1993",66850,"Tricolored Heron",1938
+"140","1995",67719,"Tricolored Heron",1716
+"141","1997",50766,"Tricolored Heron",1241
+"142","1999",58091,"Tricolored Heron",701
+"143","2001",78250,"Tricolored Heron",1219
+"144","2004",62680,"Tricolored Heron",1702
+"145","2007",64961,"Tricolored Heron",979
+"146","2011",71702,"Tricolored Heron",1232
+"147","2014",67952,"Tricolored Heron",837
+"148","2017",51602,"Tricolored Heron",631
+"149","2020",59118,"Tricolored Heron",965
+"150","14-year mean",60414,"Tricolored Heron",1210
+"151","1977",35486,"Little Blue Heron",802
+"152","1983",60014,"Little Blue Heron",1178
+"153","1988",50661,"Little Blue Heron",538
+"154","1993",66850,"Little Blue Heron",1727
+"155","1995",67719,"Little Blue Heron",1407
+"156","1997",50766,"Little Blue Heron",679
+"157","1999",58091,"Little Blue Heron",1025
+"158","2001",78250,"Little Blue Heron",1349
+"159","2004",62680,"Little Blue Heron",1354
+"160","2007",64961,"Little Blue Heron",1090
+"161","2011",71702,"Little Blue Heron",1307
+"162","2014",67952,"Little Blue Heron",748
+"163","2017",51602,"Little Blue Heron",670
+"164","2020",59118,"Little Blue Heron",148
+"165","14-year mean",60414,"Little Blue Heron",1002
+"166","1977",35486,"Least Tern",1925
+"167","1983",60014,"Least Tern",1653
+"168","1988",50661,"Least Tern",1528
+"169","1993",66850,"Least Tern",2188
+"170","1995",67719,"Least Tern",1993
+"171","1997",50766,"Least Tern",882
+"172","1999",58091,"Least Tern",1271
+"173","2001",78250,"Least Tern",1742
+"174","2004",62680,"Least Tern",2408
+"175","2007",64961,"Least Tern",2827
+"176","2011",71702,"Least Tern",3547
+"177","2014",67952,"Least Tern",3323
+"178","2017",51602,"Least Tern",2536
+"179","2020",59118,"Least Tern",3476
+"180","14-year mean",60414,"Least Tern",2236
+"181","1977",35486,"Forester's Tern",1138
+"182","1983",60014,"Forester's Tern",936
+"183","1988",50661,"Forester's Tern",933
+"184","1993",66850,"Forester's Tern",1610
+"185","1995",67719,"Forester's Tern",1117
+"186","1997",50766,"Forester's Tern",867
+"187","1999",58091,"Forester's Tern",812
+"188","2001",78250,"Forester's Tern",1086
+"189","2004",62680,"Forester's Tern",828
+"190","2007",64961,"Forester's Tern",1034
+"191","2011",71702,"Forester's Tern",981
+"192","2014",67952,"Forester's Tern",878
+"193","2017",51602,"Forester's Tern",762
+"194","2020",59118,"Forester's Tern",806
+"195","14-year mean",60414,"Forester's Tern",985
+"196","1977",35486,"Royal Tern",9755
+"197","1983",60014,"Royal Tern",17029
+"198","1988",50661,"Royal Tern",11793
+"199","1993",66850,"Royal Tern",14611
+"200","1995",67719,"Royal Tern",14150
+"201","1997",50766,"Royal Tern",10991
+"202","1999",58091,"Royal Tern",12519
+"203","2001",78250,"Royal Tern",10877
+"204","2004",62680,"Royal Tern",13524
+"205","2007",64961,"Royal Tern",10689
+"206","2011",71702,"Royal Tern",11049
+"207","2014",67952,"Royal Tern",12983
+"208","2017",51602,"Royal Tern",12065
+"209","2020",59118,"Royal Tern",14728
+"210","14-year mean",60414,"Royal Tern",12626
+"211","1977",35486,"Sandwich Tern",1190
+"212","1983",60014,"Sandwich Tern",1850
+"213","1988",50661,"Sandwich Tern",1199
+"214","1993",66850,"Sandwich Tern",2700
+"215","1995",67719,"Sandwich Tern",2905
+"216","1997",50766,"Sandwich Tern",2766
+"217","1999",58091,"Sandwich Tern",3041
+"218","2001",78250,"Sandwich Tern",2487
+"219","2004",62680,"Sandwich Tern",2635
+"220","2007",64961,"Sandwich Tern",2786
+"221","2011",71702,"Sandwich Tern",2710
+"222","2014",67952,"Sandwich Tern",2904
+"223","2017",51602,"Sandwich Tern",2788
+"224","2020",59118,"Sandwich Tern",2255
+"225","14-year mean",60414,"Sandwich Tern",2444
+"226","1977",35486,"Caspian Tern",10
+"227","1983",60014,"Caspian Tern",6
+"228","1988",50661,"Caspian Tern",11
+"229","1993",66850,"Caspian Tern",33
+"230","1995",67719,"Caspian Tern",37
+"231","1997",50766,"Caspian Tern",26
+"232","1999",58091,"Caspian Tern",32
+"233","2001",78250,"Caspian Tern",22
+"234","2004",62680,"Caspian Tern",16
+"235","2007",64961,"Caspian Tern",15
+"236","2011",71702,"Caspian Tern",1
+"237","2014",67952,"Caspian Tern",15
+"238","2017",51602,"Caspian Tern",11
+"239","2020",59118,"Caspian Tern",15
+"240","14-year mean",60414,"Caspian Tern",18
+"241","1977",35486,"Common Tern",2761
+"242","1983",60014,"Common Tern",2247
+"243","1988",50661,"Common Tern",2618
+"244","1993",66850,"Common Tern",2122
+"245","1995",67719,"Common Tern",1699
+"246","1997",50766,"Common Tern",952
+"247","1999",58091,"Common Tern",888
+"248","2001",78250,"Common Tern",1131
+"249","2004",62680,"Common Tern",570
+"250","2007",64961,"Common Tern",498
+"251","2011",71702,"Common Tern",607
+"252","2014",67952,"Common Tern",474
+"253","2017",51602,"Common Tern",228
+"254","2020",59118,"Common Tern",212
+"255","14-year mean",60414,"Common Tern",1215
+"256","1977",35486,"Gull-billed Tern",268
+"257","1983",60014,"Gull-billed Tern",233
+"258","1988",50661,"Gull-billed Tern",161
+"259","1993",66850,"Gull-billed Tern",155
+"260","1995",67719,"Gull-billed Tern",249
+"261","1997",50766,"Gull-billed Tern",137
+"262","1999",58091,"Gull-billed Tern",154
+"263","2001",78250,"Gull-billed Tern",258
+"264","2004",62680,"Gull-billed Tern",99
+"265","2007",64961,"Gull-billed Tern",90
+"266","2011",71702,"Gull-billed Tern",189
+"267","2014",67952,"Gull-billed Tern",155
+"268","2017",51602,"Gull-billed Tern",94
+"269","2020",59118,"Gull-billed Tern",161
+"270","14-year mean",60414,"Gull-billed Tern",172
+"271","1977",35486,"Black Skimmer",976
+"272","1983",60014,"Black Skimmer",797
+"273","1988",50661,"Black Skimmer",743
+"274","1993",66850,"Black Skimmer",1084
+"275","1995",67719,"Black Skimmer",819
+"276","1997",50766,"Black Skimmer",570
+"277","1999",58091,"Black Skimmer",681
+"278","2001",78250,"Black Skimmer",594
+"279","2004",62680,"Black Skimmer",623
+"280","2007",64961,"Black Skimmer",555
+"281","2011",71702,"Black Skimmer",728
+"282","2014",67952,"Black Skimmer",842
+"283","2017",51602,"Black Skimmer",498
+"284","2020",59118,"Black Skimmer",323
+"285","14-year mean",60414,"Black Skimmer",702
+"286","1977",35486,"Laughing Gull",9369
+"287","1983",60014,"Laughing Gull",22903
+"288","1988",50661,"Laughing Gull",17478
+"289","1993",66850,"Laughing Gull",17970
+"290","1995",67719,"Laughing Gull",23567
+"291","1997",50766,"Laughing Gull",11325
+"292","1999",58091,"Laughing Gull",17960
+"293","2001",78250,"Laughing Gull",31749
+"294","2004",62680,"Laughing Gull",14922
+"295","2007",64961,"Laughing Gull",19964
+"296","2011",71702,"Laughing Gull",28121
+"297","2014",67952,"Laughing Gull",24037
+"298","2017",51602,"Laughing Gull",8837
+"299","2020",59118,"Laughing Gull",19630
+"300","14-year mean",60414,"Laughing Gull",19131
+"301","1977",35486,"Herring Gull",433
+"302","1983",60014,"Herring Gull",440
+"303","1988",50661,"Herring Gull",353
+"304","1993",66850,"Herring Gull",960
+"305","1995",67719,"Herring Gull",516
+"306","1997",50766,"Herring Gull",687
+"307","1999",58091,"Herring Gull",746
+"308","2001",78250,"Herring Gull",881
+"309","2004",62680,"Herring Gull",663
+"310","2007",64961,"Herring Gull",630
+"311","2011",71702,"Herring Gull",682
+"312","2014",67952,"Herring Gull",379
+"313","2017",51602,"Herring Gull",375
+"314","2020",59118,"Herring Gull",207
+"315","14-year mean",60414,"Herring Gull",568
+"316","1977",35486,"Great Black-backed Gull",9
+"317","1983",60014,"Great Black-backed Gull",0
+"318","1988",50661,"Great Black-backed Gull",3
+"319","1993",66850,"Great Black-backed Gull",47
+"320","1995",67719,"Great Black-backed Gull",92
+"321","1997",50766,"Great Black-backed Gull",177
+"322","1999",58091,"Great Black-backed Gull",201
+"323","2001",78250,"Great Black-backed Gull",181
+"324","2004",62680,"Great Black-backed Gull",176
+"325","2007",64961,"Great Black-backed Gull",164
+"326","2011",71702,"Great Black-backed Gull",254
+"327","2014",67952,"Great Black-backed Gull",181
+"328","2017",51602,"Great Black-backed Gull",8
+"329","2020",59118,"Great Black-backed Gull",122
+"330","14-year mean",60414,"Great Black-backed Gull",121
+"331","1977",35486,"Double Crested Cormorant",0
+"332","1983",60014,"Double Crested Cormorant",0
+"333","1988",50661,"Double Crested Cormorant",0
+"334","1993",66850,"Double Crested Cormorant",0
+"335","1995",67719,"Double Crested Cormorant",0
+"336","1997",50766,"Double Crested Cormorant",0
+"337","1999",58091,"Double Crested Cormorant",0
+"338","2001",78250,"Double Crested Cormorant",0
+"339","2004",62680,"Double Crested Cormorant",0
+"340","2007",64961,"Double Crested Cormorant",0
+"341","2011",71702,"Double Crested Cormorant",0
+"342","2014",67952,"Double Crested Cormorant",0
+"343","2017",51602,"Double Crested Cormorant",16
+"344","2020",59118,"Double Crested Cormorant",63
+"345","14-year mean",60414,"Double Crested Cormorant",0
