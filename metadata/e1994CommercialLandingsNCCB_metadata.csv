@@ -1,0 +1,34 @@
+Datset File Name:,e1994CommercialLandingsNCCB.csv
+Dataset Title:,e1994CommercialLicensesNCCB
+Dataset Author:,Richard Mahoney
+Dataset Author Contact:,rmaho448@gmail.com
+Data Owner:,NC Division of Marine Fisheries
+Data Owner Contact:,Meredith.whitten@ncdenr.gov
+Link to Publically Available Data (if applicable):,Got directly from Meredith
+Raw Data Citation,Got directly from Meredith
+Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
+Variables Generated in Dataset:,"Year, species, pounds, value, dealers, trips, participants,  vessels, licenses, CONF"
+Timeframe of Dataset:,1994-2023
+Data Collection Period,Every Fiscal Year
+Geographic Study Area:,All of NC
+Does dataset include information governed under IRB or HIPAA?,Not sure
+Comments:,This is a dataset of our major commercial fisheries with participant
+,"data. A few species are grouped (tuna, triggerfishes, porgies, etc.) to help aggregate things enough to"
+,"not have issues with confidentiality. I think thread herring, scup, and bay scallop are the only species"
+,"included in this list that are confidential for some years. You’ll see an asterisk in the CONF column, and"
+,the landings and value data are removed. If you don’t see a specific species broken out individually that
+,"you want to see, feel free to ask and I can pull it out for you. This dataset also includes participant data."
+,"The numbers of dealers, trips and vessels are pretty self-explanatory, but I wanted to clarify Participants"
+,"vs. Licenses. In our database, a single participant can hold multiple licenses. The participant is identified"
+,"by a participant ID number, and the participant count in this dataset is a count of the number of distinct"
+,"participant IDs in the data for each row. Licenses is a count of the commercial licenses used, which will"
+,"generally be greater than the number of participants. For example, one participant may hold 3"
+,"commercial licenses. That individual may fish with one of the licenses, and then assign out the other 2"
+,"licenses, but only the license owner would be included in the participant count. We generally use"
+,participant count rather than license count when reporting our data because it’s a little more
+,"straightforward, but it does underestimate the number of people fishing. Conversely, the license count"
+,"may overestimate the number of people fishing. As an example, you might have a fisherman sell at 2"
+,"dealers. If the fisherman holds 2 licenses, the two dealers might incorrectly put two different license"
+,numbers instead of just the one that the fisherman is actively using because they had the other number
+,saved in their system. Feel free to ask if you have questions; I don’t mean to make things too
+,"complicated, but it’s helpful to explain the data."

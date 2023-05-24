@@ -242,7 +242,7 @@ for(i in 1:length(data_files)){
   BT$population <- as.numeric(gsub(",","",BT$population))
   
   # Creat a GAM - adjust k and remember to check model
-  mod <- gam(population ~ s(year, k=15), data = BT)
+  mod <- gam(population ~ s(year, k=15),gamma = 1.4, data = BT)
   summary(mod) #check out model
   gam.check(mod)
   
