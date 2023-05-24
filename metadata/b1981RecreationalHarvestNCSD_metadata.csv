@@ -1,0 +1,15 @@
+Datset File Name:,b1981RecreationalHarvestNCSD
+Dataset Title:,Recreational Harvested Fishes and the weights assosiated with the harvested fishes
+Dataset Author:,Sally Dowd
+Dataset Author Contact:,sdowd@nyelab.org
+Data Owner:,NOAA
+Data Owner Contact:,NOAA
+Link to Publically Available Data (if applicable):,Recreational Fisheries Statistics Queries | NOAA Fisheries
+Raw Data Citation,Recreational Fisheries Statistics Queries | NOAA Fisheries
+Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
+Variables Generated in Dataset:,"Estimate Status, Year, Species Group, Sub Group, Total Harvest (A+B1), PSE, Harvest (A+B1) Total Weight (lb), PSE, Harvest (A+B1) Total Weight (kg), PSE"
+Timeframe of Dataset:,1981-2022
+Data Collection Period,Every year up to 2022
+Geographic Study Area:,All of NC
+Does dataset include information governed under IRB or HIPAA?,Unknown
+Comments:,

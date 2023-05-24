@@ -1,0 +1,15 @@
+Datset File Name:,NOAA_Decadal_Demographic_Trends_Stephaniesdata
+Dataset Title:,NOAA Decadal Demogrpahic Trends for Coastal NC
+Dataset Author:,Stephanie Pulled all the Data and Richard Mahoney Reformated
+Dataset Author Contact:,sdowd@nyelab.org
+Data Owner:,NOAA
+Data Owner Contact:,NOAA
+Link to Publically Available Data (if applicable):,NOAA: Quick Report Tool for Socioeconomic Data
+Raw Data Citation,NOAA: Quick Report Tool for Socioeconomic Data
+Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
+Variables Generated in Dataset:,"GeoName, Year, Total Population, Total Population: Male, Total Population: Female, Total Households"
+Timeframe of Dataset:,1970-2010
+Data Collection Period,Every 10 Years
+Geographic Study Area:,Coastal NC
+Does dataset include information governed under IRB or HIPAA?,Unknown
+Comments:,

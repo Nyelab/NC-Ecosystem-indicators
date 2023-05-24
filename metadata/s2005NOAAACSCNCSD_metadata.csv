@@ -1,0 +1,15 @@
+Datset File Name:,NOAA_American_Community_Survey_Stephaniesdata
+Dataset Title:,NOAA American Community Survey for Coastal NC
+Dataset Author:,Stephanie Pulled all the Data and Richard Mahoney Reformated
+Dataset Author Contact:,sdowd@nyelab.org
+Data Owner:,NOAA
+Data Owner Contact:,NOAA
+Link to Publically Available Data (if applicable):,NOAA: Quick Report Tool for Socioeconomic Data
+Raw Data Citation,NOAA: Quick Report Tool for Socioeconomic Data
+Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
+Variables Generated in Dataset:,"GeoName, Year Range, Total Population, Total Population: Male, Total Population: Female, Total Households, Population Below Poverty Line, Total Renter-Occupied Housing Units, Total Owner-Occupied Housing Units"
+Timeframe of Dataset:,2005-2019
+Data Collection Period,"Unsure on the odd year ranges, but each seems to be in 4 year incruments"
+Geographic Study Area:,Coastal NC
+Does dataset include information governed under IRB or HIPAA?,Unknown
+Comments:,

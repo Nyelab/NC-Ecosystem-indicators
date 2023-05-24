@@ -1,0 +1,16 @@
+Datset File Name:,NC_Bird_Nesting_Data
+Dataset Title:,"NC Bird Nesting Data for Fish Eating Birds (From the report titled ""Status and Distribution of Colonial Waterbirds during the 2020 Nesting Season in Coastal North Carolina"""
+Dataset Author:,Sally Dowd
+Dataset Author Contact:,sdowd@nyelab.org
+Data Owner:,Carmen Johnson from NC Wildlife Resources Commision provide the Report
+Data Owner Contact:,carmen.johnson@ncwildlife.org
+Link to Publically Available Data (if applicable):,Received from Carmen and can’t find a link of this data being publicly available
+Raw Data Citation,Received from Carmen and can’t find a link of this data being publicly available
+Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
+Variables Generated in Dataset:,"Species, # of Nests per Year, 14 year or total sampling years average, # of nests difference between the 2017 and 2020 survey, % change of nests between the 2017 and 2020 survey"
+Timeframe of Dataset:,1977-2020
+Data Collection Period,"They said every three years, but you can see that’s no the case in the data. "
+Geographic Study Area:,From what I understood it was a large portion of coastal NC where nesting fish eating waterbirds were present
+Does dataset include information governed under IRB or HIPAA?,No
+Comments:,Carmen provided me with the Report and pointed me to the table that I pulled all of this data from. There is the report that I provided the title of out there if someone needs more clarification
+,I (Sally) added in 0s where there were Nas for the double crested cormorant- used to not be in the area 
