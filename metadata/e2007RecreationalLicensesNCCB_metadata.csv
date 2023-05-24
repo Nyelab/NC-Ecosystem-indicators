@@ -1,0 +1,15 @@
+Datset File Name:,e2007RecreationalLicensesNCCB.csv
+Dataset Title:,e2007RecreationalLicensesNCCB (Coastal Recreational Fishing License (CRFL) Sales by Type and Residency)
+Dataset Author:,Richard Mahoney
+Dataset Author Contact:,rmaho448@gmail.com
+Data Owner:,Andrew Valmassoi from Division of Marine Fisheries and DEQ
+Data Owner Contact:,andrew.valmassoi@ncdenr.gov
+Link to Publically Available Data (if applicable):,Received from Andrew and can’t find a link of this data being publicly available
+Raw Data Citation,Received from Andrew and can’t find a link of this data being publicly available
+Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
+Variables Generated in Dataset:,"Year, Type of License, Resident of NC, Nonresident, Military Stationed in NC, Student at NC School, Year Total"
+Timeframe of Dataset:,"2007-2020; Prior to 2007, NC did not have a saltwater fishing license and no license was needed to fish in saltwater. 2004, the NC General Assembly passed a law requiring saltwater anglers to purchase a license and that law went into effect in 2007 (SESSION LAW 2004-187 HOUSE BILL 831) . NCWRC already had an inland fishing license at that time. DMF still collected landings data through dockside surveys prior to 2007."
+Data Collection Period,2007-2021
+Geographic Study Area:,Entire State of NC
+Does dataset include information governed under IRB or HIPAA?,No
+Comments:,

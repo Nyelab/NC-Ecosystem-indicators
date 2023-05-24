@@ -1,0 +1,15 @@
+Datset File Name:,e1981RecreationalParticipationNCCB.csv
+Dataset Title:,e1981RecreationalParticipationNCCB (Number of anglers that fished or participated in fishing each year)
+Dataset Author:,Richard Mahoney
+Dataset Author Contact:,rmhao448@gmail.com
+Data Owner:,NOAA
+Data Owner Contact:,NOAA
+Link to Publically Available Data (if applicable):,Recreational Fisheries Statistics Queries | NOAA Fisheries
+Raw Data Citation,Recreational Fisheries Statistics Queries | NOAA Fisheries
+Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
+Variables Generated in Dataset:,"Estimate Status, Year, Coastal, PSE Catch, Non-Coastal, PSE, Out-of-State, PSE, Total, PSE"
+Timeframe of Dataset:,1981-2016
+Data Collection Period,Every year up to 2016
+Geographic Study Area:,All of NC
+Does dataset include information governed under IRB or HIPAA?,Unknown
+Comments:,
