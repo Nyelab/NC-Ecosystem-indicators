@@ -29,22 +29,11 @@ data_files <- str_sub(data_files, end=-12)
 # and a column for whatever the data variable is.  Here I give an example using 
 # Hudson river mean flow data where one column is year and the other is flowrate
 
-#try to make season a part of date
-BT <- BT %>%
-  mutate(
-    newyear = case_when(
-      season == "fall" ~ 4,
-      season  ==   "winter"  ~ 1,
-      season  ==  "spring"  ~ 2,
-      season  ==  "summer"  ~ 3))
-BT$finalyear <- paste0(BT$year, BT$newyear, "1")
-# BT$finalyear <- as.Date(BT$finalyear)
-BT$year <- BT$finalyear
-BT$year <- as.numeric(BT$year)
 #######################
 for(i in 1:length(data_files)){
 BT <- get(data_files[i])
 names(BT) <- tolower(names(BT))
+
 BT <- filter(BT, year < 2020)
 # BT <- filter(BT, year > 1980)
 #average on year
@@ -64,7 +53,7 @@ BT <- filter(BT, year < 2020)
 # BT <- BT %>% group_by(year) %>% summarise(avtemp = mean(annual.average.flow..m3.s., na.rm = TRUE))
 
 #chl a
-BT <- BT %>% group_by(year) %>% summarise(avtemp = mean(chlorophyll.a, na.rm = TRUE))
+# BT <- BT %>% group_by(year) %>% summarise(avtemp = mean(chlorophyll.a, na.rm = TRUE))
 
 
 # Creat a GAM - adjust k and remember to check model

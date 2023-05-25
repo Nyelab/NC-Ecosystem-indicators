@@ -1,0 +1,101 @@
+```{r, download packages}
+#load libraries
+library(mgcv)
+library(ggplot2)
+library(stringr)
+library(devtools)
+source_gist("https://gist.github.com/gavinsimpson/e73f011fdaaab4bb5a30")
+setwd("~/NC-Ecosystem-indicators/data")
+```
+
+```{r, load single data file}
+df <- read.csv("~/NC-Ecosystem-indicators/data/FILLINNAME.csv")
+```
+
+```{r, format your data}
+#lowercase names
+names(df) <- tolower(names(df))
+
+#filter dates before 2020 for COVID years. Skip this if this doesn't apply
+# df <- filter(df, year < 2020)
+
+#If not already, average on year. Skip this if this doesn't apply
+df <- df %>% group_by(year) %>% summarise(mean = mean(VALUENAMEHERE, na.rm = TRUE))
+
+#rename your value to "mean" if you do not need the above line
+colnames(df)[colnames(df) == "OLDNAME"] ="mean"
+
+#just select those two columns
+df <- dplyr::select(df, year, mean)
+
+# Creat a GAM - adjust k and remember to check model
+mod <- gam(mean ~ s(year, k=7), data = df)
+summary(mod) #check out model
+gam.check(mod)
+```
+
+```{r, create new dataframe and make plot data}
+pdata <- with(df, data.frame(year = year))
+p2_mod <- predict(mod, newdata = pdata,  type = "terms", se.fit = TRUE)
+intercept = as.numeric(attr(p2_mod,"constant")) # look at p2_mod and extract the intercept
+pdata <- transform(pdata, p2_mod = p2_mod$fit[,1], se2 = p2_mod$se.fit[,1])
+
+#  Now that we have the model prediction, the next step is to calculate the first derivative
+#  Then determine which increases and decreases are significant
+Term = "year"
+n <- as.numeric(length(unique(pdata$year)))
+mod.d <- Deriv(mod, n=n) # n is the number of years
+mod.dci <- confint(mod.d, term = Term)
+mod.dsig <- signifD(pdata$p2_mod, d = mod.d[[Term]]$deriv, upper = mod.dci[[Term]]$upper, lower = mod.dci[[Term]]$lower)
+
+# Take a quick look to make sure it appears ok before final plotting
+plot(mean ~ year, data = df)
+lines(mean ~ year, data = df)
+lines(p2_mod+intercept ~ year, data = pdata, type = "n")
+lines(p2_mod+intercept ~ year, data = pdata)
+lines(unlist(mod.dsig$incr)+intercept ~ year, data = pdata, col = "blue", lwd = 3)
+lines(unlist(mod.dsig$decr)+intercept ~ year, data = pdata, col = "red", lwd = 3)
+```
+
+```{r, check linear model and create plot names}
+#check out the post 1997 linear model, then move on to the next chunk based on the results
+dfpost1997 <- filter(df, year > 1997)
+linearMod<- lm(mean ~ year, data=dfpost1997)
+summary(linearMod)
+
+#Plot names
+name <- "PUT YOUR PLOT TITLE HERE"
+nospacesname <- gsub(" ", "", name)
+```
+
+```{r, plot GAM}
+#Run this if your linear trend post 1997 is not significant 
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = mean), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = mean), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "blue", size = 1) +  
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = 'red', size = 1) +  
+  theme_bw() +
+  labs (y = "UNITS HERE", x = 'Year', title = paste0(name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
+
+#save figure. Note the output is in the figures folder.
+ggsave(paste0("~/NC-Ecosystem-indicators/figures/GAMS/", nospacesname, "GAMwithTrendExample.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+```
+
+```{r, plot GAM}
+##Run this if your linear trend post 1997 is significant 
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = mean), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = mean), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "blue", size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = 'red', size = 1) +   geom_smooth(data = dfpost1997, aes(x = year, y = mean), method = lm, se = FALSE, color = 'darkgreen') +
+  theme_bw() +
+  labs (y = "UNITS HERE", x = 'Year', title = paste0(name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
+
+#save figure. Note the output is in the figures folder.
+ggsave(paste0("~/NC-Ecosystem-indicators/figures/", nospacesname, "GAMwithTrend.png"))
+```
