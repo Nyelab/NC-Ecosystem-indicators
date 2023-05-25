@@ -1,0 +1,17 @@
+﻿Datset File Name:,p1980hurricanesLS
+Dataset Title:,Number of points of contact with coastal North Carolina made by hurricanes and tropical storms
+Dataset Author:,Lela Schlenker
+Dataset Author Contact:,lelaschlenker@gmail.com
+Data Owner:,NOAA data via Jonathan Lees
+Data Owner Contact:,NOAA / jonathan.lees@unc.edu
+Link to Publically Available Data (if applicable):,https://www.nhc.noaa.gov/data/#hurdat
+Raw Data Citation,"Gebco data used to create NC grid: The GEBCO_2023 Grid was released in April 2023. It provides global coverage of elevation data, in meters, on a 15 arc-second interval grid and consists of 43200 rows x 86400 columns, giving 3,732,480,000 data points. The data values are pixel-centre registered i.e. they refer to elevations, in meters, at the centre of grid cells.""
+
+# citation: GEBCO Compilation Group (2023) GEBCO 2023 Grid (doi:10.5285/f98b053b-0cbc-6c23-e053-6c86abc0af7b)"
+Link to Code Creating Dataset:,
+Variables Generated in Dataset:,"Year=Year, NumNCStorms=the number of points of contact tropical storms and hurricanes made with the NC coastal region"
+Timeframe of Dataset:,1980-2020
+Data Collection Period,Annual Count
+Geographic Study Area:,"Coastal North Carolina grid was created using the the gebco database and filtered to remove points deeper than 100 meters and higher in elevation than 50 meters. The northern border stops abruptly at the Virginia border. The southern border does not include any points on land in South Carolina, but does extend into the ocean south of the state line to extend out to 100 meters of water off the southern part of the state."
+Does dataset include informaton governed under IRB or HIPAA?,No
+Comments:,Add any clarifying comments that seem relevant
