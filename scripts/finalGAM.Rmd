@@ -65,6 +65,10 @@ lines(unlist(mod.dsig$decr)+intercept ~ year, data = pdata, col = '#D55E00', lwd
 ```
 
 ```{r, check linear model and create plot names}
+#check linear model of entire dataset. Then move on to the next chunk based on the results
+linearMod<- lm(mean ~ year, data=df)
+summary(linearMod)
+
 #check out the post 1997 linear model, then move on to the next chunk based on the results
 dfpost1997 <- filter(df, year > 1997)
 linearMod<- lm(mean ~ year, data=dfpost1997)
@@ -75,23 +79,41 @@ name <- "PUT YOUR PLOT TITLE HERE"
 nospacesname <- gsub(" ", "", name)
 ```
 
-```{r, plot GAM}
+```{r, plot GAM significant total trend, non significant post 1997}
 #Run this if your linear trend post 1997 is not significant 
 ggplot() + 
   geom_line(data = df, aes(x = year, y = mean), color = 'grey53', alpha = 0.6) +
   geom_point(data = df, aes(x = year, y = mean), color = 'gray53', alpha = 0.6) + 
   geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
   geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) +  
-  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = '#D55E00', size = 1) +  
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = '#D55E00', size = 1) +
+   geom_smooth(data = df, aes(x = year, y = mean), method = lm, se = FALSE, color = "gray", alpha = 0.2) +
   theme_bw() +
   labs (y = "UNITS HERE", x = 'Year', title = paste0(name)) + 
   theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
 
 #save figure. Note the output is in the figures folder.
-ggsave(paste0("~/NC-Ecosystem-indicators/figures/GAMS/", nospacesname, "GAMwithTrendExample.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+ggsave(paste0("~/NC-Ecosystem-indicators/figures/GAMS/", nospacesname, "GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
 
-```{r, plot GAM}
+```{r, plot GAM non significant total trend, significant post 1997}
+#Run this if your linear trend post 1997 is not significant 
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = mean), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = mean), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) +  
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = '#D55E00', size = 1) + 
+  geom_smooth(data = dfpost1997, aes(x = year, y = mean), method = lm, se = FALSE, color = "#009E73") +
+  theme_bw() +
+  labs (y = "UNITS HERE", x = 'Year', title = paste0(name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
+
+#save figure. Note the output is in the figures folder.
+ggsave(paste0("~/NC-Ecosystem-indicators/figures/GAMS/", nospacesname, "GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+```
+
+```{r, plot GAM significant total trend, and significant post 1997}
 ##Run this if your linear trend post 1997 is significant 
 ggplot() + 
   geom_line(data = df, aes(x = year, y = mean), color = 'grey53', alpha = 0.6) +
@@ -99,6 +121,22 @@ ggplot() +
   geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
   geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) + 
   geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = "#D55E00", size = 1) +   geom_smooth(data = dfpost1997, aes(x = year, y = mean), method = lm, se = FALSE, color = "#009E73") +
+   geom_smooth(data = df, aes(x = year, y = mean), method = lm, se = FALSE, color = "gray", alpha = 0.2) +
+  theme_bw() +
+  labs (y = "UNITS HERE", x = 'Year', title = paste0(name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
+
+#save figure. Note the output is in the figures folder.
+ggsave(paste0("~/NC-Ecosystem-indicators/figures/", nospacesname, "GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+```
+
+```{r, plot GAM non significant total trend, and non significant post 1997}
+##Run this if your linear trend post 1997 is significant 
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = mean), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = mean), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) +
   theme_bw() +
   labs (y = "UNITS HERE", x = 'Year', title = paste0(name)) + 
   theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
