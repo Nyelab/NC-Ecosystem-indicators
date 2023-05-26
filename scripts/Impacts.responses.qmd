@@ -1,0 +1,27 @@
+---
+title: "Impacts.responses"
+format: html
+editor: visual
+---
+
+#### Load packages
+```{r}
+packages <- c("ggplot2", "readxl", "readr", "ggthemes", "GGally", "caret", "dplyr", "ggformula", "ggpmisc", "gt", "ggpubr", "glmtoolbox", "report", "gtools", "tidyr", "car", "lmtest", "chron", "readxl", "stringr", "imputeTS", "lubridate")
+invisible(lapply(packages, library, character.only= TRUE))
+
+standard_theme <- theme_bw() + theme(panel.border = element_rect(fill=NA, colour = "black")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + theme(legend.text.align= 0, legend.title= element_text(size = 12), legend.text = element_text(size= 10), axis.text=element_text(size=10), axis.title=element_text(size=12))
+```
+
+#### Graphs for Impacts and Responses Indicators
+```{r}
+
+getwd()
+Rec_Effort <- read_csv("data/e1981RecreationalEffortNCCB.csv")
+
+head(Rec_Effort)
+summary(is.na(Rec_Effort))
+
+Rec_Effort %>% ggplot() + geom_point(aes(x = Year, y= Angler Trips)) 
+
+```
+
