@@ -60,8 +60,8 @@ plot(mean ~ year, data = df)
 lines(mean ~ year, data = df)
 lines(p2_mod+intercept ~ year, data = pdata, type = "n")
 lines(p2_mod+intercept ~ year, data = pdata)
-lines(unlist(mod.dsig$incr)+intercept ~ year, data = pdata, col = "blue", lwd = 3)
-lines(unlist(mod.dsig$decr)+intercept ~ year, data = pdata, col = "red", lwd = 3)
+lines(unlist(mod.dsig$incr)+intercept ~ year, data = pdata, col = "#0072B2", lwd = 3)
+lines(unlist(mod.dsig$decr)+intercept ~ year, data = pdata, col = '#D55E00', lwd = 3)
 ```
 
 ```{r, check linear model and create plot names}
