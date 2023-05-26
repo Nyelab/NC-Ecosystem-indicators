@@ -12,4 +12,10 @@ Timeframe of Dataset:,1994-2023
 Data Collection Period,Every Fiscal Year
 Geographic Study Area:,All of NC
 Does dataset include information governed under IRB or HIPAA?,Not sure
-Comments:,
+Comments:,Dealer – Seafood Dealer – all commercially caught fish that are sold must go through a licensed seafood dealer. 
+,ETS – Endorsement to Sell – This is the old commercial fishing license 
+,CFVR – Commercial Fishing Vessel Registration 
+,SCFL – Standard Commercial Fishing License – This is the new commercial fishing license 
+,"RSCFL – Retired Standard Commercial Fishing License – For commercial fishermen 65 or older, a less expensive version of the SCFL "
+,"Shellfish w/o SCFL – Available to NC residents, allows fishermen to harvest shellfish commercially without having a SCFL "
+,"For both of these data sets, it may be important for your purposes to consider the difference between an issued license and a license actively used in fishing. People hold onto licenses that they don’t actually use for a variety of reasons. If you are going to look at effort or anything having to do with the number of participants involved in commercial fishing in North Carolina, it’s important to keep that in mind. If you get to a point in your analyses where you need active participant data, I’ll be happy to run that for you. "
