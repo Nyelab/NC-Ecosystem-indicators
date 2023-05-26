@@ -1,0 +1,359 @@
+"","Year","Species","Participants"
+"1",1994,"Bay Scallop",191
+"2",1994,"Blue Crab",2059
+"3",1994,"Hard Clams",1686
+"4",1994,"Kingfishes",830
+"5",1994,"Oyster",549
+"6",1994,"Red Drum",804
+"7",1994,"River Herring",232
+"8",1994,"Southern Flounder",2196
+"9",1994,"Spotted Seatrout",1399
+"10",1994,"Striped Bass",546
+"11",1994,"Striped Mullet",1366
+"12",1995,"Bay Scallop",284
+"13",1995,"Blue Crab",2211
+"14",1995,"Hard Clams",1753
+"15",1995,"Kingfishes",937
+"16",1995,"Oyster",582
+"17",1995,"Red Drum",1036
+"18",1995,"River Herring",232
+"19",1995,"Southern Flounder",2277
+"20",1995,"Spotted Seatrout",1548
+"21",1995,"Striped Bass",747
+"22",1995,"Striped Mullet",1457
+"23",1996,"Bay Scallop",89
+"24",1996,"Blue Crab",2287
+"25",1996,"Hard Clams",1568
+"26",1996,"Kingfishes",830
+"27",1996,"Oyster",504
+"28",1996,"Red Drum",849
+"29",1996,"River Herring",265
+"30",1996,"Southern Flounder",2194
+"31",1996,"Spotted Seatrout",1210
+"32",1996,"Striped Bass",612
+"33",1996,"Striped Mullet",1423
+"34",1997,"Bay Scallop",96
+"35",1997,"Blue Crab",2284
+"36",1997,"Hard Clams",1535
+"37",1997,"Kingfishes",871
+"38",1997,"Oyster",498
+"39",1997,"Red Drum",571
+"40",1997,"River Herring",231
+"41",1997,"Southern Flounder",2216
+"42",1997,"Spotted Seatrout",1217
+"43",1997,"Striped Bass",814
+"44",1997,"Striped Mullet",1411
+"45",1998,"Bay Scallop",134
+"46",1998,"Blue Crab",2004
+"47",1998,"Hard Clams",1326
+"48",1998,"Kingfishes",745
+"49",1998,"Oyster",502
+"50",1998,"Red Drum",694
+"51",1998,"River Herring",223
+"52",1998,"Southern Flounder",1837
+"53",1998,"Spotted Seatrout",1147
+"54",1998,"Striped Bass",706
+"55",1998,"Striped Mullet",1183
+"56",1999,"Bay Scallop",81
+"57",1999,"Blue Crab",1916
+"58",1999,"Hard Clams",1486
+"59",1999,"Kingfishes",783
+"60",1999,"Oyster",521
+"61",1999,"Red Drum",909
+"62",1999,"River Herring",204
+"63",1999,"Shrimp, Brown",549
+"64",1999,"Shrimp, Pink",27
+"65",1999,"Shrimp, White",562
+"66",1999,"Southern Flounder",1795
+"67",1999,"Spotted Seatrout",1291
+"68",1999,"Striped Bass",699
+"69",1999,"Striped Mullet",990
+"70",2000,"Bay Scallop",71
+"71",2000,"Blue Crab",1756
+"72",2000,"Hard Clams",1640
+"73",2000,"Kingfishes",750
+"74",2000,"Oyster",560
+"75",2000,"Red Drum",981
+"76",2000,"River Herring",210
+"77",2000,"Shrimp, Brown",776
+"78",2000,"Shrimp, Pink",173
+"79",2000,"Shrimp, White",661
+"80",2000,"Southern Flounder",1896
+"81",2000,"Spotted Seatrout",1159
+"82",2000,"Striped Bass",698
+"83",2000,"Striped Mullet",1230
+"84",2001,"Bay Scallop",26
+"85",2001,"Blue Crab",1787
+"86",2001,"Hard Clams",1828
+"87",2001,"Kingfishes",662
+"88",2001,"Oyster",651
+"89",2001,"Red Drum",781
+"90",2001,"River Herring",151
+"91",2001,"Shrimp, Brown",628
+"92",2001,"Shrimp, Pink",192
+"93",2001,"Shrimp, White",400
+"94",2001,"Southern Flounder",1736
+"95",2001,"Spotted Seatrout",901
+"96",2001,"Striped Bass",751
+"97",2001,"Striped Mullet",1070
+"98",2002,"Bay Scallop",74
+"99",2002,"Blue Crab",1681
+"100",2002,"Hard Clams",1411
+"101",2002,"Kingfishes",663
+"102",2002,"Oyster",644
+"103",2002,"Red Drum",737
+"104",2002,"River Herring",146
+"105",2002,"Shrimp, Brown",656
+"106",2002,"Shrimp, Pink",306
+"107",2002,"Shrimp, White",493
+"108",2002,"Southern Flounder",1584
+"109",2002,"Spotted Seatrout",989
+"110",2002,"Striped Bass",814
+"111",2002,"Striped Mullet",1032
+"112",2003,"Bay Scallop",68
+"113",2003,"Blue Crab",1578
+"114",2003,"Hard Clams",1206
+"115",2003,"Kingfishes",620
+"116",2003,"Oyster",636
+"117",2003,"Red Drum",682
+"118",2003,"River Herring",180
+"119",2003,"Shrimp, Brown",539
+"120",2003,"Shrimp, Pink",158
+"121",2003,"Shrimp, White",331
+"122",2003,"Southern Flounder",1438
+"123",2003,"Spotted Seatrout",817
+"124",2003,"Striped Bass",771
+"125",2003,"Striped Mullet",920
+"126",2004,"Bay Scallop",1
+"127",2004,"Blue Crab",1489
+"128",2004,"Hard Clams",1067
+"129",2004,"Kingfishes",665
+"130",2004,"Oyster",725
+"131",2004,"Red Drum",513
+"132",2004,"River Herring",136
+"133",2004,"Shrimp, Brown",476
+"134",2004,"Shrimp, Pink",165
+"135",2004,"Shrimp, White",385
+"136",2004,"Southern Flounder",1361
+"137",2004,"Spotted Seatrout",713
+"138",2004,"Striped Bass",846
+"139",2004,"Striped Mullet",796
+"140",2005,"Blue Crab",1216
+"141",2005,"Hard Clams",899
+"142",2005,"Kingfishes",576
+"143",2005,"Oyster",726
+"144",2005,"Red Drum",696
+"145",2005,"River Herring",144
+"146",2005,"Shrimp, Brown",344
+"147",2005,"Shrimp, Pink",90
+"148",2005,"Shrimp, White",203
+"149",2005,"Southern Flounder",1177
+"150",2005,"Spotted Seatrout",732
+"151",2005,"Striped Bass",1028
+"152",2005,"Striped Mullet",819
+"153",2006,"Blue Crab",1010
+"154",2006,"Hard Clams",840
+"155",2006,"Kingfishes",653
+"156",2006,"Oyster",789
+"157",2006,"Red Drum",748
+"158",2006,"River Herring",99
+"159",2006,"Shrimp, Brown",310
+"160",2006,"Shrimp, Pink",66
+"161",2006,"Shrimp, White",359
+"162",2006,"Southern Flounder",1182
+"163",2006,"Spotted Seatrout",875
+"164",2006,"Striped Bass",614
+"165",2006,"Striped Mullet",794
+"166",2007,"Blue Crab",952
+"167",2007,"Hard Clams",895
+"168",2007,"Kingfishes",662
+"169",2007,"Oyster",873
+"170",2007,"Red Drum",806
+"171",2007,"River Herring",10
+"172",2007,"Shrimp, Brown",310
+"173",2007,"Shrimp, Pink",87
+"174",2007,"Shrimp, White",418
+"175",2007,"Southern Flounder",1248
+"176",2007,"Spotted Seatrout",859
+"177",2007,"Striped Bass",812
+"178",2007,"Striped Mullet",817
+"179",2008,"Blue Crab",913
+"180",2008,"Hard Clams",776
+"181",2008,"Kingfishes",760
+"182",2008,"Oyster",874
+"183",2008,"Red Drum",827
+"184",2008,"River Herring",9
+"185",2008,"Shrimp, Brown",396
+"186",2008,"Shrimp, Pink",143
+"187",2008,"Shrimp, White",385
+"188",2008,"Southern Flounder",1235
+"189",2008,"Spotted Seatrout",921
+"190",2008,"Striped Bass",636
+"191",2008,"Striped Mullet",833
+"192",2009,"Bay Scallop",208
+"193",2009,"Blue Crab",990
+"194",2009,"Hard Clams",738
+"195",2009,"Kingfishes",751
+"196",2009,"Oyster",953
+"197",2009,"Red Drum",802
+"198",2009,"River Herring",14
+"199",2009,"Shrimp, Brown",373
+"200",2009,"Shrimp, Pink",142
+"201",2009,"Shrimp, White",311
+"202",2009,"Southern Flounder",1300
+"203",2009,"Spotted Seatrout",966
+"204",2009,"Striped Bass",484
+"205",2009,"Striped Mullet",870
+"206",2010,"Bay Scallop",3
+"207",2010,"Blue Crab",984
+"208",2010,"Hard Clams",698
+"209",2010,"Kingfishes",653
+"210",2010,"Oyster",1181
+"211",2010,"Red Drum",678
+"212",2010,"River Herring",16
+"213",2010,"Shrimp, Brown",396
+"214",2010,"Shrimp, Pink",66
+"215",2010,"Shrimp, White",299
+"216",2010,"Southern Flounder",1182
+"217",2010,"Spotted Seatrout",726
+"218",2010,"Striped Bass",492
+"219",2010,"Striped Mullet",896
+"220",2011,"Blue Crab",925
+"221",2011,"Hard Clams",565
+"222",2011,"Kingfishes",608
+"223",2011,"Oyster",1115
+"224",2011,"Red Drum",550
+"225",2011,"River Herring",16
+"226",2011,"Shrimp, Brown",353
+"227",2011,"Shrimp, Pink",8
+"228",2011,"Shrimp, White",147
+"229",2011,"Southern Flounder",1040
+"230",2011,"Spotted Seatrout",673
+"231",2011,"Striped Bass",494
+"232",2011,"Striped Mullet",827
+"233",2012,"Blue Crab",894
+"234",2012,"Hard Clams",489
+"235",2012,"Kingfishes",678
+"236",2012,"Oyster",961
+"237",2012,"Red Drum",576
+"238",2012,"River Herring",10
+"239",2012,"Shrimp, Brown",384
+"240",2012,"Shrimp, Pink",183
+"241",2012,"Shrimp, White",306
+"242",2012,"Southern Flounder",1202
+"243",2012,"Spotted Seatrout",945
+"244",2012,"Striped Bass",329
+"245",2012,"Striped Mullet",890
+"246",2013,"Bay Scallop",23
+"247",2013,"Blue Crab",863
+"248",2013,"Hard Clams",517
+"249",2013,"Kingfishes",742
+"250",2013,"Oyster",908
+"251",2013,"Red Drum",977
+"252",2013,"River Herring",12
+"253",2013,"Shrimp, Brown",347
+"254",2013,"Shrimp, Pink",110
+"255",2013,"Shrimp, White",354
+"256",2013,"Southern Flounder",1286
+"257",2013,"Spotted Seatrout",1093
+"258",2013,"Striped Bass",350
+"259",2013,"Striped Mullet",971
+"260",2014,"Blue Crab",923
+"261",2014,"Hard Clams",607
+"262",2014,"Kingfishes",684
+"263",2014,"Oyster",970
+"264",2014,"Red Drum",554
+"265",2014,"River Herring",6
+"266",2014,"Shrimp, Brown",349
+"267",2014,"Shrimp, Pink",90
+"268",2014,"Shrimp, White",262
+"269",2014,"Southern Flounder",1222
+"270",2014,"Spotted Seatrout",849
+"271",2014,"Striped Bass",331
+"272",2014,"Striped Mullet",864
+"273",2015,"Blue Crab",923
+"274",2015,"Hard Clams",650
+"275",2015,"Kingfishes",601
+"276",2015,"Oyster",868
+"277",2015,"Red Drum",451
+"278",2015,"Shrimp, Brown",420
+"279",2015,"Shrimp, Pink",42
+"280",2015,"Shrimp, White",299
+"281",2015,"Southern Flounder",1032
+"282",2015,"Spotted Seatrout",626
+"283",2015,"Striped Bass",337
+"284",2015,"Striped Mullet",751
+"285",2016,"Blue Crab",886
+"286",2016,"Hard Clams",626
+"287",2016,"Kingfishes",601
+"288",2016,"Oyster",841
+"289",2016,"Red Drum",464
+"290",2016,"Shrimp, Brown",360
+"291",2016,"Shrimp, Pink",61
+"292",2016,"Shrimp, White",423
+"293",2016,"Southern Flounder",945
+"294",2016,"Spotted Seatrout",685
+"295",2016,"Striped Bass",280
+"296",2016,"Striped Mullet",688
+"297",2017,"Blue Crab",745
+"298",2017,"Hard Clams",559
+"299",2017,"Kingfishes",647
+"300",2017,"Oyster",810
+"301",2017,"Red Drum",705
+"302",2017,"Shrimp, Brown",337
+"303",2017,"Shrimp, Pink",73
+"304",2017,"Shrimp, White",433
+"305",2017,"Southern Flounder",1050
+"306",2017,"Spotted Seatrout",841
+"307",2017,"Striped Bass",274
+"308",2017,"Striped Mullet",760
+"309",2018,"Blue Crab",686
+"310",2018,"Hard Clams",462
+"311",2018,"Kingfishes",515
+"312",2018,"Oyster",623
+"313",2018,"Red Drum",579
+"314",2018,"Shrimp, Brown",381
+"315",2018,"Shrimp, Pink",20
+"316",2018,"Shrimp, White",320
+"317",2018,"Southern Flounder",912
+"318",2018,"Spotted Seatrout",536
+"319",2018,"Striped Bass",274
+"320",2018,"Striped Mullet",687
+"321",2019,"Bay Scallop",1
+"322",2019,"Blue Crab",655
+"323",2019,"Hard Clams",318
+"324",2019,"Kingfishes",530
+"325",2019,"Oyster",600
+"326",2019,"Red Drum",432
+"327",2019,"Shrimp, Brown",247
+"328",2019,"Shrimp, Pink",8
+"329",2019,"Shrimp, White",309
+"330",2019,"Southern Flounder",781
+"331",2019,"Spotted Seatrout",694
+"332",2019,"Striped Bass",194
+"333",2019,"Striped Mullet",632
+"334",2020,"Bay Scallop",2
+"335",2020,"Blue Crab",565
+"336",2020,"Hard Clams",302
+"337",2020,"Kingfishes",552
+"338",2020,"Oyster",566
+"339",2020,"Red Drum",617
+"340",2020,"Shrimp, Brown",246
+"341",2020,"Shrimp, Pink",25
+"342",2020,"Shrimp, White",338
+"343",2020,"Southern Flounder",522
+"344",2020,"Spotted Seatrout",719
+"345",2020,"Striped Bass",163
+"346",2020,"Striped Mullet",610
+"347",2021,"Blue Crab",562
+"348",2021,"Hard Clams",278
+"349",2021,"Kingfishes",543
+"350",2021,"Oyster",564
+"351",2021,"Red Drum",593
+"352",2021,"Shrimp, Brown",245
+"353",2021,"Shrimp, Pink",16
+"354",2021,"Shrimp, White",286
+"355",2021,"Southern Flounder",541
+"356",2021,"Spotted Seatrout",676
+"357",2021,"Striped Bass",130
+"358",2021,"Striped Mullet",664
