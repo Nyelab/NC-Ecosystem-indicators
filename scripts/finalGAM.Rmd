@@ -29,8 +29,15 @@ colnames(df)[colnames(df) == "OLDNAME"] ="mean"
 df <- dplyr::select(df, year, mean)
 
 # Creat a GAM - adjust k and remember to check model
-mod <- gam(mean ~ s(year, k=7), data = df)
-summary(mod) #check out model
+#k should be between 5 and the number of years in the data set, but start with 2 * the number of decades in the data set
+
+#start k with the value from this
+((max(df$year) - max(df$year) %% 10) - (min(df$year) - min(df$year) %% 10))/10 * 2
+
+mod <- gam(mean ~ s(year, k=6), data = df)
+#check out model
+summary(mod) 
+#from the print out of gam.check, look at the p-value and k-index.  Low p-value (k-index<1) may indicate that k is too low, especially if edf is close to k'. Change k from there and see if p-value increases/k-index.
 gam.check(mod)
 ```
 
@@ -97,5 +104,5 @@ ggplot() +
   theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12))
 
 #save figure. Note the output is in the figures folder.
-ggsave(paste0("~/NC-Ecosystem-indicators/figures/", nospacesname, "GAMwithTrend.png"))
+ggsave(paste0("~/NC-Ecosystem-indicators/figures/", nospacesname, "GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
