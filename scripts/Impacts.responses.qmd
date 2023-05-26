@@ -6,22 +6,80 @@ editor: visual
 
 #### Load packages
 ```{r}
-packages <- c("ggplot2", "readxl", "readr", "ggthemes", "GGally", "caret", "dplyr", "ggformula", "ggpmisc", "gt", "ggpubr", "glmtoolbox", "report", "gtools", "tidyr", "car", "lmtest", "chron", "readxl", "stringr", "imputeTS", "lubridate")
+packages <- c("ggplot2", "readxl", "readr", "ggthemes", "GGally", "caret", "dplyr", "ggformula", "ggpmisc", "gt", "ggpubr", "glmtoolbox", "report", "gtools", "tidyr", "car", "lmtest", "chron", "readxl", "stringr", "imputeTS", "lubridate", "mgcv", "ggplot2", "stringr", "devtools")
 invisible(lapply(packages, library, character.only= TRUE))
 
+source_gist("https://gist.github.com/gavinsimpson/e73f011fdaaab4bb5a30")
+
 standard_theme <- theme_bw() + theme(panel.border = element_rect(fill=NA, colour = "black")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + theme(legend.text.align= 0, legend.title= element_text(size = 12), legend.text = element_text(size= 10), axis.text=element_text(size=10), axis.title=element_text(size=12))
+
+RecFishing <- read_csv("/Users/sallydowd/Documents/GitHub/NC-Ecosystem-indicators/data/finalized/e1981RecreationalEffortNCSD.csv")
 ```
 
 #### Graphs for Impacts and Responses Indicators
 ```{r}
+names(RecFishing) <- tolower(names(RecFishing))
 
-getwd()
-Rec_Effort <- read_csv("data/e1981RecreationalEffortNCCB.csv")
+RecFishing <- RecFishing %>% select(year, angler_trips)
 
-head(Rec_Effort)
-summary(is.na(Rec_Effort))
+((max(RecFishing$year) - max(RecFishing$year) %% 10) - (min(RecFishing$year) - min(RecFishing$year) %% 10))/10 * 2
 
-Rec_Effort %>% ggplot() + geom_point(aes(x = Year, y= Angler Trips)) 
-
+mod <- gam(angler_trips ~ s(year, k=8), data = RecFishing)
+summary(mod) 
+gam.check(mod)
 ```
+
+```{r}
+pdata <- with(RecFishing, data.frame(year = year))
+p2_mod <- predict(mod, newdata = pdata,  type = "terms", se.fit = TRUE)
+intercept = as.numeric(attr(p2_mod,"constant")) # look at p2_mod and extract the intercept
+pdata <- transform(pdata, p2_mod = p2_mod$fit[,1], se2 = p2_mod$se.fit[,1])
+
+#  Now that we have the model prediction, the next step is to calculate the first derivative
+#  Then determine which increases and decreases are significant
+Term = "year"
+n <- as.numeric(length(unique(pdata$year)))
+mod.d <- Deriv(mod, n=n) # n is the number of years
+mod.dci <- confint(mod.d, term = Term)
+mod.dsig <- signifD(pdata$p2_mod, d = mod.d[[Term]]$deriv, upper = mod.dci[[Term]]$upper, lower = mod.dci[[Term]]$lower)
+
+df <- RecFishing
+# Take a quick look to make sure it appears ok before final plotting
+plot(angler_trips ~ year, data = df)
+lines(angler_trips ~ year, data = df)
+lines(p2_mod+intercept ~ year, data = pdata, type = "n")
+lines(p2_mod+intercept ~ year, data = pdata)
+lines(unlist(mod.dsig$incr)+intercept ~ year, data = pdata, col = "#0072B2", lwd = 3)
+lines(unlist(mod.dsig$decr)+intercept ~ year, data = pdata, col = '#D55E00', lwd = 3)
+```
+
+```{r}
+#check linear model of entire dataset. Then move on to the next chunk based on the results
+linearMod<- lm(angler_trips ~ year, data=df)
+summary(linearMod)
+
+#check out the post 1997 linear model, then move on to the next chunk based on the results
+dfpost1997 <- filter(df, year > 1997)
+linearMod<- lm(angler_trips ~ year, data=dfpost1997)
+summary(linearMod)
+
+#Plot names
+name <- "Number of Recreational Angler Trips"
+nospacesname <- gsub(" ", "", name)
+```
+
+```{r}
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = angler_trips), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = angler_trips), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = "#D55E00", size = 1) +   geom_smooth(data = dfpost1997, aes(x = year, y = angler_trips), method = lm, se = FALSE, color = "#009E73") +
+   geom_smooth(data = df, aes(x = year, y = angler_trips), method = lm, se = FALSE, color = "gray", alpha = 0.2) +
+  theme_bw() +
+  labs (y = "Angler Trips", x = 'Year', title = paste0(name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+ggsave("/users/sallydowd/desktop/rec.fishing.png")
+```
+
 
