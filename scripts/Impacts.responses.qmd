@@ -5,6 +5,7 @@ editor: visual
 ---
 
 #### Load packages
+
 ```{r}
 packages <- c("ggplot2", "readxl", "readr", "ggthemes", "GGally", "caret", "dplyr", "ggformula", "ggpmisc", "gt", "ggpubr", "glmtoolbox", "report", "gtools", "tidyr", "car", "lmtest", "chron", "readxl", "stringr", "imputeTS", "lubridate", "mgcv", "ggplot2", "stringr", "devtools")
 invisible(lapply(packages, library, character.only= TRUE))
@@ -13,20 +14,80 @@ source_gist("https://gist.github.com/gavinsimpson/e73f011fdaaab4bb5a30")
 
 standard_theme <- theme_bw() + theme(panel.border = element_rect(fill=NA, colour = "black")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + theme(legend.text.align= 0, legend.title= element_text(size = 12), legend.text = element_text(size= 10), axis.text=element_text(size=10), axis.title=element_text(size=12))
 
-RecFishing <- read_csv("/Users/sallydowd/Documents/GitHub/NC-Ecosystem-indicators/data/finalized/e1981RecreationalEffortNCSD.csv")
+setwd("/Users/sallydowd/Documents/GitHub/NC-Ecosystem-indicators")
+RecFishing <- read_csv("data/finalized/e1981RecreationalEffortNCSD.csv")
+CommLicense <- read_csv("data/finalized/e1994CommercialLicensesNCCB.csv")
+VesselLength <- read_csv("data/finalized/e1989CommercialVesselLengthSD.csv")
+ClamsLandings <- read_csv("data/finalized/e1994ClamsLandingsNCSD.csv")
+OysterLandings <- read_csv("data/finalized/e1994OysterLandingsNCSD.csv")
+CommercialTrips <- read_csv("data/finalized/e1994CommercialTripsNCSD.csv")
+MenhadenLandings <- read_csv("data/finalized/e1985MenhadenLandingsNCSD.csv")
+CommLandings <- read_csv("data/finalized/e1994CommercialLandingsBillNCSD.csv")
+
+names(RecFishing) <- tolower(names(RecFishing))
+RecFishing <- filter(RecFishing, year < 2020)
+names(CommLicense) <- tolower(names(CommLicense))
+CommLicense <- filter(CommLicense, year < 2020)
+names(VesselLength) <- tolower(names(VesselLength))
+VesselLength <- filter(VesselLength, year < 2020)
+names(ClamsLandings) <- tolower(names(ClamsLandings))
+ClamsLandings <- filter(ClamsLandings, year < 2020)
+names(OysterLandings) <- tolower(names(OysterLandings))
+OysterLandings <- filter(OysterLandings, year < 2020)
+names(CommercialTrips) <- tolower(names(CommercialTrips))
+CommercialTrips <- filter(CommercialTrips, year < 2020)
+names(MenhadenLandings) <- tolower(names(MenhadenLandings))
+MenhadenLandings <- filter(MenhadenLandings, year < 2020)
+names(CommLandings) <- tolower(names(CommLandings))
+CommLandings <- filter(CommLandings, year < 2020)
 ```
 
-#### Graphs for Impacts and Responses Indicators
+#### GAM Graphs for Impacts and Responses Indicators 
+
 ```{r}
-names(RecFishing) <- tolower(names(RecFishing))
+#GAM description
+#K value: number of basis functions (k), determines how wiggly the model is, should be between 5 and # of years in dataset, start with 2* number of decades in dataset 
+#gam.check output: 
+  ##Low p-value (k-index<1) may indicate that k is too low, especially if edf is close to k'. Change k from there and see if p-value increases/k-index, compare k and edf values in addition to looking at p value
+#s means smooth
+  ##If model doesn't converge than the results are likely not correct (too many parameters in model or not enough data)
+  ##small (significant) p values indicate residuals are not randomly distributed (not enough basis functions)
+#Plots:
+  ##: qqplot comparing model residuals to normal distribution, well fit model residuals will be close to straight line
+  ##: histogram of residiuals, expect to have symmetric shape
+  ##: plot of residual values: should be evenely distributed around 0
+  ##: perfect model would form straight line, should cluster around 1:1 line 
+```
 
-RecFishing <- RecFishing %>% select(year, angler_trips)
+```{r}
+#GAM diagnostics
 
-((max(RecFishing$year) - max(RecFishing$year) %% 10) - (min(RecFishing$year) - min(RecFishing$year) %% 10))/10 * 2
+#Determine k: start with k value from this function
+k_det <- function(df){
+df1 <- df
+((max(df1$year) - max(df1$year) %% 10) - (min(df1$year) - min(df1$year) %% 10))/10 * 2
+}
 
-mod <- gam(angler_trips ~ s(year, k=8), data = RecFishing)
-summary(mod) 
+k_det(RecFishing) #6
+k_det(CommLicense) #4
+k_det(VesselLength) #6
+k_det(ClamsLandings) #4
+k_det(OysterLandings) #4
+k_det(CommercialTrips) #4
+k_det(MenhadenLandings) #6
+k_det(CommLandings) #4
+
+#Create a GAM - adjust k and remember to check model
+gam_diagn <- function(dep_var, k_value, df){
+mod <- gam(dep_var ~ s(year, k= k_value), data = df)
+print(summary(mod))
 gam.check(mod)
+}
+
+gam_diagn(RecFishing$angler_trips, 6, RecFishing) #p value not significant 
+mod_RecFishing <- gam(angler_trips ~ s(year, k= 6), data = RecFishing)
+
+
 ```
 
 ```{r}
@@ -81,5 +142,3 @@ ggplot() +
   theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 ggsave("/users/sallydowd/desktop/rec.fishing.png")
 ```
-
-
