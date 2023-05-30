@@ -42,7 +42,7 @@ names(CommLandings) <- tolower(names(CommLandings))
 CommLandings <- filter(CommLandings, year < 2020)
 ```
 
-#### GAM Graphs for Impacts and Responses Indicators 
+#### GAM Graphs for Impacts and Responses Indicators
 
 ```{r}
 #GAM description
@@ -54,7 +54,7 @@ CommLandings <- filter(CommLandings, year < 2020)
   ##small (significant) p values indicate residuals are not randomly distributed (not enough basis functions)
 #Plots:
   ##: qqplot comparing model residuals to normal distribution, well fit model residuals will be close to straight line
-  ##: histogram of residiuals, expect to have symmetric shape
+  ##: histogram of residuals, expect to have symmetric shape
   ##: plot of residual values: should be evenely distributed around 0
   ##: perfect model would form straight line, should cluster around 1:1 line 
 ```
@@ -84,10 +84,83 @@ print(summary(mod))
 gam.check(mod)
 }
 
+##Rec fishing 
+gam_diagn(RecFishing$angler_trips, 6, RecFishing) #p value not significant 
+mod_RecFishing <- gam(angler_trips ~ s(year, k= 6), data = RecFishing)
 gam_diagn(RecFishing$angler_trips, 6, RecFishing) #p value not significant 
 mod_RecFishing <- gam(angler_trips ~ s(year, k= 6), data = RecFishing)
 
+##Comm License
+unique(CommLicense$productname)
+#ETS: old commercial license, CFVR: Commercial Fishing Vessel Registration, SCFL: new commercial license-Standard Commercial Fishing License, RSCFL: Retired Standard Commercial Fishing License, Shellfish w/o SCFL: Available to NC residents, allows fishermen to harvest shellfish commercially without having a SCFLE
+#These are issued licenses: to get at active fishing effort, we will need to consider a license actively used in fishing (active participant data)
 
+###Dealer
+CommLicense_dealer <- CommLicense %>% filter(productname == "Dealer")
+k_det(CommLicense_dealer)
+gam_diagn(CommLicense_dealer$licenses, 7, CommLicense_dealer) #p value sig. at k= 4, 7 is lowest that looks acceptable
+mod_CommLicense_dealer <- gam(licenses ~ s(year, k= 7), data = CommLicense_dealer)
+
+###Old and new commercial fishing license: line where you combined 
+CommLicense_ETSSCFL <- CommLicense %>% filter(productname == "ETS" | productname == "SCFL")
+k_det(CommLicense_ETSSCFL)
+gam_diagn(CommLicense_ETSSCFL$licenses, 7, CommLicense_ETSSCFL) #p value sig. at k= 4, 7 is lowest that looks acceptable
+mod_CommLicense_ETSSCFL <- gam(licenses ~ s(year, k= 7), data = CommLicense_ETSSCFL)
+
+###CFVR
+CommLicense_CFVR <- CommLicense %>% filter(productname == "CFVR")
+k_det(CommLicense_CFVR)
+gam_diagn(CommLicense_CFVR$licenses, 8, CommLicense_CFVR) #p value sig. at k= 2, 8 is lowest that looks acceptable
+CommLicense_CFVR <- gam(licenses ~ s(year, k= 8), data = CommLicense_CFVR)
+
+###RSCFL
+CommLicense_RSCFL <- CommLicense %>% filter(productname == "RSCFL")
+k_det(CommLicense_RSCFL) 
+gam_diagn(CommLicense_RSCFL$licenses, 6, CommLicense_RSCFL) #p value sig. at k= 2, 6 is lowest that looks acceptable
+mod_CommLicense_RSCFL <- gam(licenses ~ s(year, k= 6), data = CommLicense_RSCFL)
+
+###Shellfish w/o SCFL: recheck this 
+CommLicense_shellnoSCFL <- CommLicense %>% filter(productname == "Shellfish w/o SCFL")
+k_det(CommLicense_shellnoSCFL) 
+gam_diagn(CommLicense_shellnoSCFL$licenses, 7, CommLicense_shellnoSCFL) #p value sig. at k= 2, 9 is lowest that looks acceptable
+mod_CommLicense_RSCFL <- gam(licenses ~ s(year, k= 6), data = CommLicense_RSCFL)
+
+##Vessel Length
+unique(VesselLength$vessellengthrange)
+
+VesselLength_18 <- VesselLength %>% filter(vessellengthrange %in% "0-18ft.")
+k_det(VesselLength_18)
+gam_diagn(VesselLength_18$count, 6, VesselLength_18) #p value not sig. at k= 6 but graphs look bad --> doesn't look great with anything 
+VesselLength_18 <- gam(count ~ s(year, k= 6), data = VesselLength_18) 
+
+VesselLength_38 <- VesselLength %>% filter(vessellengthrange %in% "19-38ft.")
+k_det(VesselLength_38)
+gam_diagn(VesselLength_38$count, 10, VesselLength_38) #p value not sig. at k= 6 but graphs look bad, didn't finish 
+VesselLength_38 <- gam(count ~ s(year, k= 6), data = VesselLength_38)
+
+##Clams landings 
+ClamsLandings_edt <- ClamsLandings %>% mutate(ratioprpub = private_lbs/public_lbs) %>% select(year, ratioprpub)
+k_det(ClamsLandings_edt)
+gam_diagn(ClamsLandings_edt$ratioprpub, 7, ClamsLandings_edt) #p value sig. at k= 4, graphs fine at k=7 
+mod_ClamsLandings_edt <- gam(ratioprpub ~ s(year, k= 6), data = ClamsLandings_edt)
+
+##Oyster landings
+OysterLandings_edt <- OysterLandings %>% mutate(ratioprpub = private_lbs/public_lbs) %>% select(year, ratioprpub)
+k_det(OysterLandings_edt)
+gam_diagn(OysterLandings_edt$ratioprpub, 8, OysterLandings_edt) #p value sig. at k= 4, graphs fine but not great at k= 8
+
+##Commercial trips: 
+CommercialTrips <- CommercialTrips %>% select(year, sum_trips) 
+k_det(CommercialTrips)
+gam_diagn(CommercialTrips$sum_trips, 6, CommercialTrips) #p value sig. at k= 4, graphs fine at k= 6 
+
+##Menhaden landings:
+MenhadenLandings$species[which(MenhadenLandings$species == "Menhaden bait")] = "Menhaden Bait"
+MenhadenLandings$species[which(MenhadenLandings$species == "Menhaden Red")] = "Menhaden Reduction"
+
+###Menhaden Bait: 
+
+###Menhaden Reduction: 
 ```
 
 ```{r}
