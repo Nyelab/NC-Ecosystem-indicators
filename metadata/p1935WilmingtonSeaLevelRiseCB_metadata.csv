@@ -1,0 +1,15 @@
+Datset File Name:,p1935WilmingtonSeaLevelRiseCB.csv
+Dataset Title:,p1935WilmingtonSeaLevelRiseCB
+Dataset Author:,Camryn Blawas
+Dataset Author Contact:,cblawas@nyelab.org
+Data Owner:,NOAA
+Data Owner Contact:,
+Link to Publically Available Data (if applicable):,https://tidesandcurrents.noaa.gov/sltrends/sltrends_station.shtml?id=8658120
+Raw Data Citation,National Data Buoy Center (1971). Meteorological and oceanographic data collected from the National Data Buoy Center Coastal-Marine Automated Network (C-MAN) and moored (weather) buoys. [indicate subset used]. NOAA National Centers for Environmental Information. Dataset. https://www.ncei.noaa.gov/archive/accession/NDBC-CMANWx. Accessed [date].
+Link to Code Creating Dataset:,
+Variables Generated in Dataset:,"Year, Month, Monthly mean sea level"
+Timeframe of Dataset:,1935-2023
+Data Collection Period,1935-2023
+Geographic Study Area:,Wilmington NOAA station
+Does dataset include information governed under IRB or HIPAA?,No
+Comments:,Monthly mean sea level in meters relative to the most recent Mean Sea Level datum established by CO-OPS. Monthly mean sea levels with the average seasonal cycle removed.
