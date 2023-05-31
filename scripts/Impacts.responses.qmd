@@ -28,7 +28,7 @@ BirdNests <- read_csv("data/finalized/b1977BirdNestsNCSD.csv")
 names(RecFishing) <- tolower(names(RecFishing))
 RecFishing <- filter(RecFishing, year < 2020)
 names(CommLicense) <- tolower(names(CommLicense))
-CommLicense <- filter(CommLicense, year < 2020)
+CommLicense <- filter(CommLicense, between(year, 2000, 2019))
 names(VesselLength) <- tolower(names(VesselLength))
 VesselLength <- filter(VesselLength, year < 2020)
 names(ClamsLandings) <- tolower(names(ClamsLandings))
@@ -62,9 +62,8 @@ BirdNests <- filter(BirdNests, year < 2020)
   ##: perfect model would form straight line, should cluster around 1:1 line 
 ```
 
+### GAM diagnostics 
 ```{r}
-#GAM diagnostics
-
 #Determine k: start with k value from this function
 k_det <- function(df){
 df1 <- df
@@ -104,17 +103,18 @@ k_det(CommLicense_dealer)
 gam_diagn(CommLicense_dealer$licenses, 7, CommLicense_dealer) #p value sig. at k= 4, 7 is lowest that looks acceptable
 mod_CommLicense_dealer <- gam(licenses ~ s(year, k= 7), data = CommLicense_dealer)
 
-###Old and new commercial fishing license: line where you combined 
-CommLicense_ETSSCFL <- CommLicense %>% filter(productname == "ETS" | productname == "SCFL")
-k_det(CommLicense_ETSSCFL)
-gam_diagn(CommLicense_ETSSCFL$licenses, 7, CommLicense_ETSSCFL) #p value sig. at k= 4, 7 is lowest that looks acceptable
-mod_CommLicense_ETSSCFL <- gam(licenses ~ s(year, k= 7), data = CommLicense_ETSSCFL)
+###SCFL: new commercial fishing license
+CommLicense_SCFL <- CommLicense %>% filter(productname == "SCFL")
+k_det(CommLicense_SCFL)
+gam_diagn(CommLicense_SCFL$licenses, 5, CommLicense_SCFL) #p value sig. at k= 2, 5 is lowest where not significant
+mod_CommLicense_SCFL <- gam(licenses ~ s(year, k= 5), data = CommLicense_SCFL)
 
 ###CFVR
 CommLicense_CFVR <- CommLicense %>% filter(productname == "CFVR")
 k_det(CommLicense_CFVR)
 gam_diagn(CommLicense_CFVR$licenses, 8, CommLicense_CFVR) #p value sig. at k= 2, 8 is lowest that looks acceptable
-CommLicense_CFVR <- gam(licenses ~ s(year, k= 8), data = CommLicense_CFVR)
+gam(licenses ~ s(year, k= 8), data = CommLicense_CFVR)
+mod_CommLicense_CFVR <- gam(licenses ~ s(year, k= 8), data = CommLicense_CFVR)
 
 ###RSCFL
 CommLicense_RSCFL <- CommLicense %>% filter(productname == "RSCFL")
@@ -126,7 +126,7 @@ mod_CommLicense_RSCFL <- gam(licenses ~ s(year, k= 6), data = CommLicense_RSCFL)
 CommLicense_shellnoSCFL <- CommLicense %>% filter(productname == "Shellfish w/o SCFL")
 k_det(CommLicense_shellnoSCFL) 
 gam_diagn(CommLicense_shellnoSCFL$licenses, 7, CommLicense_shellnoSCFL) #p value sig. at k= 2, 9 is lowest that looks acceptable
-mod_CommLicense_RSCFL <- gam(licenses ~ s(year, k= 6), data = CommLicense_RSCFL)
+mod_CommLicense_shellnoSCFL <- gam(licenses ~ s(year, k= 7), data = CommLicense_shellnoSCFL)
 
 ##Vessel Length
 unique(VesselLength$vessellengthrange)
@@ -134,12 +134,22 @@ unique(VesselLength$vessellengthrange)
 VesselLength_18 <- VesselLength %>% filter(vessellengthrange %in% "0-18ft.")
 k_det(VesselLength_18)
 gam_diagn(VesselLength_18$count, 6, VesselLength_18) #p value not sig. at k= 6 but graphs look bad --> doesn't look great with anything 
-VesselLength_18 <- gam(count ~ s(year, k= 6), data = VesselLength_18) 
+mod_VesselLength_18 <- gam(count ~ s(year, k= 6), data = VesselLength_18) 
 
 VesselLength_38 <- VesselLength %>% filter(vessellengthrange %in% "19-38ft.")
 k_det(VesselLength_38)
-gam_diagn(VesselLength_38$count, 10, VesselLength_38) #p value not sig. at k= 6 but graphs look bad, didn't finish 
-VesselLength_38 <- gam(count ~ s(year, k= 6), data = VesselLength_38)
+gam_diagn(VesselLength_38$count, 6, VesselLength_38)
+mod_VesselLength_38 <- gam(count ~ s(year, k= 6), data = VesselLength_38)
+
+VesselLength_50 <- VesselLength %>% filter(vessellengthrange %in% "39-50ft.")
+k_det(VesselLength_50)
+gam_diagn(VesselLength_50$count, 6, VesselLength_50)
+mod_VesselLength_50 <- gam(count ~ s(year, k= 6), data = VesselLength_50)
+
+VesselLength_over50 <- VesselLength %>% filter(vessellengthrange %in% ">50ft.")
+k_det(VesselLength_over50)
+gam_diagn(VesselLength_over50$count, 6, VesselLength_over50)
+mod_VesselLength_over50 <- gam(count ~ s(year, k= 6), data = VesselLength_over50)
 
 ##Clams landings 
 ClamsLandings_edt <- ClamsLandings %>% mutate(ratioprpub = private_lbs/public_lbs) %>% select(year, ratioprpub)
@@ -259,44 +269,376 @@ mod_BirdNests <- gam(sum_nests ~ s(year, k=  6), data = BirdNests)
 
 ```
 
-#### GAM graphs 
+#### GAM Functions: Results
 ```{r}
-pdata <- with(RecFishing, data.frame(year = year))
-p2_mod <- predict(mod_RecFishing, newdata = pdata,  type = "terms", se.fit = TRUE)
+GAM_predict_p2mod <- function(df, mod_df){
+pdata <- with(df, data.frame(year = year)) #year only
+p2_mod <- predict(mod_df, newdata = pdata,  type = "terms", se.fit = TRUE) #returns matrix giving predictions for each of requested model terms
+intercept = as.numeric(attr(p2_mod,"constant")) 
+return(p2_mod)
+}
+
+GAM_predict_pdata <- function(df, mod_df){
+pdata <- with(df, data.frame(year = year)) #year only
+p2_mod <- predict(mod_df, newdata = pdata,  type = "terms", se.fit = TRUE) #returns matrix giving predictions for each of requested model terms
 intercept = as.numeric(attr(p2_mod,"constant")) # look at p2_mod and extract the intercept
 pdata <- transform(pdata, p2_mod = p2_mod$fit[,1], se2 = p2_mod$se.fit[,1])
+return(pdata)
+}
 
-#  Now that we have the model prediction, the next step is to calculate the first derivative
-#  Then determine which increases and decreases are significant
+
+GAM_deriv <- function(pdata, mod_df){
 Term = "year"
 n <- as.numeric(length(unique(pdata$year)))
-mod.d <- Deriv(mod_RecFishing, n=n) # n is the number of years
+mod.d <- Deriv(mod_df, n=n) # n is the number of years
 mod.dci <- confint(mod.d, term = Term)
 mod.dsig <- signifD(pdata$p2_mod, d = mod.d[[Term]]$deriv, upper = mod.dci[[Term]]$upper, lower = mod.dci[[Term]]$lower)
+return(mod.dsig)
+}
+```
 
-df <- RecFishing
-# Take a quick look to make sure it appears ok before final plotting
-plot(angler_trips ~ year, data = df)
-lines(angler_trips ~ year, data = df)
-lines(p2_mod+intercept ~ year, data = pdata, type = "n")
-lines(p2_mod+intercept ~ year, data = pdata)
-lines(unlist(mod.dsig$incr)+intercept ~ year, data = pdata, col = "#0072B2", lwd = 3)
-lines(unlist(mod.dsig$decr)+intercept ~ year, data = pdata, col = '#D55E00', lwd = 3)
+#### GAM Functions: figures
+```{r}
+#Run this if your significant total trend, non significant post 1997 
+long_sig <- function(df, dep_var, intercept, pdata, mod.dsig, y_units, x_units, title_name){
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = dep_var), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = dep_var), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) +  
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = '#D55E00', size = 1) +
+   geom_smooth(data = df, aes(x = year, y = dep_var), method = lm, se = FALSE, color = "gray", alpha = 0.2) +
+  theme_bw() +
+  labs (y = y_units, x = x_units, title = paste0(title_name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+}
+
+#Run this if your non significant total trend, significant post 1997
+short_sig <- function(df, dep_var, intercept, pdata, mod.dsig, dfpost1997, dep_var1997, y_units, x_units, title_name){
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = dep_var), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = dep_var), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) +  
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = '#D55E00', size = 1) + 
+  geom_smooth(data = dfpost1997, aes(x = year, y = dep_var1997), method = lm, se = FALSE, color = "#009E73") +
+  theme_bw() +
+  labs (y = y_units, x = x_units, title = paste0(title_name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+}
+
+##Run this if your significant total trend, and significant post 1997
+both_sig <- function(df, dep_var, intercept, pdata, mod.dsig, dfpost1997, dep_var1997, y_units, x_units, title_name){
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = dep_var), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = dep_var), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) + geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = "#D55E00", size = 1) +   geom_smooth(data = dfpost1997, aes(x = year, y = dep_var1997), method = lm, se = FALSE, color = "#009E73") +
+   geom_smooth(data = df, aes(x = year, y = dep_var), method = lm, se = FALSE, color = "gray", alpha = 0.2) +
+  theme_bw() +
+  labs (y = y_units, x = x_units, title = paste0(title_name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+}
+
+
+##Run this if non significant total trend, and non significant post 1997
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = mean), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = mean), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = "#D55E00", size = 1) + 
+  theme_bw() +
+  labs (y = "UNITS HERE", x = 'Year', title = paste0(name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+#save figure. Note the output is in the figures folder.
+ggsave(paste0("~/NC-Ecosystem-indicators/figures/", nospacesname, "GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+```
+
+#### Gam Results
+```{r}
+#RecFishing
+p2mod_RecFishing <- GAM_predict_p2mod(RecFishing, mod_RecFishing)
+intercept_RecFishing = as.numeric(attr(p2mod_RecFishing,"constant")) 
+pdata_RecFishing <- GAM_predict_pdata(RecFishing, mod_RecFishing)
+mod.dsig_RecFishing <- GAM_deriv(pdata_RecFishing, mod_RecFishing)
+linearMod<- lm(angler_trips ~ year, data= RecFishing)
+summary(linearMod)
+dfpost1997_RecFishing <- filter(RecFishing, year > 1997)
+linearMod_1997<- lm(angler_trips ~ year, data=dfpost1997)
+summary(linearMod_1997)
+both_sig(RecFishing, RecFishing$angler_trips, intercept_RecFishing, pdata_RecFishing, mod.dsig_RecFishing, dfpost1997_RecFishing, dfpost1997_RecFishing$angler_trips, "Number of Angler Trips", "Year", "Number of Recreational Angler Trips")
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "RecFishingGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Comm License
+##Dealer: not working! 
+p2mod_CommLicense_dealer <- GAM_predict_p2mod(CommLicense_dealer, mod_CommLicense_dealer)
+intercept_CommLicense_dealer = as.numeric(attr(p2mod_CommLicense_dealer,"constant")) 
+pdata_CommLicense_dealer <- GAM_predict_pdata(CommLicense_dealer, mod_CommLicense_dealer)
+mod.dsig_CommLicense_dealer <- GAM_deriv(pdata_CommLicense_dealer, mod_CommLicense_dealer)
+linearMod <- lm(licenses ~ year, data= CommLicense_dealer)
+summary(linearMod)
+dfpost1997_CommLicense_dealer <- filter(CommLicense_dealer, year > 1997)
+linearMod_1997<- lm(licenses ~ year, data=dfpost1997_CommLicense_dealer)
+summary(linearMod_1997)
+both_sig(CommLicense_dealer, CommLicense_dealer$licenses, intercept_CommLicense_dealer, pdata_CommLicense_dealer, mod.dsig_CommLicense_dealer, dfpost1997_CommLicense_dealer, dfpost1997_CommLicense_dealer$licenses, "Number of Dealer Licenses", "Year", "Number of Dealer Licenses")
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLicenseDealerGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##SCFL
+p2mod_CommLicense_SCFL <- GAM_predict_p2mod(CommLicense_SCFL, mod_CommLicense_SCFL)
+intercept_CommLicense_SCFL = as.numeric(attr(p2mod_CommLicense_SCFL,"constant")) 
+pdata_CommLicense_SCFL <- GAM_predict_pdata(CommLicense_SCFL, mod_CommLicense_SCFL)
+mod.dsig_CommLicense_SCFL <- GAM_deriv(pdata_CommLicense_SCFL, mod_CommLicense_SCFL)
+linearMod <- lm(licenses ~ year, data= CommLicense_SCFL)
+summary(linearMod)
+dfpost1997_CommLicense_SCFL <- filter(CommLicense_SCFL, year > 1997)
+linearMod_1997 <- lm(licenses ~ year, data=dfpost1997_SCFL)
+summary(linearMod_1997)
+both_sig(CommLicense_SCFL, CommLicense_SCFL$licenses, intercept_CommLicense_SCFL, pdata_CommLicense_SCFL, mod.dsig_CommLicense_SCFL, dfpost1997_CommLicense_SCFL, dfpost1997_CommLicense_SCFL$licenses, "Number of SCFL Licenses", "Year", "Number of Standard Commercial Fishing Licenses")
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLicenseSCFLGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##CFVR 
+p2mod_CommLicense_CFVR <- GAM_predict_p2mod(CommLicense_CFVR, mod_CommLicense_CFVR)
+intercept_CommLicense_CFVR = as.numeric(attr(p2mod_CommLicense_CFVR,"constant")) 
+pdata_CommLicense_CFVR <- GAM_predict_pdata(CommLicense_CFVR, mod_CommLicense_CFVR)
+mod.dsig_CommLicense_CFVR <- GAM_deriv(pdata_CommLicense_CFVR, mod_CommLicense_CFVR)
+linearMod <- lm(licenses ~ year, data= CommLicense_CFVR)
+summary(linearMod)
+dfpost1997_CommLicense_CFVR <- filter(CommLicense_CFVR, year > 1997)
+linearMod_1997 <- lm(licenses ~ year, data=dfpost1997_CommLicense_CFVR)
+summary(linearMod_1997)
+both_sig(CommLicense_CFVR, CommLicense_CFVR$licenses, intercept_CommLicense_CFVR, pdata_CommLicense_CFVR, mod.dsig_CommLicense_CFVR, dfpost1997_CommLicense_CFVR, dfpost1997_CommLicense_CFVR$licenses, "Number of CFVR Licenses", "Year", "Number of Commercial Fishing Vessel\n Registration Licenses")
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLicenseCFVRGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##RSCFL
+p2mod_CommLicense_RSCFL <- GAM_predict_p2mod(CommLicense_RSCFL, mod_CommLicense_RSCFL)
+intercept_CommLicense_RSCFL = as.numeric(attr(p2mod_CommLicense_RSCFL,"constant")) 
+pdata_CommLicense_RSCFL <- GAM_predict_pdata(CommLicense_RSCFL, mod_CommLicense_RSCFL)
+mod.dsig_CommLicense_RSCFL <- GAM_deriv(pdata_CommLicense_RSCFL, mod_CommLicense_RSCFL)
+linearMod <- lm(licenses ~ year, data= CommLicense_RSCFL)
+summary(linearMod)
+dfpost1997_CommLicense_RSCFL <- filter(CommLicense_RSCFL, year > 1997)
+linearMod_1997 <- lm(licenses ~ year, data=dfpost1997_CommLicense_RSCFL)
+summary(linearMod_1997)
+both_sig(CommLicense_RSCFL, CommLicense_RSCFL$licenses, intercept_CommLicense_RSCFL, pdata_CommLicense_RSCFL, mod.dsig_CommLicense_RSCFL, dfpost1997_CommLicense_RSCFL, dfpost1997_CommLicense_RSCFL$licenses, "Number of RSCFL Licenses", "Year", "Number of Retired Standard Commercial\n  Fishing Licenses")
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLicenseRSCFLGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Shellfish w/o SCFL 
+p2mod_CommLicense_shellnoSCFL <- GAM_predict_p2mod(CommLicense_shellnoSCFL, mod_CommLicense_shellnoSCFL)
+intercept_CommLicense_shellnoSCFL = as.numeric(attr(p2mod_CommLicense_shellnoSCFL,"constant")) 
+pdata_CommLicense_shellnoSCFL <- GAM_predict_pdata(CommLicense_shellnoSCFL, mod_CommLicense_shellnoSCFL)
+mod.dsig_CommLicense_shellnoSCFL <- GAM_deriv(pdata_CommLicense_shellnoSCFL, mod_CommLicense_shellnoSCFL)
+linearMod <- lm(licenses ~ year, data= CommLicense_shellnoSCFL)
+summary(linearMod)
+dfpost1997_CommLicense_shellnoSCFL <- filter(CommLicense_shellnoSCFL, year > 1997)
+linearMod_1997 <- lm(licenses ~ year, data=dfpost1997_CommLicense_shellnoSCFL)
+summary(linearMod_1997)
+both_sig(CommLicense_shellnoSCFL, CommLicense_shellnoSCFL$licenses, intercept_CommLicense_shellnoSCFL, pdata_CommLicense_shellnoSCFL, mod.dsig_CommLicense_shellnoSCFL, dfpost1997_CommLicense_shellnoSCFL, dfpost1997_CommLicense_shellnoSCFL$licenses, "Number of Shellfish Licenses (no SCFL)", "Year", "Number of Shellfish Licenses\n  without a SCFL")
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLicenseshellnoSCFLGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Vessel length
+##0-18 ft.
+p2mod_VesselLength_18 <- GAM_predict_p2mod(VesselLength_18, mod_VesselLength_18)
+intercept_VesselLength_18 = as.numeric(attr(p2mod_VesselLength_18,"constant")) 
+pdata_VesselLength_18 <- GAM_predict_pdata(VesselLength_18, mod_VesselLength_18)
+mod.dsig_VesselLength_18 <- GAM_deriv(pdata_VesselLength_18, mod_VesselLength_18)
+linearMod <- lm(count ~ year, data= VesselLength_18)
+summary(linearMod)
+dfpost1997_VesselLength_18 <- filter(VesselLength_18, year > 1997)
+linearMod_1997 <- lm(count ~ year, data=dfpost1997_VesselLength_18)
+summary(linearMod_1997)
+both_sig(VesselLength_18, VesselLength_18$count, intercept_VesselLength_18, pdata_VesselLength_18, mod.dsig_VesselLength_18, dfpost1997_VesselLength_18, dfpost1997_VesselLength_18$count, "Number of Vessels", "Year", "Number of Vessels 0-18ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_18GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##19-38 ft. 
+p2mod_VesselLength_38 <- GAM_predict_p2mod(VesselLength_38, mod_VesselLength_38)
+intercept_VesselLength_38 = as.numeric(attr(p2mod_VesselLength_38,"constant")) 
+pdata_VesselLength_38 <- GAM_predict_pdata(VesselLength_38, mod_VesselLength_38)
+mod.dsig_VesselLength_38 <- GAM_deriv(pdata_VesselLength_38, mod_VesselLength_38)
+linearMod <- lm(count ~ year, data= VesselLength_38)
+summary(linearMod)
+dfpost1997_VesselLength_38 <- filter(VesselLength_38, year > 1997)
+linearMod_1997 <- lm(count ~ year, data=dfpost1997_VesselLength_38)
+summary(linearMod_1997)
+long_sig(VesselLength_38, VesselLength_38$count, intercept_VesselLength_38, pdata_VesselLength_38, mod.dsig_VesselLength_38, "Number of Vessels", "Year", "Number of Vessels 19-38 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_38GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##39-50 ft. 
+p2mod_VesselLength_50 <- GAM_predict_p2mod(VesselLength_50, mod_VesselLength_50)
+intercept_VesselLength_50 = as.numeric(attr(p2mod_VesselLength_50,"constant")) 
+pdata_VesselLength_50 <- GAM_predict_pdata(VesselLength_50, mod_VesselLength_50)
+mod.dsig_VesselLength_50 <- GAM_deriv(pdata_VesselLength_50, mod_VesselLength_50)
+linearMod <- lm(count ~ year, data= VesselLength_50)
+summary(linearMod)
+dfpost1997_VesselLength_50 <- filter(VesselLength_50, year > 1997)
+linearMod_1997 <- lm(count ~ year, data=dfpost1997_VesselLength_50)
+summary(linearMod_1997)
+short_sig(VesselLength_50, VesselLength_50$count, intercept_VesselLength_50, pdata_VesselLength_50, mod.dsig_VesselLength_50, dfpost1997_VesselLength_50, dfpost1997_VesselLength_50$count, "Number of Vessels", "Year", "Number of Vessels 39-50 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_50GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##over 50 ft
+p2mod_VesselLength_over50 <- GAM_predict_p2mod(VesselLength_over50, mod_VesselLength_over50)
+intercept_VesselLength_over50 = as.numeric(attr(p2mod_VesselLength_over50,"constant")) 
+pdata_VesselLength_over50 <- GAM_predict_pdata(VesselLength_over50, mod_VesselLength_over50)
+mod.dsig_VesselLength_over50 <- GAM_deriv(pdata_VesselLength_over50, mod_VesselLength_over50)
+linearMod <- lm(count ~ year, data= VesselLength_over50)
+summary(linearMod)
+dfpost1997_VesselLength_over50 <- filter(VesselLength_over50, year > 1997)
+linearMod_1997 <- lm(count ~ year, data=dfpost1997_VesselLength_over50)
+summary(linearMod_1997)
+both_sig(VesselLength_over50, VesselLength_over50$count, intercept_VesselLength_over50, pdata_VesselLength_over50, mod.dsig_VesselLength_over50, dfpost1997_VesselLength_over50, dfpost1997_VesselLength_over50$count, "Number of Vessels", "Year", "Number of Vessels 39-50 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_over50GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Clams landings 
+p2mod_ClamsLandings_edt <- GAM_predict_p2mod(ClamsLandings_edt, mod_ClamsLandings_edt)
+intercept_ClamsLandings_edt = as.numeric(attr(p2mod_ClamsLandings_edt,"constant")) 
+pdata_ClamsLandings_edt <- GAM_predict_pdata(ClamsLandings_edt, mod_ClamsLandings_edt)
+mod.dsig_ClamsLandings_edt <- GAM_deriv(pdata_ClamsLandings_edt, mod_ClamsLandings_edt)
+linearMod <- lm(ratioprpub ~ year, data= ClamsLandings_edt)
+summary(linearMod)
+dfpost1997_ClamsLandings_edt <- filter(ClamsLandings_edt, year > 1997)
+linearMod_1997 <- lm(ratioprpub ~ year, data=dfpost1997_ClamsLandings_edt)
+summary(linearMod_1997)
+both_sig(ClamsLandings_edt, ClamsLandings_edt$ratioprpub, intercept_ClamsLandings_edt, pdata_ClamsLandings_edt, mod.dsig_ClamsLandings_edt, dfpost1997_ClamsLandings_edt, dfpost1997_ClamsLandings_edt$ratioprpub, "Private:Public Harvest (lbs)", "Year", "Ratio of Clams Harvested with Private vs. Public Lease") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "ClamsLandings_edtGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Oyster landings
+p2mod_OysterLandings_edt <- GAM_predict_p2mod(OysterLandings_edt, mod_OysterLandings_edt)
+intercept_OysterLandings_edt = as.numeric(attr(p2mod_OysterLandings_edt,"constant")) 
+pdata_OysterLandings_edt <- GAM_predict_pdata(OysterLandings_edt, mod_OysterLandings_edt)
+mod.dsig_OysterLandings_edt <- GAM_deriv(pdata_OysterLandings_edt, mod_OysterLandings_edt)
+linearMod <- lm(ratioprpub ~ year, data= OysterLandings_edt)
+summary(linearMod)
+dfpost1997_OysterLandings_edt <- filter(OysterLandings_edt, year > 1997)
+linearMod_1997 <- lm(ratioprpub ~ year, data=dfpost1997_OysterLandings_edt)
+summary(linearMod_1997)
+both_sig(OysterLandings_edt, OysterLandings_edt$ratioprpub, intercept_OysterLandings_edt, pdata_OysterLandings_edt, mod.dsig_OysterLandings_edt, dfpost1997_OysterLandings_edt, dfpost1997_OysterLandings_edt$ratioprpub, "Private:Public Harvest (lbs)", "Year", "Ratio of Oysters Harvested with Private vs. Public Lease") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "OysterLandings_edtGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Commercial trips: 
+p2mod_CommercialTrips <- GAM_predict_p2mod(CommercialTrips, mod_CommercialTrips)
+intercept_CommercialTrips = as.numeric(attr(p2mod_CommercialTrips,"constant")) 
+pdata_CommercialTrips <- GAM_predict_pdata(CommercialTrips, mod_CommercialTrips)
+mod.dsig_CommercialTrips <- GAM_deriv(pdata_CommercialTrips, mod_CommercialTrips)
+linearMod <- lm(sum_trips ~ year, data= CommercialTrips)
+summary(linearMod)
+dfpost1997_CommercialTrips <- filter(CommercialTrips, year > 1997)
+linearMod_1997 <- lm(sum_trips ~ year, data=dfpost1997_CommercialTrips)
+summary(linearMod_1997)
+both_sig(CommercialTrips, CommercialTrips$sum_trips, intercept_CommercialTrips, pdata_CommercialTrips, mod.dsig_CommercialTrips, dfpost1997_CommercialTrips, dfpost1997_CommercialTrips$sum_trips, "Number of Trips", "Year", "Number of Commercial Trips") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommercialTripsGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Commercial landings
+##Bay Scallop 
+
+#didn't finish! 
+p2mod_CommLandings_BayScallop <- GAM_predict_p2mod(CommLandings_BayScallop, mod_CommLandings_BayScallop)
+intercept_CommLandings_BayScallop = as.numeric(attr(p2mod_CommLandings_BayScallop,"constant")) 
+pdata_CommLandings_BayScallop <- GAM_predict_pdata(CommLandings_BayScallop, mod_CommLandings_BayScallop)
+mod.dsig_CommLandings_BayScallop <- GAM_deriv(pdata_CommLandings_BayScallop, mod_CommLandings_BayScallop)
+linearMod <- lm(pounds ~ year, data= CommLandings_BayScallop)
+summary(linearMod)
+dfpost1997_CommLandings_BayScallop <- filter(CommLandings_BayScallop, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_BayScallop)
+summary(linearMod_1997)
+both_sig(CommLandings_BayScallop, CommLandings_BayScallop$sum_trips, intercept_CommLandings_BayScallop, pdata_CommLandings_BayScallop, mod.dsig_CommLandings_BayScallop, dfpost1997_CommLandings_BayScallop, dfpost1997_CommLandings_BayScallop$sum_trips, "Number of Trips", "Year", "Number of Commercial Trips") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_BayScallopGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+
+
+CommLandings_BayScallop  <- CommLandings %>% filter(species %in% "Bay Scallop")
+k_det(CommLandings_BayScallop)
+gam_diagn(CommLandings_BayScallop$pounds, 4, CommLandings_BayScallop) #p value not sig. at k= 4, graphs don't improve that much 
+mod_CommLandings_BayScallop <- gam(pounds ~ s(year, k= 4), data = CommLandings_BayScallop)
+
+CommLandings_BlueCrab <- CommLandings %>% filter(species %in% "Blue Crab")
+k_det(CommLandings_BlueCrab)
+gam_diagn(CommLandings_BlueCrab$pounds, 5, CommLandings_BlueCrab) #p value sig. at k= 4
+mod_CommLandings_BlueCrab <- gam(pounds ~ s(year, k=  5), data = CommLandings_BlueCrab)
+
+CommLandings_HardClams <- CommLandings %>% filter(species %in% "Hard Clams")
+k_det(CommLandings_HardClams)
+gam_diagn(CommLandings_HardClams$pounds, 6, CommLandings_HardClams) #p value sig. at k= 4, graphs look ok ish
+mod_CommLandings_HardClams <- gam(pounds ~ s(year, k=  6), data = CommLandings_HardClams)
+
+CommLandings_Kingfishes  <- CommLandings %>% filter(species %in% "Kingfishes")
+k_det(CommLandings_Kingfishes)
+gam_diagn(CommLandings_Kingfishes$pounds, 5, CommLandings_Kingfishes) #p value not sig. at 4, graphs look ok
+mod_CommLandings_Kingfishes <- gam(pounds ~ s(year, k=  6), data = CommLandings_Kingfishes)
+
+CommLandings_Oyster  <- CommLandings %>% filter(species %in% "Oyster")
+k_det(CommLandings_Oyster)
+gam_diagn(CommLandings_Oyster$pounds, 7, CommLandings_Oyster) #p value not sig. at 4, graphs best at 7 
+mod_CommLandings_Oyster <- gam(pounds ~ s(year, k=  7), data = CommLandings_Oyster)
+
+CommLandings_RedDrum  <- CommLandings %>% filter(species %in% "Red Drum")
+k_det(CommLandings_RedDrum)
+gam_diagn(CommLandings_RedDrum$pounds, 5, CommLandings_RedDrum) #p value not sig. at 4, graphs fine at 5- not much imrpovement after 
+mod_CommLandings_RedDrum <- gam(pounds ~ s(year, k=  5), data = CommLandings_RedDrum)
+
+CommLandings_RiverHerring  <- CommLandings %>% filter(species %in% "River Herring")
+k_det(CommLandings_RiverHerring)
+gam_diagn(CommLandings_RiverHerring$pounds, 5, CommLandings_RiverHerring) #graphs don't change after 5 much
+mod_CommLandings_RiverHerring <- gam(pounds ~ s(year, k=  5), data = CommLandings_RiverHerring)
+
+CommLandings_SouthernFlounder  <- CommLandings %>% filter(species %in% "Southern Flounder")
+k_det(CommLandings_SouthernFlounder)
+gam_diagn(CommLandings_SouthernFlounder$pounds, 6, CommLandings_SouthernFlounder) #graphs don't change after 5 much
+mod_CommLandings_SouthernFlounder <- gam(pounds ~ s(year, k=  6), data = CommLandings_SouthernFlounder)
+
+CommLandings_SpottedSeatrout  <- CommLandings %>% filter(species %in% "Spotted Seatrout")
+k_det(CommLandings_SpottedSeatrout)
+gam_diagn(CommLandings_SpottedSeatrout$pounds, 4, CommLandings_SpottedSeatrout) 
+mod_CommLandings_SpottedSeatrout <- gam(pounds ~ s(year, k=  4), data = CommLandings_SpottedSeatrout)
+
+CommLandings_StripedBass  <- CommLandings %>% filter(species %in% "Striped Bass")
+k_det(CommLandings_StripedBass)
+gam_diagn(CommLandings_StripedBass$pounds, 6, CommLandings_StripedBass) 
+mod_CommLandings_StripedBass <- gam(pounds ~ s(year, k=  6), data = CommLandings_StripedBass)
+
+CommLandings_StripedMullet  <- CommLandings %>% filter(species %in% "Striped Mullet")
+k_det(CommLandings_StripedMullet)
+gam_diagn(CommLandings_StripedMullet$pounds, 4, CommLandings_StripedMullet) 
+mod_CommLandings_StripedMullet <- gam(pounds ~ s(year, k=  4), data = CommLandings_StripedMullet)
+
+CommLandings_BrownShrimp  <- CommLandings %>% filter(species %in% "Shrimp, Brown")
+k_det(CommLandings_BrownShrimp)
+gam_diagn(CommLandings_BrownShrimp$pounds, 4, CommLandings_BrownShrimp) #response vs. fitted doesn't look good no matter the k value 
+mod_CommLandings_BrownShrimp <- gam(pounds ~ s(year, k=  4), data = CommLandings_BrownShrimp)
+
+CommLandings_PinkShrimp  <- CommLandings %>% filter(species %in% "Shrimp, Pink")
+k_det(CommLandings_PinkShrimp)
+gam_diagn(CommLandings_PinkShrimp$pounds, 4, CommLandings_PinkShrimp) #p value not significant, graphs look bad no matter the k value 
+mod_CommLandings_PinkShrimp <- gam(pounds ~ s(year, k=  4), data = CommLandings_PinkShrimp)
+
+CommLandings_WhiteShrimp  <- CommLandings %>% filter(species %in% "Shrimp, White")
+k_det(CommLandings_WhiteShrimp)
+gam_diagn(CommLandings_WhiteShrimp$pounds, 6, CommLandings_WhiteShrimp) #normality graphs acceptable at this p value
+mod_CommLandings_WhiteShrimp <- gam(pounds ~ s(year, k=  6), data = CommLandings_WhiteShrimp)
+
+
+
+
+
+
+
+
+#Birds
+#Commercial participants
+
+
+
+
+
+
+
 ```
 
 ```{r}
-#check linear model of entire dataset. Then move on to the next chunk based on the results
-linearMod<- lm(angler_trips ~ year, data=df)
-summary(linearMod)
 
-#check out the post 1997 linear model, then move on to the next chunk based on the results
-dfpost1997 <- filter(df, year > 1997)
-linearMod<- lm(angler_trips ~ year, data=dfpost1997)
-summary(linearMod)
 
-#Plot names
-name <- "Number of Recreational Angler Trips"
-nospacesname <- gsub(" ", "", name)
+
+
 ```
 
 ```{r}
