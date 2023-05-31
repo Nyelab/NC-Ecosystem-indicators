@@ -23,6 +23,7 @@ OysterLandings <- read_csv("data/finalized/e1994OysterLandingsNCSD.csv")
 CommercialTrips <- read_csv("data/finalized/e1994CommercialTripsNCSD.csv")
 MenhadenLandings <- read_csv("data/finalized/e1985MenhadenLandingsNCSD.csv")
 CommLandings <- read_csv("data/finalized/e1994CommercialLandingsBillNCSD.csv")
+BirdNests <- read_csv("data/finalized/b1977BirdNestsNCSD.csv")
 
 names(RecFishing) <- tolower(names(RecFishing))
 RecFishing <- filter(RecFishing, year < 2020)
@@ -40,9 +41,11 @@ names(MenhadenLandings) <- tolower(names(MenhadenLandings))
 MenhadenLandings <- filter(MenhadenLandings, year < 2020)
 names(CommLandings) <- tolower(names(CommLandings))
 CommLandings <- filter(CommLandings, year < 2020)
+names(BirdNests) <- tolower(names(BirdNests))
+BirdNests <- filter(BirdNests, year < 2020)
 ```
 
-#### GAM Graphs for Impacts and Responses Indicators
+#### Running GAMs for Impacts and Responses Indicators
 
 ```{r}
 #GAM description
@@ -148,24 +151,118 @@ mod_ClamsLandings_edt <- gam(ratioprpub ~ s(year, k= 6), data = ClamsLandings_ed
 OysterLandings_edt <- OysterLandings %>% mutate(ratioprpub = private_lbs/public_lbs) %>% select(year, ratioprpub)
 k_det(OysterLandings_edt)
 gam_diagn(OysterLandings_edt$ratioprpub, 8, OysterLandings_edt) #p value sig. at k= 4, graphs fine but not great at k= 8
+mod_OysterLandings_edt <- gam(ratioprpub ~ s(year, k= 8), data = OysterLandings_edt)
 
 ##Commercial trips: 
 CommercialTrips <- CommercialTrips %>% select(year, sum_trips) 
 k_det(CommercialTrips)
 gam_diagn(CommercialTrips$sum_trips, 6, CommercialTrips) #p value sig. at k= 4, graphs fine at k= 6 
+mod_CommercialTrips <- gam(sum_trips ~ s(year, k= 6), data = CommercialTrips)
 
 ##Menhaden landings:
 MenhadenLandings$species[which(MenhadenLandings$species == "Menhaden bait")] = "Menhaden Bait"
 MenhadenLandings$species[which(MenhadenLandings$species == "Menhaden Red")] = "Menhaden Reduction"
 
 ###Menhaden Bait: 
+MenhadenLandings_Bait <- MenhadenLandings %>% filter(species == "Menhaden Bait")
+k_det(MenhadenLandings_Bait)
+gam_diagn(MenhadenLandings_Bait$pounds, 6, MenhadenLandings_Bait) #p value not sig. at k= 6, graphs don't improve that much 
+mod_MenhadenLandings_Bait <- gam(pounds ~ s(year, k= 6), data = MenhadenLandings_Bait)
 
 ###Menhaden Reduction: 
+MenhadenLandings_Reduction <- MenhadenLandings %>% filter(species == "Menhaden Reduction")
+k_det(MenhadenLandings_Reduction)
+gam_diagn(MenhadenLandings_Reduction$pounds, 4, MenhadenLandings_Reduction) #p value not sig. at k= 4, graphs don't improve that much 
+mod_MenhadenLandings_Reduction <- gam(pounds ~ s(year, k= 4), data = MenhadenLandings_Reduction)
+
+##Commercial landings
+CommLandings$pounds <- as.numeric(CommLandings$pounds)
+
+CommLandings_BayScallop  <- CommLandings %>% filter(species %in% "Bay Scallop")
+k_det(CommLandings_BayScallop)
+gam_diagn(CommLandings_BayScallop$pounds, 4, CommLandings_BayScallop) #p value not sig. at k= 4, graphs don't improve that much 
+mod_CommLandings_BayScallop <- gam(pounds ~ s(year, k= 4), data = CommLandings_BayScallop)
+
+CommLandings_BlueCrab <- CommLandings %>% filter(species %in% "Blue Crab")
+k_det(CommLandings_BlueCrab)
+gam_diagn(CommLandings_BlueCrab$pounds, 5, CommLandings_BlueCrab) #p value sig. at k= 4
+mod_CommLandings_BlueCrab <- gam(pounds ~ s(year, k=  5), data = CommLandings_BlueCrab)
+
+CommLandings_HardClams <- CommLandings %>% filter(species %in% "Hard Clams")
+k_det(CommLandings_HardClams)
+gam_diagn(CommLandings_HardClams$pounds, 6, CommLandings_HardClams) #p value sig. at k= 4, graphs look ok ish
+mod_CommLandings_HardClams <- gam(pounds ~ s(year, k=  6), data = CommLandings_HardClams)
+
+CommLandings_Kingfishes  <- CommLandings %>% filter(species %in% "Kingfishes")
+k_det(CommLandings_Kingfishes)
+gam_diagn(CommLandings_Kingfishes$pounds, 5, CommLandings_Kingfishes) #p value not sig. at 4, graphs look ok
+mod_CommLandings_Kingfishes <- gam(pounds ~ s(year, k=  6), data = CommLandings_Kingfishes)
+
+CommLandings_Oyster  <- CommLandings %>% filter(species %in% "Oyster")
+k_det(CommLandings_Oyster)
+gam_diagn(CommLandings_Oyster$pounds, 7, CommLandings_Oyster) #p value not sig. at 4, graphs best at 7 
+mod_CommLandings_Oyster <- gam(pounds ~ s(year, k=  7), data = CommLandings_Oyster)
+
+CommLandings_RedDrum  <- CommLandings %>% filter(species %in% "Red Drum")
+k_det(CommLandings_RedDrum)
+gam_diagn(CommLandings_RedDrum$pounds, 5, CommLandings_RedDrum) #p value not sig. at 4, graphs fine at 5- not much imrpovement after 
+mod_CommLandings_RedDrum <- gam(pounds ~ s(year, k=  5), data = CommLandings_RedDrum)
+
+CommLandings_RiverHerring  <- CommLandings %>% filter(species %in% "River Herring")
+k_det(CommLandings_RiverHerring)
+gam_diagn(CommLandings_RiverHerring$pounds, 5, CommLandings_RiverHerring) #graphs don't change after 5 much
+mod_CommLandings_RiverHerring <- gam(pounds ~ s(year, k=  5), data = CommLandings_RiverHerring)
+
+CommLandings_SouthernFlounder  <- CommLandings %>% filter(species %in% "Southern Flounder")
+k_det(CommLandings_SouthernFlounder)
+gam_diagn(CommLandings_SouthernFlounder$pounds, 6, CommLandings_SouthernFlounder) #graphs don't change after 5 much
+mod_CommLandings_SouthernFlounder <- gam(pounds ~ s(year, k=  6), data = CommLandings_SouthernFlounder)
+
+CommLandings_SpottedSeatrout  <- CommLandings %>% filter(species %in% "Spotted Seatrout")
+k_det(CommLandings_SpottedSeatrout)
+gam_diagn(CommLandings_SpottedSeatrout$pounds, 4, CommLandings_SpottedSeatrout) 
+mod_CommLandings_SpottedSeatrout <- gam(pounds ~ s(year, k=  4), data = CommLandings_SpottedSeatrout)
+
+CommLandings_StripedBass  <- CommLandings %>% filter(species %in% "Striped Bass")
+k_det(CommLandings_StripedBass)
+gam_diagn(CommLandings_StripedBass$pounds, 6, CommLandings_StripedBass) 
+mod_CommLandings_StripedBass <- gam(pounds ~ s(year, k=  6), data = CommLandings_StripedBass)
+
+CommLandings_StripedMullet  <- CommLandings %>% filter(species %in% "Striped Mullet")
+k_det(CommLandings_StripedMullet)
+gam_diagn(CommLandings_StripedMullet$pounds, 4, CommLandings_StripedMullet) 
+mod_CommLandings_StripedMullet <- gam(pounds ~ s(year, k=  4), data = CommLandings_StripedMullet)
+
+CommLandings_BrownShrimp  <- CommLandings %>% filter(species %in% "Shrimp, Brown")
+k_det(CommLandings_BrownShrimp)
+gam_diagn(CommLandings_BrownShrimp$pounds, 4, CommLandings_BrownShrimp) #response vs. fitted doesn't look good no matter the k value 
+mod_CommLandings_BrownShrimp <- gam(pounds ~ s(year, k=  4), data = CommLandings_BrownShrimp)
+
+CommLandings_PinkShrimp  <- CommLandings %>% filter(species %in% "Shrimp, Pink")
+k_det(CommLandings_PinkShrimp)
+gam_diagn(CommLandings_PinkShrimp$pounds, 4, CommLandings_PinkShrimp) #p value not significant, graphs look bad no matter the k value 
+mod_CommLandings_PinkShrimp <- gam(pounds ~ s(year, k=  4), data = CommLandings_PinkShrimp)
+
+CommLandings_WhiteShrimp  <- CommLandings %>% filter(species %in% "Shrimp, White")
+k_det(CommLandings_WhiteShrimp)
+gam_diagn(CommLandings_WhiteShrimp$pounds, 6, CommLandings_WhiteShrimp) #normality graphs acceptable at this p value
+mod_CommLandings_WhiteShrimp <- gam(pounds ~ s(year, k=  6), data = CommLandings_WhiteShrimp)
+
+##Birds
+BirdNests <- BirdNests %>% select(year, sum_nests)
+k_det(BirdNests)
+gam_diagn(BirdNests$sum_nests, 8, BirdNests) #assumptions aren't met but doesn't get better with k 
+mod_BirdNests <- gam(sum_nests ~ s(year, k=  6), data = BirdNests)
+
+##Commercial participants 
+
+
 ```
 
+#### GAM graphs 
 ```{r}
 pdata <- with(RecFishing, data.frame(year = year))
-p2_mod <- predict(mod, newdata = pdata,  type = "terms", se.fit = TRUE)
+p2_mod <- predict(mod_RecFishing, newdata = pdata,  type = "terms", se.fit = TRUE)
 intercept = as.numeric(attr(p2_mod,"constant")) # look at p2_mod and extract the intercept
 pdata <- transform(pdata, p2_mod = p2_mod$fit[,1], se2 = p2_mod$se.fit[,1])
 
@@ -173,7 +270,7 @@ pdata <- transform(pdata, p2_mod = p2_mod$fit[,1], se2 = p2_mod$se.fit[,1])
 #  Then determine which increases and decreases are significant
 Term = "year"
 n <- as.numeric(length(unique(pdata$year)))
-mod.d <- Deriv(mod, n=n) # n is the number of years
+mod.d <- Deriv(mod_RecFishing, n=n) # n is the number of years
 mod.dci <- confint(mod.d, term = Term)
 mod.dsig <- signifD(pdata$p2_mod, d = mod.d[[Term]]$deriv, upper = mod.dci[[Term]]$upper, lower = mod.dci[[Term]]$lower)
 
