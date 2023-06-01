@@ -24,6 +24,7 @@ CommercialTrips <- read_csv("data/finalized/e1994CommercialTripsNCSD.csv")
 MenhadenLandings <- read_csv("data/finalized/e1985MenhadenLandingsNCSD.csv")
 CommLandings <- read_csv("data/finalized/e1994CommercialLandingsBillNCSD.csv")
 BirdNests <- read_csv("data/finalized/b1977BirdNestsNCSD.csv")
+CommParts <- read_csv("data/finalized/e1994CommercialParticipantsBillNCSD.csv")
 
 names(RecFishing) <- tolower(names(RecFishing))
 RecFishing <- filter(RecFishing, year < 2020)
@@ -43,6 +44,8 @@ names(CommLandings) <- tolower(names(CommLandings))
 CommLandings <- filter(CommLandings, year < 2020)
 names(BirdNests) <- tolower(names(BirdNests))
 BirdNests <- filter(BirdNests, year < 2020)
+names(CommParts) <- tolower(names(CommParts))
+CommParts <- filter(CommParts, year < 2020)
 ```
 
 #### Running GAMs for Impacts and Responses Indicators
@@ -208,10 +211,10 @@ k_det(CommLandings_Kingfishes)
 gam_diagn(CommLandings_Kingfishes$pounds, 5, CommLandings_Kingfishes) #p value not sig. at 4, graphs look ok
 mod_CommLandings_Kingfishes <- gam(pounds ~ s(year, k=  6), data = CommLandings_Kingfishes)
 
-CommLandings_Oyster  <- CommLandings %>% filter(species %in% "Oyster")
-k_det(CommLandings_Oyster)
-gam_diagn(CommLandings_Oyster$pounds, 7, CommLandings_Oyster) #p value not sig. at 4, graphs best at 7 
-mod_CommLandings_Oyster <- gam(pounds ~ s(year, k=  7), data = CommLandings_Oyster)
+CommLandings_Oysters  <- CommLandings %>% filter(species %in% "Oyster")
+k_det(CommLandings_Oysters)
+gam_diagn(CommLandings_Oysters$pounds, 7, CommLandings_Oysters) #p value not sig. at 4, graphs best at 7 
+mod_CommLandings_Oysters <- gam(pounds ~ s(year, k=  7), data = CommLandings_Oysters)
 
 CommLandings_RedDrum  <- CommLandings %>% filter(species %in% "Red Drum")
 k_det(CommLandings_RedDrum)
@@ -262,11 +265,81 @@ mod_CommLandings_WhiteShrimp <- gam(pounds ~ s(year, k=  6), data = CommLandings
 BirdNests <- BirdNests %>% select(year, sum_nests)
 k_det(BirdNests)
 gam_diagn(BirdNests$sum_nests, 8, BirdNests) #assumptions aren't met but doesn't get better with k 
-mod_BirdNests <- gam(sum_nests ~ s(year, k=  6), data = BirdNests)
+mod_BirdNests <- gam(sum_nests ~ s(year, k=  8), data = BirdNests)
 
 ##Commercial participants 
+CommParts <- CommParts %>% select(year, species, participants)
+unique(CommParts$species)
 
+CommParts_BayScallop <- CommParts %>% filter(species %in% "Bay Scallop")
+k_det(CommParts_BayScallop)
+gam_diagn(CommParts_BayScallop$participants, 4, CommParts_BayScallop) #doesn't improve 
+mod_CommParts_BayScallop <- gam(participants ~ s(year, k=  4), data = CommParts_BayScallop)
 
+CommParts_BlueCrab <- CommParts %>% filter(species %in% "Blue Crab")
+k_det(CommParts_BlueCrab)
+gam_diagn(CommParts_BlueCrab$participants, 9, CommParts_BlueCrab) #p value sig at 4-8 but then residuals get more non-normally distributed 
+mod_CommParts_BlueCrab <- gam(participants ~ s(year, k=  9), data = CommParts_BlueCrab)
+
+CommParts_HardClams <- CommParts %>% filter(species %in% "Hard Clams")
+k_det(CommParts_HardClams)
+gam_diagn(CommParts_HardClams$participants, 8, CommParts_HardClams) #p value sig at 4-7 but then residuals get more non-normally distributed 
+mod_CommParts_HardClams <- gam(participants ~ s(year, k=  8), data = CommParts_HardClams)
+
+CommParts_Kingfishes <- CommParts %>% filter(species %in% "Kingfishes")
+k_det(CommParts_Kingfishes)
+gam_diagn(CommParts_Kingfishes$participants, 4, CommParts_Kingfishes) #p value not sig. at 4, graphs don't get that much better 
+mod_CommParts_Kingfishes <- gam(participants ~ s(year, k= 4), data = CommParts_Kingfishes)
+
+CommParts_Oyster <- CommParts %>% filter(species %in% "Oyster")
+k_det(CommParts_Oyster)
+gam_diagn(CommParts_Oyster$participants, 4, CommParts_Oyster) #p value not sig. at 4, graphs don't get that much better 
+mod_CommParts_Oyster <- gam(participants ~ s(year, k= 4), data = CommParts_Oyster)
+
+CommParts_RedDrum <- CommParts %>% filter(species %in% "Red Drum")
+k_det(CommParts_RedDrum)
+gam_diagn(CommParts_RedDrum$participants, 4, CommParts_RedDrum) #p value not sig. at 4, graphs don't get that much better 
+mod_CommParts_RedDrum <- gam(participants ~ s(year, k= 4), data = CommParts_RedDrum)
+
+CommParts_RiverHerring <- CommParts %>% filter(species %in% "River Herring")
+k_det(CommParts_RiverHerring)
+gam_diagn(CommParts_RiverHerring$participants, 4, CommParts_RiverHerring) #p value not sig. at 4 and graphs look good
+mod_CommParts_RiverHerring <- gam(participants ~ s(year, k= 4), data = CommParts_RiverHerring)
+
+CommParts_SouthernFlounder <- CommParts %>% filter(species %in% "Southern Flounder")
+k_det(CommParts_SouthernFlounder)
+gam_diagn(CommParts_SouthernFlounder$participants, 5, CommParts_SouthernFlounder) #p value sig. at 4
+mod_CommParts_SouthernFlounder <- gam(participants ~ s(year, k= 5), data = CommParts_SouthernFlounder)
+
+CommParts_SpottedSeatrout <- CommParts %>% filter(species %in% "Spotted Seatrout")
+k_det(CommParts_SpottedSeatrout)
+gam_diagn(CommParts_SpottedSeatrout$participants, 4, CommParts_SpottedSeatrout) #p value not sig. at 4, graphs don't get that much better 
+mod_CommParts_SpottedSeatrout <- gam(participants ~ s(year, k= 4), data = CommParts_SpottedSeatrout)
+
+CommParts_StripedBass <- CommParts %>% filter(species %in% "Striped Bass")
+k_det(CommParts_StripedBass)
+gam_diagn(CommParts_StripedBass$participants, 7, CommParts_StripedBass) #p value not sig. at 4, graphs look best at 7 
+mod_CommParts_StripedBass <- gam(participants ~ s(year, k= 7), data = CommParts_StripedBass)
+
+CommParts_StripedMullet <- CommParts %>% filter(species %in% "Striped Mullet")
+k_det(CommParts_StripedMullet)
+gam_diagn(CommParts_StripedMullet$participants, 5, CommParts_StripedMullet) #small sig at 4 
+mod_CommParts_StripedMullet <- gam(participants ~ s(year, k= 5), data = CommParts_StripedMullet)
+
+CommParts_BrownShrimp <- CommParts %>% filter(species %in% "Shrimp, Brown")
+k_det(CommParts_BrownShrimp)
+gam_diagn(CommParts_BrownShrimp$participants, 6, CommParts_BrownShrimp) #k= 6 looks best
+mod_CommParts_BrownShrimp <- gam(participants ~ s(year, k= 6), data = CommParts_BrownShrimp)
+
+CommParts_PinkShrimp <- CommParts %>% filter(species %in% "Shrimp, Pink")
+k_det(CommParts_PinkShrimp)
+gam_diagn(CommParts_PinkShrimp$participants, 4, CommParts_PinkShrimp) #graphs don't improve after k=4 
+mod_CommParts_PinkShrimp <- gam(participants ~ s(year, k= 4), data = CommParts_PinkShrimp)
+
+CommParts_WhiteShrimp <- CommParts %>% filter(species %in% "Shrimp, White")
+k_det(CommParts_WhiteShrimp)
+gam_diagn(CommParts_WhiteShrimp$participants, 4, CommParts_WhiteShrimp) #graphs don't improve after k=4 
+mod_CommParts_WhiteShrimp <- gam(participants ~ s(year, k= 4), data = CommParts_WhiteShrimp)
 ```
 
 #### GAM Functions: Results
@@ -341,15 +414,17 @@ ggplot() +
 
 
 ##Run this if non significant total trend, and non significant post 1997
+both_nonsig <- function(df, dep_var, intercept, pdata, mod.dsig, y_units, x_units, title_name){
 ggplot() + 
-  geom_line(data = df, aes(x = year, y = mean), color = 'grey53', alpha = 0.6) +
-  geom_point(data = df, aes(x = year, y = mean), color = 'gray53', alpha = 0.6) + 
+  geom_line(data = df, aes(x = year, y = dep_var), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = dep_var), color = 'gray53', alpha = 0.6) + 
   geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
   geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) + 
   geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = "#D55E00", size = 1) + 
   theme_bw() +
-  labs (y = "UNITS HERE", x = 'Year', title = paste0(name)) + 
+  labs (y = y_units, x = x_units, title = paste0(title_name)) + 
   theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+}
 
 #save figure. Note the output is in the figures folder.
 ggsave(paste0("~/NC-Ecosystem-indicators/figures/", nospacesname, "GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
@@ -486,7 +561,7 @@ summary(linearMod)
 dfpost1997_VesselLength_over50 <- filter(VesselLength_over50, year > 1997)
 linearMod_1997 <- lm(count ~ year, data=dfpost1997_VesselLength_over50)
 summary(linearMod_1997)
-both_sig(VesselLength_over50, VesselLength_over50$count, intercept_VesselLength_over50, pdata_VesselLength_over50, mod.dsig_VesselLength_over50, dfpost1997_VesselLength_over50, dfpost1997_VesselLength_over50$count, "Number of Vessels", "Year", "Number of Vessels 39-50 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_sig(VesselLength_over50, VesselLength_over50$count, intercept_VesselLength_over50, pdata_VesselLength_over50, mod.dsig_VesselLength_over50, dfpost1997_VesselLength_over50, dfpost1997_VesselLength_over50$count, "Number of Vessels", "Year", "Number of Vessels over 50 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_over50GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 #Clams landings 
@@ -499,7 +574,7 @@ summary(linearMod)
 dfpost1997_ClamsLandings_edt <- filter(ClamsLandings_edt, year > 1997)
 linearMod_1997 <- lm(ratioprpub ~ year, data=dfpost1997_ClamsLandings_edt)
 summary(linearMod_1997)
-both_sig(ClamsLandings_edt, ClamsLandings_edt$ratioprpub, intercept_ClamsLandings_edt, pdata_ClamsLandings_edt, mod.dsig_ClamsLandings_edt, dfpost1997_ClamsLandings_edt, dfpost1997_ClamsLandings_edt$ratioprpub, "Private:Public Harvest (lbs)", "Year", "Ratio of Clams Harvested with Private vs. Public Lease") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_sig(ClamsLandings_edt, ClamsLandings_edt$ratioprpub, intercept_ClamsLandings_edt, pdata_ClamsLandings_edt, mod.dsig_ClamsLandings_edt, dfpost1997_ClamsLandings_edt, dfpost1997_ClamsLandings_edt$ratioprpub, "Private:Public Harvest (lbs)", "Year", "Ratio of Clams Harvested with Private\n vs. Public Lease") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "ClamsLandings_edtGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 #Oyster landings
@@ -512,7 +587,7 @@ summary(linearMod)
 dfpost1997_OysterLandings_edt <- filter(OysterLandings_edt, year > 1997)
 linearMod_1997 <- lm(ratioprpub ~ year, data=dfpost1997_OysterLandings_edt)
 summary(linearMod_1997)
-both_sig(OysterLandings_edt, OysterLandings_edt$ratioprpub, intercept_OysterLandings_edt, pdata_OysterLandings_edt, mod.dsig_OysterLandings_edt, dfpost1997_OysterLandings_edt, dfpost1997_OysterLandings_edt$ratioprpub, "Private:Public Harvest (lbs)", "Year", "Ratio of Oysters Harvested with Private vs. Public Lease") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_sig(OysterLandings_edt, OysterLandings_edt$ratioprpub, intercept_OysterLandings_edt, pdata_OysterLandings_edt, mod.dsig_OysterLandings_edt, dfpost1997_OysterLandings_edt, dfpost1997_OysterLandings_edt$ratioprpub, "Private:Public Harvest (lbs)", "Year", "Ratio of Oysters Harvested with Private\n vs. Public Lease") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "OysterLandings_edtGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 #Commercial trips: 
@@ -531,7 +606,6 @@ ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommercialTripsGAMwithTrend.
 #Commercial landings
 ##Bay Scallop 
 
-#didn't finish! 
 p2mod_CommLandings_BayScallop <- GAM_predict_p2mod(CommLandings_BayScallop, mod_CommLandings_BayScallop)
 intercept_CommLandings_BayScallop = as.numeric(attr(p2mod_CommLandings_BayScallop,"constant")) 
 pdata_CommLandings_BayScallop <- GAM_predict_pdata(CommLandings_BayScallop, mod_CommLandings_BayScallop)
@@ -541,97 +615,377 @@ summary(linearMod)
 dfpost1997_CommLandings_BayScallop <- filter(CommLandings_BayScallop, year > 1997)
 linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_BayScallop)
 summary(linearMod_1997)
-both_sig(CommLandings_BayScallop, CommLandings_BayScallop$sum_trips, intercept_CommLandings_BayScallop, pdata_CommLandings_BayScallop, mod.dsig_CommLandings_BayScallop, dfpost1997_CommLandings_BayScallop, dfpost1997_CommLandings_BayScallop$sum_trips, "Number of Trips", "Year", "Number of Commercial Trips") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_nonsig(CommLandings_BayScallop, CommLandings_BayScallop$pounds, intercept_CommLandings_BayScallop, pdata_CommLandings_BayScallop, mod.dsig_CommLandings_BayScallop, "Lbs Landed", "Year", "Commercial Landings for Bay Scallop") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_BayScallopGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
+##Blue crab
+p2mod_CommLandings_BlueCrab <- GAM_predict_p2mod(CommLandings_BlueCrab, mod_CommLandings_BlueCrab)
+intercept_CommLandings_BlueCrab = as.numeric(attr(p2mod_CommLandings_BlueCrab,"constant")) 
+pdata_CommLandings_BlueCrab <- GAM_predict_pdata(CommLandings_BlueCrab, mod_CommLandings_BlueCrab)
+mod.dsig_CommLandings_BlueCrab <- GAM_deriv(pdata_CommLandings_BlueCrab, mod_CommLandings_BlueCrab)
+linearMod <- lm(pounds ~ year, data= CommLandings_BlueCrab)
+summary(linearMod)
+dfpost1997_CommLandings_BlueCrab <- filter(CommLandings_BlueCrab, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_BlueCrab)
+summary(linearMod_1997)
+both_sig(CommLandings_BlueCrab, CommLandings_BlueCrab$pounds, intercept_CommLandings_BlueCrab, pdata_CommLandings_BlueCrab, mod.dsig_CommLandings_BlueCrab, dfpost1997_CommLandings_BlueCrab, dfpost1997_CommLandings_BlueCrab$pounds, "Lbs Landed", "Year", "Commercial Landings for Blue Crab") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_BlueCrabGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
+##Hard Clams
+p2mod_CommLandings_HardClams <- GAM_predict_p2mod(CommLandings_HardClams, mod_CommLandings_HardClams)
+intercept_CommLandings_HardClams = as.numeric(attr(p2mod_CommLandings_HardClams,"constant")) 
+pdata_CommLandings_HardClams <- GAM_predict_pdata(CommLandings_HardClams, mod_CommLandings_HardClams)
+mod.dsig_CommLandings_HardClams <- GAM_deriv(pdata_CommLandings_HardClams, mod_CommLandings_HardClams)
+linearMod <- lm(pounds ~ year, data= CommLandings_HardClams)
+summary(linearMod)
+dfpost1997_CommLandings_HardClams <- filter(CommLandings_HardClams, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_HardClams)
+summary(linearMod_1997)
+both_sig(CommLandings_HardClams, CommLandings_HardClams$pounds, intercept_CommLandings_HardClams, pdata_CommLandings_HardClams, mod.dsig_CommLandings_HardClams, dfpost1997_CommLandings_HardClams, dfpost1997_CommLandings_HardClams$pounds, "Lbs Landed", "Year", "Commercial Landings for Hard Clams") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_HardClamsGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-CommLandings_BayScallop  <- CommLandings %>% filter(species %in% "Bay Scallop")
-k_det(CommLandings_BayScallop)
-gam_diagn(CommLandings_BayScallop$pounds, 4, CommLandings_BayScallop) #p value not sig. at k= 4, graphs don't improve that much 
-mod_CommLandings_BayScallop <- gam(pounds ~ s(year, k= 4), data = CommLandings_BayScallop)
+##Kingfishes
+p2mod_CommLandings_Kingfishes <- GAM_predict_p2mod(CommLandings_Kingfishes, mod_CommLandings_Kingfishes)
+intercept_CommLandings_Kingfishes = as.numeric(attr(p2mod_CommLandings_Kingfishes,"constant")) 
+pdata_CommLandings_Kingfishes <- GAM_predict_pdata(CommLandings_Kingfishes, mod_CommLandings_Kingfishes)
+mod.dsig_CommLandings_Kingfishes <- GAM_deriv(pdata_CommLandings_Kingfishes, mod_CommLandings_Kingfishes)
+linearMod <- lm(pounds ~ year, data= CommLandings_Kingfishes)
+summary(linearMod)
+dfpost1997_CommLandings_Kingfishes <- filter(CommLandings_Kingfishes, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_Kingfishes)
+summary(linearMod_1997)
+short_sig(CommLandings_Kingfishes, CommLandings_Kingfishes$pounds, intercept_CommLandings_Kingfishes, pdata_CommLandings_Kingfishes, mod.dsig_CommLandings_Kingfishes, dfpost1997_CommLandings_Kingfishes, dfpost1997_CommLandings_Kingfishes$pounds, "Lbs Lnaded", "Year", "Commercial Landings for Kingfishes") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_KingfishesGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-CommLandings_BlueCrab <- CommLandings %>% filter(species %in% "Blue Crab")
-k_det(CommLandings_BlueCrab)
-gam_diagn(CommLandings_BlueCrab$pounds, 5, CommLandings_BlueCrab) #p value sig. at k= 4
-mod_CommLandings_BlueCrab <- gam(pounds ~ s(year, k=  5), data = CommLandings_BlueCrab)
+##Oysters
+p2mod_CommLandings_Oysters <- GAM_predict_p2mod(CommLandings_Oysters, mod_CommLandings_Oysters)
+intercept_CommLandings_Oysters = as.numeric(attr(p2mod_CommLandings_Oysters,"constant")) 
+pdata_CommLandings_Oysters <- GAM_predict_pdata(CommLandings_Oysters, mod_CommLandings_Oysters)
+mod.dsig_CommLandings_Oysters <- GAM_deriv(pdata_CommLandings_Oysters, mod_CommLandings_Oysters)
+linearMod <- lm(pounds ~ year, data= CommLandings_Oysters)
+summary(linearMod)
+dfpost1997_CommLandings_Oysters <- filter(CommLandings_Oysters, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_Oysters)
+summary(linearMod_1997)
+both_sig(CommLandings_Oysters, CommLandings_Oysters$pounds, intercept_CommLandings_Oysters, pdata_CommLandings_Oysters, mod.dsig_CommLandings_Oysters, dfpost1997_CommLandings_Oysters, dfpost1997_CommLandings_Oysters$pounds, "Lbs Lnaded", "Year", "Commercial Landings for Oysters") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_OystersGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-CommLandings_HardClams <- CommLandings %>% filter(species %in% "Hard Clams")
-k_det(CommLandings_HardClams)
-gam_diagn(CommLandings_HardClams$pounds, 6, CommLandings_HardClams) #p value sig. at k= 4, graphs look ok ish
-mod_CommLandings_HardClams <- gam(pounds ~ s(year, k=  6), data = CommLandings_HardClams)
+##Red Drum
+p2mod_CommLandings_RedDrum <- GAM_predict_p2mod(CommLandings_RedDrum, mod_CommLandings_RedDrum)
+intercept_CommLandings_RedDrum = as.numeric(attr(p2mod_CommLandings_RedDrum,"constant")) 
+pdata_CommLandings_RedDrum <- GAM_predict_pdata(CommLandings_RedDrum, mod_CommLandings_RedDrum)
+mod.dsig_CommLandings_RedDrum <- GAM_deriv(pdata_CommLandings_RedDrum, mod_CommLandings_RedDrum)
+linearMod <- lm(pounds ~ year, data= CommLandings_RedDrum)
+summary(linearMod)
+dfpost1997_CommLandings_RedDrum <- filter(CommLandings_RedDrum, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_RedDrum)
+summary(linearMod_1997)
+both_nonsig(CommLandings_RedDrum, CommLandings_RedDrum$pounds, intercept_CommLandings_RedDrum, pdata_CommLandings_RedDrum, mod.dsig_CommLandings_RedDrum, "Lbs Lnaded", "Year", "Commercial Landings for Red Drum") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_RedDrumGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-CommLandings_Kingfishes  <- CommLandings %>% filter(species %in% "Kingfishes")
-k_det(CommLandings_Kingfishes)
-gam_diagn(CommLandings_Kingfishes$pounds, 5, CommLandings_Kingfishes) #p value not sig. at 4, graphs look ok
-mod_CommLandings_Kingfishes <- gam(pounds ~ s(year, k=  6), data = CommLandings_Kingfishes)
+##River Herring 
+p2mod_CommLandings_RiverHerring <- GAM_predict_p2mod(CommLandings_RiverHerring, mod_CommLandings_RiverHerring)
+intercept_CommLandings_RiverHerring = as.numeric(attr(p2mod_CommLandings_RiverHerring,"constant")) 
+pdata_CommLandings_RiverHerring <- GAM_predict_pdata(CommLandings_RiverHerring, mod_CommLandings_RiverHerring)
+mod.dsig_CommLandings_RiverHerring <- GAM_deriv(pdata_CommLandings_RiverHerring, mod_CommLandings_RiverHerring)
+linearMod <- lm(pounds ~ year, data= CommLandings_RiverHerring)
+summary(linearMod)
+dfpost1997_CommLandings_RiverHerring <- filter(CommLandings_RiverHerring, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_RiverHerring)
+summary(linearMod_1997)
+both_sig(CommLandings_RiverHerring, CommLandings_RiverHerring$pounds, intercept_CommLandings_RiverHerring, pdata_CommLandings_RiverHerring, mod.dsig_CommLandings_RiverHerring, dfpost1997_CommLandings_RiverHerring, dfpost1997_CommLandings_RiverHerring$pounds, "Lbs Lnaded", "Year", "Commercial Landings for River Herring") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_RiverHerringGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-CommLandings_Oyster  <- CommLandings %>% filter(species %in% "Oyster")
-k_det(CommLandings_Oyster)
-gam_diagn(CommLandings_Oyster$pounds, 7, CommLandings_Oyster) #p value not sig. at 4, graphs best at 7 
-mod_CommLandings_Oyster <- gam(pounds ~ s(year, k=  7), data = CommLandings_Oyster)
+##Southern Flounder
+p2mod_CommLandings_SouthernFlounder <- GAM_predict_p2mod(CommLandings_SouthernFlounder, mod_CommLandings_SouthernFlounder)
+intercept_CommLandings_SouthernFlounder = as.numeric(attr(p2mod_CommLandings_SouthernFlounder,"constant")) 
+pdata_CommLandings_SouthernFlounder <- GAM_predict_pdata(CommLandings_SouthernFlounder, mod_CommLandings_SouthernFlounder)
+mod.dsig_CommLandings_SouthernFlounder <- GAM_deriv(pdata_CommLandings_SouthernFlounder, mod_CommLandings_SouthernFlounder)
+linearMod <- lm(pounds ~ year, data= CommLandings_SouthernFlounder)
+summary(linearMod)
+dfpost1997_CommLandings_SouthernFlounder <- filter(CommLandings_SouthernFlounder, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_SouthernFlounder)
+summary(linearMod_1997)
+both_sig(CommLandings_SouthernFlounder, CommLandings_SouthernFlounder$pounds, intercept_CommLandings_SouthernFlounder, pdata_CommLandings_SouthernFlounder, mod.dsig_CommLandings_SouthernFlounder, dfpost1997_CommLandings_SouthernFlounder, dfpost1997_CommLandings_SouthernFlounder$pounds, "Lbs Lnaded", "Year", "Commercial Landings for Southern Flounder") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_SouthernFlounderGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-CommLandings_RedDrum  <- CommLandings %>% filter(species %in% "Red Drum")
-k_det(CommLandings_RedDrum)
-gam_diagn(CommLandings_RedDrum$pounds, 5, CommLandings_RedDrum) #p value not sig. at 4, graphs fine at 5- not much imrpovement after 
-mod_CommLandings_RedDrum <- gam(pounds ~ s(year, k=  5), data = CommLandings_RedDrum)
+##Spotted Seatrout 
+p2mod_CommLandings_SpottedSeatrout <- GAM_predict_p2mod(CommLandings_SpottedSeatrout, mod_CommLandings_SpottedSeatrout)
+intercept_CommLandings_SpottedSeatrout = as.numeric(attr(p2mod_CommLandings_SpottedSeatrout,"constant")) 
+pdata_CommLandings_SpottedSeatrout <- GAM_predict_pdata(CommLandings_SpottedSeatrout, mod_CommLandings_SpottedSeatrout)
+mod.dsig_CommLandings_SpottedSeatrout <- GAM_deriv(pdata_CommLandings_SpottedSeatrout, mod_CommLandings_SpottedSeatrout)
+linearMod <- lm(pounds ~ year, data= CommLandings_SpottedSeatrout)
+summary(linearMod)
+dfpost1997_CommLandings_SpottedSeatrout <- filter(CommLandings_SpottedSeatrout, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_SpottedSeatrout)
+summary(linearMod_1997)
+both_nonsig(CommLandings_SpottedSeatrout, CommLandings_SpottedSeatrout$pounds, intercept_CommLandings_SpottedSeatrout, pdata_CommLandings_SpottedSeatrout, mod.dsig_CommLandings_SpottedSeatrout, "Lbs Lnaded", "Year", "Commercial Landings for Spotted Seatrout") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_SpottedSeatroutGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-CommLandings_RiverHerring  <- CommLandings %>% filter(species %in% "River Herring")
-k_det(CommLandings_RiverHerring)
-gam_diagn(CommLandings_RiverHerring$pounds, 5, CommLandings_RiverHerring) #graphs don't change after 5 much
-mod_CommLandings_RiverHerring <- gam(pounds ~ s(year, k=  5), data = CommLandings_RiverHerring)
-
-CommLandings_SouthernFlounder  <- CommLandings %>% filter(species %in% "Southern Flounder")
-k_det(CommLandings_SouthernFlounder)
-gam_diagn(CommLandings_SouthernFlounder$pounds, 6, CommLandings_SouthernFlounder) #graphs don't change after 5 much
-mod_CommLandings_SouthernFlounder <- gam(pounds ~ s(year, k=  6), data = CommLandings_SouthernFlounder)
-
-CommLandings_SpottedSeatrout  <- CommLandings %>% filter(species %in% "Spotted Seatrout")
-k_det(CommLandings_SpottedSeatrout)
-gam_diagn(CommLandings_SpottedSeatrout$pounds, 4, CommLandings_SpottedSeatrout) 
-mod_CommLandings_SpottedSeatrout <- gam(pounds ~ s(year, k=  4), data = CommLandings_SpottedSeatrout)
-
+##Striped Bass 
+p2mod_CommLandings_StripedBass <- GAM_predict_p2mod(CommLandings_StripedBass, mod_CommLandings_StripedBass)
+intercept_CommLandings_StripedBass = as.numeric(attr(p2mod_CommLandings_StripedBass,"constant")) 
+pdata_CommLandings_StripedBass <- GAM_predict_pdata(CommLandings_StripedBass, mod_CommLandings_StripedBass)
+mod.dsig_CommLandings_StripedBass <- GAM_deriv(pdata_CommLandings_StripedBass, mod_CommLandings_StripedBass)
+linearMod <- lm(pounds ~ year, data= CommLandings_StripedBass)
+summary(linearMod)
+dfpost1997_CommLandings_StripedBass <- filter(CommLandings_StripedBass, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_StripedBass)
+summary(linearMod_1997)
+both_sig(CommLandings_StripedBass, CommLandings_StripedBass$pounds, intercept_CommLandings_StripedBass, pdata_CommLandings_StripedBass, mod.dsig_CommLandings_StripedBass, dfpost1997_CommLandings_StripedBass, dfpost1997_CommLandings_StripedBass$pounds, "Lbs Lnaded", "Year", "Commercial Landings for Striped Bass") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_StripedBassGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 CommLandings_StripedBass  <- CommLandings %>% filter(species %in% "Striped Bass")
 k_det(CommLandings_StripedBass)
 gam_diagn(CommLandings_StripedBass$pounds, 6, CommLandings_StripedBass) 
 mod_CommLandings_StripedBass <- gam(pounds ~ s(year, k=  6), data = CommLandings_StripedBass)
 
-CommLandings_StripedMullet  <- CommLandings %>% filter(species %in% "Striped Mullet")
-k_det(CommLandings_StripedMullet)
-gam_diagn(CommLandings_StripedMullet$pounds, 4, CommLandings_StripedMullet) 
-mod_CommLandings_StripedMullet <- gam(pounds ~ s(year, k=  4), data = CommLandings_StripedMullet)
+##Striped Mullet
+p2mod_CommLandings_StripedMullet <- GAM_predict_p2mod(CommLandings_StripedMullet, mod_CommLandings_StripedMullet)
+intercept_CommLandings_StripedMullet = as.numeric(attr(p2mod_CommLandings_StripedMullet,"constant")) 
+pdata_CommLandings_StripedMullet <- GAM_predict_pdata(CommLandings_StripedMullet, mod_CommLandings_StripedMullet)
+mod.dsig_CommLandings_StripedMullet <- GAM_deriv(pdata_CommLandings_StripedMullet, mod_CommLandings_StripedMullet)
+linearMod <- lm(pounds ~ year, data= CommLandings_StripedMullet)
+summary(linearMod)
+dfpost1997_CommLandings_StripedMullet <- filter(CommLandings_StripedMullet, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_StripedMullet)
+summary(linearMod_1997)
+both_sig(CommLandings_StripedMullet, CommLandings_StripedMullet$pounds, intercept_CommLandings_StripedMullet, pdata_CommLandings_StripedMullet, mod.dsig_CommLandings_StripedMullet, dfpost1997_CommLandings_StripedMullet, dfpost1997_CommLandings_StripedMullet$pounds, "Lbs Lnaded", "Year", "Commercial Landings for Striped Mullet") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_StripedMulletGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-CommLandings_BrownShrimp  <- CommLandings %>% filter(species %in% "Shrimp, Brown")
-k_det(CommLandings_BrownShrimp)
-gam_diagn(CommLandings_BrownShrimp$pounds, 4, CommLandings_BrownShrimp) #response vs. fitted doesn't look good no matter the k value 
-mod_CommLandings_BrownShrimp <- gam(pounds ~ s(year, k=  4), data = CommLandings_BrownShrimp)
+##Brown Shrimp
+p2mod_CommLandings_BrownShrimp <- GAM_predict_p2mod(CommLandings_BrownShrimp, mod_CommLandings_BrownShrimp)
+intercept_CommLandings_BrownShrimp = as.numeric(attr(p2mod_CommLandings_BrownShrimp,"constant")) 
+pdata_CommLandings_BrownShrimp <- GAM_predict_pdata(CommLandings_BrownShrimp, mod_CommLandings_BrownShrimp)
+mod.dsig_CommLandings_BrownShrimp <- GAM_deriv(pdata_CommLandings_BrownShrimp, mod_CommLandings_BrownShrimp)
+linearMod <- lm(pounds ~ year, data= CommLandings_BrownShrimp)
+summary(linearMod)
+dfpost1997_CommLandings_BrownShrimp <- filter(CommLandings_BrownShrimp, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_BrownShrimp)
+summary(linearMod_1997)
+both_nonsig(CommLandings_BrownShrimp, CommLandings_BrownShrimp$pounds, intercept_CommLandings_BrownShrimp, pdata_CommLandings_BrownShrimp, mod.dsig_CommLandings_BrownShrimp, "Lbs Lnaded", "Year", "Commercial Landings for Brown Shrimp") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_BrownShrimpGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-CommLandings_PinkShrimp  <- CommLandings %>% filter(species %in% "Shrimp, Pink")
-k_det(CommLandings_PinkShrimp)
-gam_diagn(CommLandings_PinkShrimp$pounds, 4, CommLandings_PinkShrimp) #p value not significant, graphs look bad no matter the k value 
-mod_CommLandings_PinkShrimp <- gam(pounds ~ s(year, k=  4), data = CommLandings_PinkShrimp)
+##Pink Shrimp
+p2mod_CommLandings_PinkShrimp <- GAM_predict_p2mod(CommLandings_PinkShrimp, mod_CommLandings_PinkShrimp)
+intercept_CommLandings_PinkShrimp = as.numeric(attr(p2mod_CommLandings_PinkShrimp,"constant")) 
+pdata_CommLandings_PinkShrimp <- GAM_predict_pdata(CommLandings_PinkShrimp, mod_CommLandings_PinkShrimp)
+mod.dsig_CommLandings_PinkShrimp <- GAM_deriv(pdata_CommLandings_PinkShrimp, mod_CommLandings_PinkShrimp)
+linearMod <- lm(pounds ~ year, data= CommLandings_PinkShrimp)
+summary(linearMod)
+dfpost1997_CommLandings_PinkShrimp <- filter(CommLandings_PinkShrimp, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_PinkShrimp)
+summary(linearMod_1997)
+both_nonsig(CommLandings_PinkShrimp, CommLandings_PinkShrimp$pounds, intercept_CommLandings_PinkShrimp, pdata_CommLandings_PinkShrimp, mod.dsig_CommLandings_PinkShrimp, "Lbs Lnaded", "Year", "Commercial Landings for Pink Shrimp") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_PinkShrimpGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-CommLandings_WhiteShrimp  <- CommLandings %>% filter(species %in% "Shrimp, White")
-k_det(CommLandings_WhiteShrimp)
-gam_diagn(CommLandings_WhiteShrimp$pounds, 6, CommLandings_WhiteShrimp) #normality graphs acceptable at this p value
-mod_CommLandings_WhiteShrimp <- gam(pounds ~ s(year, k=  6), data = CommLandings_WhiteShrimp)
-
-
-
-
-
-
-
+##White Shrimp
+p2mod_CommLandings_WhiteShrimp <- GAM_predict_p2mod(CommLandings_WhiteShrimp, mod_CommLandings_WhiteShrimp)
+intercept_CommLandings_WhiteShrimp = as.numeric(attr(p2mod_CommLandings_WhiteShrimp,"constant")) 
+pdata_CommLandings_WhiteShrimp <- GAM_predict_pdata(CommLandings_WhiteShrimp, mod_CommLandings_WhiteShrimp)
+mod.dsig_CommLandings_WhiteShrimp <- GAM_deriv(pdata_CommLandings_WhiteShrimp, mod_CommLandings_WhiteShrimp)
+linearMod <- lm(pounds ~ year, data= CommLandings_WhiteShrimp)
+summary(linearMod)
+dfpost1997_CommLandings_WhiteShrimp <- filter(CommLandings_WhiteShrimp, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_CommLandings_WhiteShrimp)
+summary(linearMod_1997)
+both_sig(CommLandings_WhiteShrimp, CommLandings_WhiteShrimp$pounds, intercept_CommLandings_WhiteShrimp, pdata_CommLandings_WhiteShrimp, mod.dsig_CommLandings_WhiteShrimp, dfpost1997_CommLandings_WhiteShrimp, dfpost1997_CommLandings_WhiteShrimp$pounds, "Lbs Lnaded", "Year", "Commercial Landings for White Shrimp") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_WhiteShrimpGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 #Birds
+p2mod_BirdNests <- GAM_predict_p2mod(BirdNests, mod_BirdNests)
+intercept_BirdNests = as.numeric(attr(p2mod_BirdNests,"constant")) 
+pdata_BirdNests <- GAM_predict_pdata(BirdNests, mod_BirdNests)
+mod.dsig_BirdNests <- GAM_deriv(pdata_BirdNests, mod_BirdNests)
+linearMod <- lm(sum_nests ~ year, data= BirdNests)
+summary(linearMod)
+dfpost1997_BirdNests <- filter(BirdNests, year > 1997)
+linearMod_1997 <- lm(sum_nests ~ year, data=dfpost1997_BirdNests)
+summary(linearMod_1997)
+both_nonsig(BirdNests, BirdNests$sum_nests, intercept_BirdNests, pdata_BirdNests, mod.dsig_BirdNests, "Number of Nests", "Year", "Number of Colonial Waterbird Nests\n in Coastal NC") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_BirdNestsGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
 #Commercial participants
 
+##Bay scallop
+p2mod_CommParts_BayScallop <- GAM_predict_p2mod(CommParts_BayScallop, mod_CommParts_BayScallop)
+intercept_CommParts_BayScallop = as.numeric(attr(p2mod_CommParts_BayScallop,"constant")) 
+pdata_CommParts_BayScallop <- GAM_predict_pdata(CommParts_BayScallop, mod_CommParts_BayScallop)
+mod.dsig_CommParts_BayScallop <- GAM_deriv(pdata_CommParts_BayScallop, mod_CommParts_BayScallop)
+linearMod <- lm(participants ~ year, data= CommParts_BayScallop)
+summary(linearMod)
+dfpost1997_CommParts_BayScallop <- filter(CommParts_BayScallop, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_BayScallop)
+summary(linearMod_1997)
+long_sig(CommParts_BayScallop, CommParts_BayScallop$participants, intercept_CommParts_BayScallop, pdata_CommParts_BayScallop, mod.dsig_CommParts_BayScallop, "Number of Participants", "Year", "Number of Participants in \n Bay Scallop Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_BayScallopGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Blue Crab
+p2mod_CommParts_BlueCrab <- GAM_predict_p2mod(CommParts_BlueCrab, mod_CommParts_BlueCrab)
+intercept_CommParts_BlueCrab = as.numeric(attr(p2mod_CommParts_BlueCrab,"constant")) 
+pdata_CommParts_BlueCrab <- GAM_predict_pdata(CommParts_BlueCrab, mod_CommParts_BlueCrab)
+mod.dsig_CommParts_BlueCrab <- GAM_deriv(pdata_CommParts_BlueCrab, mod_CommParts_BlueCrab)
+linearMod <- lm(participants ~ year, data= CommParts_BlueCrab)
+summary(linearMod)
+dfpost1997_CommParts_BlueCrab <- filter(CommParts_BlueCrab, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_BlueCrab)
+summary(linearMod_1997)
+both_sig(CommParts_BlueCrab, CommParts_BlueCrab$participants, intercept_CommParts_BlueCrab, pdata_CommParts_BlueCrab, mod.dsig_CommParts_BlueCrab, dfpost1997_CommParts_BlueCrab, dfpost1997_CommParts_BlueCrab$participants, "Number of Participants", "Year", "Number of Participants in \n Blue Crab Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_BlueCrabGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Hard Clams
+p2mod_CommParts_HardClams <- GAM_predict_p2mod(CommParts_HardClams, mod_CommParts_HardClams)
+intercept_CommParts_HardClams = as.numeric(attr(p2mod_CommParts_HardClams,"constant")) 
+pdata_CommParts_HardClams <- GAM_predict_pdata(CommParts_HardClams, mod_CommParts_HardClams)
+mod.dsig_CommParts_HardClams <- GAM_deriv(pdata_CommParts_HardClams, mod_CommParts_HardClams)
+linearMod <- lm(participants ~ year, data= CommParts_HardClams)
+summary(linearMod)
+dfpost1997_CommParts_HardClams <- filter(CommParts_HardClams, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_HardClams)
+summary(linearMod_1997)
+both_sig(CommParts_HardClams, CommParts_HardClams$participants, intercept_CommParts_HardClams, pdata_CommParts_HardClams, mod.dsig_CommParts_HardClams, dfpost1997_CommParts_HardClams, dfpost1997_CommParts_HardClams$participants, "Number of Participants", "Year", "Number of Participants in \n Hard Clam Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_HardClamsGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Kingfishes
+p2mod_CommParts_Kingfishes <- GAM_predict_p2mod(CommParts_Kingfishes, mod_CommParts_Kingfishes)
+intercept_CommParts_Kingfishes = as.numeric(attr(p2mod_CommParts_Kingfishes,"constant")) 
+pdata_CommParts_Kingfishes <- GAM_predict_pdata(CommParts_Kingfishes, mod_CommParts_Kingfishes)
+mod.dsig_CommParts_Kingfishes <- GAM_deriv(pdata_CommParts_Kingfishes, mod_CommParts_Kingfishes)
+linearMod <- lm(participants ~ year, data= CommParts_Kingfishes)
+summary(linearMod)
+dfpost1997_CommParts_Kingfishes <- filter(CommParts_Kingfishes, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_Kingfishes)
+summary(linearMod_1997)
+both_sig(CommParts_Kingfishes, CommParts_Kingfishes$participants, intercept_CommParts_Kingfishes, pdata_CommParts_Kingfishes, mod.dsig_CommParts_Kingfishes, dfpost1997_CommParts_Kingfishes, dfpost1997_CommParts_Kingfishes$participants, "Number of Participants", "Year", "Number of Participants in \n Kingfish Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_KingfishesGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Oyster
+p2mod_CommParts_Oyster <- GAM_predict_p2mod(CommParts_Oyster, mod_CommParts_Oyster)
+intercept_CommParts_Oyster = as.numeric(attr(p2mod_CommParts_Oyster,"constant")) 
+pdata_CommParts_Oyster <- GAM_predict_pdata(CommParts_Oyster, mod_CommParts_Oyster)
+mod.dsig_CommParts_Oyster <- GAM_deriv(pdata_CommParts_Oyster, mod_CommParts_Oyster)
+linearMod <- lm(participants ~ year, data= CommParts_Oyster)
+summary(linearMod)
+dfpost1997_CommParts_Oyster <- filter(CommParts_Oyster, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_Oyster)
+summary(linearMod_1997)
+both_sig(CommParts_Oyster, CommParts_Oyster$participants, intercept_CommParts_Oyster, pdata_CommParts_Oyster, mod.dsig_CommParts_Oyster, dfpost1997_CommParts_Oyster, dfpost1997_CommParts_Oyster$participants, "Number of Participants", "Year", "Number of Participants in \n Oyster Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_OysterGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Red Drum 
+p2mod_CommParts_RedDrum <- GAM_predict_p2mod(CommLandings_RedDrum, mod_CommParts_RedDrum)
+intercept_CommParts_RedDrum = as.numeric(attr(p2mod_CommParts_RedDrum,"constant")) 
+pdata_CommParts_RedDrum <- GAM_predict_pdata(CommParts_RedDrum, mod_CommParts_RedDrum)
+mod.dsig_CommParts_RedDrum <- GAM_deriv(pdata_CommParts_RedDrum, mod_CommParts_RedDrum)
+linearMod <- lm(participants ~ year, data= CommParts_RedDrum)
+summary(linearMod)
+dfpost1997_CommParts_RedDrum <- filter(CommParts_RedDrum, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_RedDrum)
+summary(linearMod_1997)
+both_sig(CommParts_RedDrum, CommParts_RedDrum$participants, intercept_CommParts_RedDrum, pdata_CommParts_RedDrum, mod.dsig_CommParts_RedDrum, dfpost1997_CommParts_RedDrum, dfpost1997_CommParts_RedDrum$participants, "Number of Participants", "Year", "Number of Participants in \n Red Drum Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_ReDrumGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##River Herring
+p2mod_CommParts_RiverHerring <- GAM_predict_p2mod(CommParts_RiverHerring, mod_CommParts_RiverHerring)
+intercept_CommParts_RiverHerring = as.numeric(attr(p2mod_CommParts_RiverHerring,"constant")) 
+pdata_CommParts_RiverHerring <- GAM_predict_pdata(CommParts_RiverHerring, mod_CommParts_RiverHerring)
+mod.dsig_CommParts_RiverHerring <- GAM_deriv(pdata_CommParts_RiverHerring, mod_CommParts_RiverHerring)
+linearMod <- lm(participants ~ year, data= CommParts_RiverHerring)
+summary(linearMod)
+dfpost1997_CommParts_RiverHerring <- filter(CommParts_RiverHerring, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_RiverHerring)
+summary(linearMod_1997)
+both_sig(CommParts_RiverHerring, CommParts_RiverHerring$participants, intercept_CommParts_RiverHerring, pdata_CommParts_RiverHerring, mod.dsig_CommParts_RiverHerring, dfpost1997_CommParts_RiverHerring, dfpost1997_CommParts_RiverHerring$participants, "Number of Participants", "Year", "Number of Participants in \n River Herring Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_RiverHerringGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Southern Flounder
+p2mod_CommParts_SouthernFlounder <- GAM_predict_p2mod(CommParts_SouthernFlounder, mod_CommParts_SouthernFlounder)
+intercept_CommParts_SouthernFlounder = as.numeric(attr(p2mod_CommParts_SouthernFlounder,"constant")) 
+pdata_CommParts_SouthernFlounder <- GAM_predict_pdata(CommParts_SouthernFlounder, mod_CommParts_SouthernFlounder)
+mod.dsig_CommParts_SouthernFlounder <- GAM_deriv(pdata_CommParts_SouthernFlounder, mod_CommParts_SouthernFlounder)
+linearMod <- lm(participants ~ year, data= CommParts_SouthernFlounder)
+summary(linearMod)
+dfpost1997_CommParts_SouthernFlounder <- filter(CommParts_SouthernFlounder, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_SouthernFlounder)
+summary(linearMod_1997)
+both_sig(CommParts_SouthernFlounder, CommParts_SouthernFlounder$participants, intercept_CommParts_SouthernFlounder, pdata_CommParts_SouthernFlounder, mod.dsig_CommParts_SouthernFlounder, dfpost1997_CommParts_SouthernFlounder, dfpost1997_CommParts_SouthernFlounder$participants, "Number of Participants", "Year", "Number of Participants in \n Southern Flounder Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_SouthernFlounderGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Striped Bass
+p2mod_CommParts_StripedBass <- GAM_predict_p2mod(CommParts_StripedBass, mod_CommParts_StripedBass)
+intercept_CommParts_StripedBass = as.numeric(attr(p2mod_CommParts_StripedBass,"constant")) 
+pdata_CommParts_StripedBass <- GAM_predict_pdata(CommParts_StripedBass, mod_CommParts_StripedBass)
+mod.dsig_CommParts_StripedBass <- GAM_deriv(pdata_CommParts_StripedBass, mod_CommParts_StripedBass)
+linearMod <- lm(participants ~ year, data= CommParts_StripedBass)
+summary(linearMod)
+dfpost1997_CommParts_StripedBass <- filter(CommParts_StripedBass, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_StripedBass)
+summary(linearMod_1997)
+both_sig(CommParts_StripedBass, CommParts_StripedBass$participants, intercept_CommParts_StripedBass, pdata_CommParts_StripedBass, mod.dsig_CommParts_StripedBass, dfpost1997_CommParts_StripedBass, dfpost1997_CommParts_StripedBass$participants, "Number of Participants", "Year", "Number of Participants in \n Striped Bass Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_StripedBassGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Striped Mullet 
+p2mod_CommParts_StripedMullet <- GAM_predict_p2mod(CommParts_StripedMullet, mod_CommParts_StripedMullet)
+intercept_CommParts_StripedMullet = as.numeric(attr(p2mod_CommParts_StripedMullet,"constant")) 
+pdata_CommParts_StripedMullet <- GAM_predict_pdata(CommParts_StripedMullet, mod_CommParts_StripedMullet)
+mod.dsig_CommParts_StripedMullet <- GAM_deriv(pdata_CommParts_StripedMullet, mod_CommParts_StripedMullet)
+linearMod <- lm(participants ~ year, data= CommParts_StripedMullet)
+summary(linearMod)
+dfpost1997_CommParts_StripedMullet <- filter(CommParts_StripedMullet, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_StripedMullet)
+summary(linearMod_1997)
+both_sig(CommParts_StripedMullet, CommParts_StripedMullet$participants, intercept_CommParts_StripedMullet, pdata_CommParts_StripedMullet, mod.dsig_CommParts_StripedMullet, dfpost1997_CommParts_StripedMullet, dfpost1997_CommParts_StripedMullet$participants, "Number of Participants", "Year", "Number of Participants in \n Striped Mullet Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_StripedMulletGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Brown Shrimp
+p2mod_CommParts_BrownShrimp <- GAM_predict_p2mod(CommParts_BrownShrimp, mod_CommParts_BrownShrimp)
+intercept_CommParts_BrownShrimp = as.numeric(attr(p2mod_CommParts_BrownShrimp,"constant")) 
+pdata_CommParts_BrownShrimp <- GAM_predict_pdata(CommParts_BrownShrimp, mod_CommParts_BrownShrimp)
+mod.dsig_CommParts_BrownShrimp <- GAM_deriv(pdata_CommParts_BrownShrimp, mod_CommParts_BrownShrimp)
+linearMod <- lm(participants ~ year, data= CommParts_BrownShrimp)
+summary(linearMod)
+dfpost1997_CommParts_BrownShrimp <- filter(CommParts_BrownShrimp, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_BrownShrimp)
+summary(linearMod_1997)
+both_sig(CommParts_BrownShrimp, CommParts_BrownShrimp$participants, intercept_CommParts_BrownShrimp, pdata_CommParts_BrownShrimp, mod.dsig_CommParts_BrownShrimp, dfpost1997_CommParts_BrownShrimp, dfpost1997_CommParts_BrownShrimp$participants, "Number of Participants", "Year", "Number of Participants in \n Brown Shrimp Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_BrownShrimpGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Pink Shrimp
+p2mod_CommParts_PinkShrimp <- GAM_predict_p2mod(CommParts_PinkShrimp, mod_CommParts_PinkShrimp)
+intercept_CommParts_PinkShrimp = as.numeric(attr(p2mod_CommParts_PinkShrimp,"constant")) 
+pdata_CommParts_PinkShrimp <- GAM_predict_pdata(CommParts_PinkShrimp, mod_CommParts_PinkShrimp)
+mod.dsig_CommParts_PinkShrimp <- GAM_deriv(pdata_CommParts_PinkShrimp, mod_CommParts_PinkShrimp)
+linearMod <- lm(participants ~ year, data= CommParts_PinkShrimp)
+summary(linearMod)
+dfpost1997_CommParts_PinkShrimp <- filter(CommParts_PinkShrimp, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_PinkShrimp)
+summary(linearMod_1997)
+both_sig(CommParts_PinkShrimp, CommParts_PinkShrimp$participants, intercept_CommParts_PinkShrimp, pdata_CommParts_PinkShrimp, mod.dsig_CommParts_PinkShrimp, dfpost1997_CommParts_PinkShrimp, dfpost1997_CommParts_PinkShrimp$participants, "Number of Participants", "Year", "Number of Participants in \n Pink Shrimp Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_PinkShrimpGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##White Shrimp
+p2mod_CommParts_WhiteShrimp <- GAM_predict_p2mod(CommParts_WhiteShrimp, mod_CommParts_WhiteShrimp)
+intercept_CommParts_WhiteShrimp = as.numeric(attr(p2mod_CommParts_WhiteShrimp,"constant")) 
+pdata_CommParts_WhiteShrimp <- GAM_predict_pdata(CommParts_WhiteShrimp, mod_CommParts_WhiteShrimp)
+mod.dsig_CommParts_WhiteShrimp <- GAM_deriv(pdata_CommParts_WhiteShrimp, mod_CommParts_WhiteShrimp)
+linearMod <- lm(participants ~ year, data= CommParts_WhiteShrimp)
+summary(linearMod)
+dfpost1997_CommParts_WhiteShrimp <- filter(CommParts_WhiteShrimp, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_WhiteShrimp)
+summary(linearMod_1997)
+both_sig(CommParts_WhiteShrimp, CommParts_WhiteShrimp$participants, intercept_CommParts_WhiteShrimp, pdata_CommParts_WhiteShrimp, mod.dsig_CommParts_WhiteShrimp, dfpost1997_CommParts_WhiteShrimp, dfpost1997_CommParts_WhiteShrimp$participants, "Number of Participants", "Year", "Number of Participants in \n White Shrimp Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_WhiteShrimpGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 
-
-
-
-
+both_sig <- function(df, dep_var, intercept, pdata, mod.dsig, dfpost1997, dep_var1997, y_units, x_units, title_name){
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = dep_var), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = dep_var), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) + geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = "#D55E00", size = 1) +   geom_smooth(data = dfpost1997, aes(x = year, y = dep_var1997), method = lm, se = FALSE, color = "#009E73") +
+   geom_smooth(data = df, aes(x = year, y = dep_var), method = lm, se = FALSE, color = "gray", alpha = 0.2) +
+  theme_bw() +
+  labs (y = y_units, x = x_units, title = paste0(title_name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+}
 ```
 
 ```{r}
