@@ -25,6 +25,8 @@ MenhadenLandings <- read_csv("data/finalized/e1985MenhadenLandingsNCSD.csv")
 CommLandings <- read_csv("data/finalized/e1994CommercialLandingsBillNCSD.csv")
 BirdNests <- read_csv("data/finalized/b1977BirdNestsNCSD.csv")
 CommParts <- read_csv("data/finalized/e1994CommercialParticipantsBillNCSD.csv")
+RecCatch <- read_csv("data/finalized/b1981RecreationalTotalCatchNCSD.csv")
+RecRelAlive <- read_csv("data/finalized/b1981RecTotalRelAliveNCSD.csv")
 
 names(RecFishing) <- tolower(names(RecFishing))
 RecFishing <- filter(RecFishing, year < 2020)
@@ -46,6 +48,10 @@ names(BirdNests) <- tolower(names(BirdNests))
 BirdNests <- filter(BirdNests, year < 2020)
 names(CommParts) <- tolower(names(CommParts))
 CommParts <- filter(CommParts, year < 2020)
+names(RecCatch) <- tolower(names(RecCatch))
+RecCatch <- filter(RecCatch, year < 2020)
+names(RecRelAlive) <- tolower(names(RecRelAlive))
+RecRelAlive <- filter(RecRelAlive, year < 2020)
 ```
 
 #### Running GAMs for Impacts and Responses Indicators
@@ -65,7 +71,8 @@ CommParts <- filter(CommParts, year < 2020)
   ##: perfect model would form straight line, should cluster around 1:1 line 
 ```
 
-### GAM diagnostics 
+### GAM diagnostics
+
 ```{r}
 #Determine k: start with k value from this function
 k_det <- function(df){
@@ -133,6 +140,7 @@ mod_CommLicense_shellnoSCFL <- gam(licenses ~ s(year, k= 7), data = CommLicense_
 
 ##Vessel Length
 unique(VesselLength$vessellengthrange)
+VesselLength <- VesselLength %>% filter(year >= 2000)
 
 VesselLength_18 <- VesselLength %>% filter(vessellengthrange %in% "0-18ft.")
 k_det(VesselLength_18)
@@ -340,9 +348,26 @@ CommParts_WhiteShrimp <- CommParts %>% filter(species %in% "Shrimp, White")
 k_det(CommParts_WhiteShrimp)
 gam_diagn(CommParts_WhiteShrimp$participants, 4, CommParts_WhiteShrimp) #graphs don't improve after k=4 
 mod_CommParts_WhiteShrimp <- gam(participants ~ s(year, k= 4), data = CommParts_WhiteShrimp)
+
+##Rec Catch
+k_det(RecCatch)
+gam_diagn(RecCatch$sum_catch, 8, RecCatch) #p sig at k= 6 and lower at k= 7 
+mod_RecCatch <- gam(sum_catch ~ s(year, k= 8), data = RecCatch)
+
+##Rec Rel Alive
+k_det(RecRelAlive)
+gam_diagn(RecRelAlive$relalive, 6, RecRelAlive) #p not sig at k= 6, graphs don't get much better 
+mod_RecRelAlive <- gam(relalive ~ s(year, k= 6), data = RecRelAlive)
+
+##Rec Rel Alive reduced
+RecRelAliveRed <- RecRelAlive %>% filter(year > 1986)
+k_det(RecRelAliveRed)
+gam_diagn(RecRelAliveRed$relalive, 6, RecRelAliveRed) #p not sig at k= 6
+mod_RecRelAliveRed <- gam(relalive ~ s(year, k= 6), data = RecRelAliveRed)
 ```
 
 #### GAM Functions: Results
+
 ```{r}
 GAM_predict_p2mod <- function(df, mod_df){
 pdata <- with(df, data.frame(year = year)) #year only
@@ -371,6 +396,7 @@ return(mod.dsig)
 ```
 
 #### GAM Functions: figures
+
 ```{r}
 #Run this if your significant total trend, non significant post 1997 
 long_sig <- function(df, dep_var, intercept, pdata, mod.dsig, y_units, x_units, title_name){
@@ -426,11 +452,10 @@ ggplot() +
   theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 }
 
-#save figure. Note the output is in the figures folder.
-ggsave(paste0("~/NC-Ecosystem-indicators/figures/", nospacesname, "GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
 
 #### Gam Results
+
 ```{r}
 #RecFishing
 p2mod_RecFishing <- GAM_predict_p2mod(RecFishing, mod_RecFishing)
@@ -535,7 +560,7 @@ summary(linearMod)
 dfpost1997_VesselLength_38 <- filter(VesselLength_38, year > 1997)
 linearMod_1997 <- lm(count ~ year, data=dfpost1997_VesselLength_38)
 summary(linearMod_1997)
-long_sig(VesselLength_38, VesselLength_38$count, intercept_VesselLength_38, pdata_VesselLength_38, mod.dsig_VesselLength_38, "Number of Vessels", "Year", "Number of Vessels 19-38 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_sig(VesselLength_38, VesselLength_38$count, intercept_VesselLength_38, pdata_VesselLength_38, mod.dsig_VesselLength_38, dfpost1997_VesselLength_38, dfpost1997_VesselLength_38$count, "Number of Vessels", "Year", "Number of Vessels 19-38 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_38GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 ##39-50 ft. 
@@ -548,7 +573,7 @@ summary(linearMod)
 dfpost1997_VesselLength_50 <- filter(VesselLength_50, year > 1997)
 linearMod_1997 <- lm(count ~ year, data=dfpost1997_VesselLength_50)
 summary(linearMod_1997)
-short_sig(VesselLength_50, VesselLength_50$count, intercept_VesselLength_50, pdata_VesselLength_50, mod.dsig_VesselLength_50, dfpost1997_VesselLength_50, dfpost1997_VesselLength_50$count, "Number of Vessels", "Year", "Number of Vessels 39-50 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_sig(VesselLength_50, VesselLength_50$count, intercept_VesselLength_50, pdata_VesselLength_50, mod.dsig_VesselLength_50, dfpost1997_VesselLength_50, dfpost1997_VesselLength_50$count, "Number of Vessels", "Year", "Number of Vessels 39-50 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_50GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 ##over 50 ft
@@ -975,17 +1000,44 @@ summary(linearMod_1997)
 both_sig(CommParts_WhiteShrimp, CommParts_WhiteShrimp$participants, intercept_CommParts_WhiteShrimp, pdata_CommParts_WhiteShrimp, mod.dsig_CommParts_WhiteShrimp, dfpost1997_CommParts_WhiteShrimp, dfpost1997_CommParts_WhiteShrimp$participants, "Number of Participants", "Year", "Number of Participants in \n White Shrimp Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_WhiteShrimpGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
+#Rec Catch
+p2mod_RecCatch <- GAM_predict_p2mod(RecCatch, mod_RecCatch)
+intercept_RecCatch = as.numeric(attr(p2mod_RecCatch,"constant")) 
+pdata_RecCatch <- GAM_predict_pdata(RecCatch, mod_RecCatch)
+mod.dsig_RecCatch <- GAM_deriv(pdata_RecCatch, mod_RecCatch)
+linearMod <- lm(sum_catch ~ year, data= RecCatch)
+summary(linearMod)
+dfpost1997_RecCatch <- filter(RecCatch, year > 1997)
+linearMod_1997 <- lm(sum_catch ~ year, data=dfpost1997_RecCatch)
+summary(linearMod_1997)
+both_sig(RecCatch, RecCatch$sum_catch, intercept_RecCatch, pdata_RecCatch, mod.dsig_RecCatch, dfpost1997_RecCatch, dfpost1997_RecCatch$sum_catch, "Number of Fish", "Year", "Total Recreational Catch") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "RecCatchAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-both_sig <- function(df, dep_var, intercept, pdata, mod.dsig, dfpost1997, dep_var1997, y_units, x_units, title_name){
-ggplot() + 
-  geom_line(data = df, aes(x = year, y = dep_var), color = 'grey53', alpha = 0.6) +
-  geom_point(data = df, aes(x = year, y = dep_var), color = 'gray53', alpha = 0.6) + 
-  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) + geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = "#D55E00", size = 1) +   geom_smooth(data = dfpost1997, aes(x = year, y = dep_var1997), method = lm, se = FALSE, color = "#009E73") +
-   geom_smooth(data = df, aes(x = year, y = dep_var), method = lm, se = FALSE, color = "gray", alpha = 0.2) +
-  theme_bw() +
-  labs (y = y_units, x = x_units, title = paste0(title_name)) + 
-  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-}
+#Rec Rel Alive
+p2mod_RecRelAlive <- GAM_predict_p2mod(RecRelAlive, mod_RecRelAlive)
+intercept_RecRelAlive = as.numeric(attr(p2mod_RecRelAlive,"constant")) 
+pdata_RecRelAlive <- GAM_predict_pdata(RecRelAlive, mod_RecRelAlive)
+mod.dsig_RecRelAlive <- GAM_deriv(pdata_RecRelAlive, mod_RecRelAlive)
+linearMod <- lm(relalive ~ year, data= RecRelAlive)
+summary(linearMod)
+dfpost1997_RecRelAlive <- filter(RecRelAlive, year > 1997)
+linearMod_1997 <- lm(relalive ~ year, data=dfpost1997_RecRelAlive)
+summary(linearMod_1997)
+both_sig(RecRelAlive, RecRelAlive$relalive, intercept_RecRelAlive, pdata_RecRelAlive, mod.dsig_RecRelAlive, dfpost1997_RecRelAlive, dfpost1997_RecRelAlive$relalive, "Number of Fish Released Alive", "Year", "Total Recreational Fishes Released Alive") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "RecRelAliveAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Rec Rel Alive reduced
+p2mod_RecRelAliveRed <- GAM_predict_p2mod(RecRelAliveRed, mod_RecRelAliveRed)
+intercept_RecRelAliveRed = as.numeric(attr(p2mod_RecRelAliveRed,"constant")) 
+pdata_RecRelAliveRed <- GAM_predict_pdata(RecRelAliveRed, mod_RecRelAliveRed)
+mod.dsig_RecRelAliveRed <- GAM_deriv(pdata_RecRelAliveRed, mod_RecRelAliveRed)
+linearMod <- lm(relalive ~ year, data= RecRelAliveRed)
+summary(linearMod)
+dfpost1997_RecRelAliveRed <- filter(RecRelAliveRed, year > 1997)
+linearMod_1997 <- lm(relalive ~ year, data=dfpost1997_RecRelAliveRed)
+summary(linearMod_1997)
+short_sig(RecRelAliveRed, RecRelAliveRed$relalive, intercept_RecRelAliveRed, pdata_RecRelAliveRed, mod.dsig_RecRelAliveRed, dfpost1997_RecRelAliveRed, dfpost1997_RecRelAliveRed$relalive, "Number of Fish Released Alive", "Year", "Total Recreational Fishes Released Alive") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "RecRelAliveRedAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
 
 ```{r}
