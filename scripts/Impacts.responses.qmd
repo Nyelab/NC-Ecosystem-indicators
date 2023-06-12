@@ -185,16 +185,16 @@ MenhadenLandings$species[which(MenhadenLandings$species == "Menhaden bait")] = "
 MenhadenLandings$species[which(MenhadenLandings$species == "Menhaden Red")] = "Menhaden Reduction"
 
 ###Menhaden Bait: 
-MenhadenLandings_Bait <- MenhadenLandings %>% filter(species == "Menhaden Bait")
-k_det(MenhadenLandings_Bait)
-gam_diagn(MenhadenLandings_Bait$pounds, 6, MenhadenLandings_Bait) #p value not sig. at k= 6, graphs don't improve that much 
-mod_MenhadenLandings_Bait <- gam(pounds ~ s(year, k= 6), data = MenhadenLandings_Bait)
+MenhadenBait <- MenhadenLandings %>% filter(species == "Menhaden Bait")
+k_det(MenhadenBait)
+gam_diagn(MenhadenBait$pounds, 6, MenhadenBait) #p value not sig. at k= 6, graphs don't improve that much 
+mod_MenhadenBait <- gam(pounds ~ s(year, k= 6), data = MenhadenBait)
 
 ###Menhaden Reduction: 
-MenhadenLandings_Reduction <- MenhadenLandings %>% filter(species == "Menhaden Reduction")
-k_det(MenhadenLandings_Reduction)
-gam_diagn(MenhadenLandings_Reduction$pounds, 4, MenhadenLandings_Reduction) #p value not sig. at k= 4, graphs don't improve that much 
-mod_MenhadenLandings_Reduction <- gam(pounds ~ s(year, k= 4), data = MenhadenLandings_Reduction)
+MenhadenReduction <- MenhadenLandings %>% filter(species == "Menhaden Reduction")
+k_det(MenhadenReduction)
+gam_diagn(MenhadenReduction$pounds, 4, MenhadenReduction) #p value not sig. at k= 4, graphs don't improve that much 
+mod_MenhadenReduction <- gam(pounds ~ s(year, k= 4), data = MenhadenReduction)
 
 ##Commercial landings
 CommLandings$pounds <- as.numeric(CommLandings$pounds)
@@ -209,6 +209,7 @@ k_det(CommLandings_BlueCrab)
 gam_diagn(CommLandings_BlueCrab$pounds, 5, CommLandings_BlueCrab) #p value sig. at k= 4
 mod_CommLandings_BlueCrab <- gam(pounds ~ s(year, k=  5), data = CommLandings_BlueCrab)
 
+unique(CommLandings_BlueCrab$Year)
 CommLandings_HardClams <- CommLandings %>% filter(species %in% "Hard Clams")
 k_det(CommLandings_HardClams)
 gam_diagn(CommLandings_HardClams$pounds, 6, CommLandings_HardClams) #p value sig. at k= 4, graphs look ok ish
@@ -961,6 +962,19 @@ summary(linearMod_1997)
 both_sig(CommParts_StripedMullet, CommParts_StripedMullet$participants, intercept_CommParts_StripedMullet, pdata_CommParts_StripedMullet, mod.dsig_CommParts_StripedMullet, dfpost1997_CommParts_StripedMullet, dfpost1997_CommParts_StripedMullet$participants, "Number of Participants", "Year", "Number of Participants in \n Striped Mullet Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLandings_CommParts_StripedMulletGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
+##Spotted Seatrout
+p2mod_CommParts_SpottedSeatrout <- GAM_predict_p2mod(CommParts_SpottedSeatrout, mod_CommParts_SpottedSeatrout)
+intercept_CommParts_SpottedSeatrout = as.numeric(attr(p2mod_CommParts_SpottedSeatrout,"constant")) 
+pdata_CommParts_SpottedSeatrout <- GAM_predict_pdata(CommParts_SpottedSeatrout, mod_CommParts_SpottedSeatrout)
+mod.dsig_CommParts_SpottedSeatrout <- GAM_deriv(pdata_CommParts_SpottedSeatrout, mod_CommParts_SpottedSeatrout)
+linearMod <- lm(participants ~ year, data= CommParts_SpottedSeatrout)
+summary(linearMod)
+dfpost1997_CommParts_SpottedSeatrout <- filter(CommParts_SpottedSeatrout, year > 1997)
+linearMod_1997 <- lm(participants ~ year, data=dfpost1997_CommParts_SpottedSeatrout)
+summary(linearMod_1997)
+both_sig(CommParts_SpottedSeatrout, CommParts_SpottedSeatrout$participants, intercept_CommParts_SpottedSeatrout, pdata_CommParts_SpottedSeatrout, mod.dsig_CommParts_SpottedSeatrout, dfpost1997_CommParts_SpottedSeatrout, dfpost1997_CommParts_SpottedSeatrout$participants, "Number of Participants", "Year", "Number of Participants in \n Spotted Seatrout Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/", "CommLandings_CommParts_SpottedSeatroutGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
 ##Brown Shrimp
 p2mod_CommParts_BrownShrimp <- GAM_predict_p2mod(CommParts_BrownShrimp, mod_CommParts_BrownShrimp)
 intercept_CommParts_BrownShrimp = as.numeric(attr(p2mod_CommParts_BrownShrimp,"constant")) 
@@ -1038,6 +1052,35 @@ linearMod_1997 <- lm(relalive ~ year, data=dfpost1997_RecRelAliveRed)
 summary(linearMod_1997)
 short_sig(RecRelAliveRed, RecRelAliveRed$relalive, intercept_RecRelAliveRed, pdata_RecRelAliveRed, mod.dsig_RecRelAliveRed, dfpost1997_RecRelAliveRed, dfpost1997_RecRelAliveRed$relalive, "Number of Fish Released Alive", "Year", "Total Recreational Fishes Released Alive") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "RecRelAliveRedAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Menhaden fishery: 
+
+###Menhaden Bait: 
+p2mod_MenhadenBait <- GAM_predict_p2mod(MenhadenBait, mod_MenhadenBait)
+intercept_MenhadenBait = as.numeric(attr(p2mod_MenhadenBait,"constant")) 
+pdata_MenhadenBait <- GAM_predict_pdata(MenhadenBait, mod_MenhadenBait)
+mod.dsig_MenhadenBait <- GAM_deriv(pdata_MenhadenBait, mod_MenhadenBait)
+linearMod <- lm(pounds ~ year, data= MenhadenBait)
+summary(linearMod)
+dfpost1997_MenhadenBait <- filter(MenhadenBait, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_MenhadenBait)
+summary(linearMod_1997)
+both_sig(MenhadenBait, MenhadenBait$pounds, intercept_MenhadenBait, pdata_MenhadenBait, mod.dsig_MenhadenBait, dfpost1997_MenhadenBait, dfpost1997_MenhadenBait$pounds, "Pounds", "Year", "Total Landings in Menhaden \n Bait Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "MenhadenBaitGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+###Menhaden Reduction: 
+p2mod_MenhadenReduction <- GAM_predict_p2mod(MenhadenReduction, mod_MenhadenReduction)
+intercept_MenhadenReduction = as.numeric(attr(p2mod_MenhadenReduction,"constant")) 
+pdata_MenhadenReduction <- GAM_predict_pdata(MenhadenReduction, mod_MenhadenReduction)
+mod.dsig_MenhadenReduction <- GAM_deriv(pdata_MenhadenReduction, mod_MenhadenReduction)
+linearMod <- lm(pounds ~ year, data= MenhadenReduction)
+summary(linearMod)
+dfpost1997_MenhadenReduction <- filter(MenhadenReduction, year > 1997)
+linearMod_1997 <- lm(pounds ~ year, data=dfpost1997_MenhadenReduction)
+summary(linearMod_1997)
+long_sig(MenhadenReduction, MenhadenReduction$pounds, intercept_MenhadenReduction, pdata_MenhadenReduction, mod.dsig_MenhadenReduction, "Pounds", "Year", "Total Landings in Menhaden \n Reduction Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "MenhadenReductionGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
 ```
 
 ```{r}

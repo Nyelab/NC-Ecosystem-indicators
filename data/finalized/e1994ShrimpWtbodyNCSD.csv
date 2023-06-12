@@ -1,0 +1,661 @@
+"","Year","Waterbody","sum_participants"
+"1",1994,"Bay River",13
+"2",1994,"Bogue Sound",48
+"3",1994,"Cape Fear River",52
+"4",1994,"Core Sound",256
+"5",1994,"Croatan Sound",16
+"6",1994,"Inland Waterway",104
+"7",1994,"Lockwood's Folly",3
+"8",1994,"Masonboro Sound",27
+"9",1994,"Neuse River",63
+"10",1994,"New River",134
+"11",1994,"Newport River",84
+"12",1994,"North River/Back Sound",90
+"13",1994,"Ocean 0-3 mi, N of Cape Hatt",1
+"14",1994,"Ocean less than 3 miles",171
+"15",1994,"Ocean more than 3 miles",43
+"16",1994,"Pamlico River",25
+"17",1994,"Pamlico Sound",288
+"18",1994,"Roanoke Sound",24
+"19",1994,"Shallotte River",14
+"20",1994,"Stump Sound",41
+"21",1994,"Topsail Sound",47
+"22",1994,"White Oak River",36
+"23",1995,"Bay River",14
+"24",1995,"Bogue Sound",62
+"25",1995,"Cape Fear River",36
+"26",1995,"Core Sound",290
+"27",1995,"Croatan Sound",16
+"28",1995,"Inland Waterway",132
+"29",1995,"Lockwood's Folly",2
+"30",1995,"Masonboro Sound",12
+"31",1995,"Neuse River",77
+"32",1995,"New River",182
+"33",1995,"Newport River",75
+"34",1995,"North River/Back Sound",157
+"35",1995,"Ocean 0-3 mi, N of Cape Hatt",19
+"36",1995,"Ocean 0-3 mi, S of Cape Hatt",65
+"37",1995,"Ocean >3 mi, S of Cape Hatt",11
+"38",1995,"Ocean less than 3 miles",190
+"39",1995,"Ocean more than 3 miles",52
+"40",1995,"Pamlico River",39
+"41",1995,"Pamlico Sound",303
+"42",1995,"Roanoke Sound",15
+"43",1995,"Shallotte River and Lockwood's Folly (landings only)",5
+"44",1995,"Stump Sound",48
+"45",1995,"Topsail Sound",64
+"46",1995,"White Oak River",25
+"47",1996,"Bay River",10
+"48",1996,"Bogue Sound",48
+"49",1996,"Cape Fear River",33
+"50",1996,"Core Sound",221
+"51",1996,"Croatan Sound",17
+"52",1996,"Currituck Sound",1
+"53",1996,"Inland Waterway",115
+"54",1996,"Lockwood's Folly",3
+"55",1996,"Masonboro Sound",11
+"56",1996,"Neuse River",70
+"57",1996,"New River",136
+"58",1996,"Newport River",78
+"59",1996,"North River/Back Sound",83
+"60",1996,"Ocean 0-3 mi, N of Cape Hatt",15
+"61",1996,"Ocean 0-3 mi, S of Cape Hatt",143
+"62",1996,"Ocean >3 mi, N of Cape Hatt",8
+"63",1996,"Ocean >3 mi, S of Cape Hatt",56
+"64",1996,"Ocean less than 3 miles",84
+"65",1996,"Ocean more than 3 miles",19
+"66",1996,"Pamlico River",10
+"67",1996,"Pamlico Sound",212
+"68",1996,"Pungo River",1
+"69",1996,"Roanoke Sound",29
+"70",1996,"Shallotte River",6
+"71",1996,"Stump Sound",49
+"72",1996,"Topsail Sound",33
+"73",1996,"White Oak River",22
+"74",1997,"Bay River",14
+"75",1997,"Bogue Sound",28
+"76",1997,"Cape Fear River",40
+"77",1997,"Core Sound",213
+"78",1997,"Croatan Sound",27
+"79",1997,"Inland Waterway",101
+"80",1997,"Lockwood's Folly",2
+"81",1997,"Masonboro Sound",9
+"82",1997,"Neuse River",78
+"83",1997,"New River",158
+"84",1997,"Newport River",87
+"85",1997,"North River/Back Sound",93
+"86",1997,"Ocean 0-3 mi, N of Cape Hatt",7
+"87",1997,"Ocean 0-3 mi, S of Cape Hatt",145
+"88",1997,"Ocean >3 mi, N of Cape Hatt",2
+"89",1997,"Ocean >3 mi, S of Cape Hatt",46
+"90",1997,"Ocean less than 3 miles",48
+"91",1997,"Ocean more than 3 miles",12
+"92",1997,"Pamlico River",18
+"93",1997,"Pamlico Sound",267
+"94",1997,"Pungo River",3
+"95",1997,"Roanoke Sound",28
+"96",1997,"Shallotte River",6
+"97",1997,"Stump Sound",42
+"98",1997,"Topsail Sound",38
+"99",1997,"White Oak River",14
+"100",1998,"Bay River",4
+"101",1998,"Bogue Sound",41
+"102",1998,"Cape Fear River",35
+"103",1998,"Core Sound",185
+"104",1998,"Croatan Sound",7
+"105",1998,"Inland Waterway",89
+"106",1998,"Lockwood's Folly",4
+"107",1998,"Masonboro Sound",14
+"108",1998,"Neuse River",49
+"109",1998,"New River",153
+"110",1998,"Newport River",54
+"111",1998,"North River/Back Sound",40
+"112",1998,"Ocean 0-3 mi, N of Cape Hatt",1
+"113",1998,"Ocean 0-3 mi, S of Cape Hatt",153
+"114",1998,"Ocean >3 mi, N of Cape Hatt",4
+"115",1998,"Ocean >3 mi, S of Cape Hatt",51
+"116",1998,"Ocean less than 3 miles",41
+"117",1998,"Ocean more than 3 miles",14
+"118",1998,"Pamlico River",7
+"119",1998,"Pamlico Sound",151
+"120",1998,"Roanoke Sound",3
+"121",1998,"Shallotte River",2
+"122",1998,"Stump Sound",34
+"123",1998,"Topsail Sound",39
+"124",1998,"White Oak River",21
+"125",1999,"Bay River",12
+"126",1999,"Bogue Sound",64
+"127",1999,"Cape Fear River",40
+"128",1999,"Core Sound",350
+"129",1999,"Croatan Sound",31
+"130",1999,"Inland Waterway",139
+"131",1999,"Lockwood's Folly",1
+"132",1999,"Masonboro Sound",14
+"133",1999,"Neuse River",81
+"134",1999,"New River",321
+"135",1999,"Newport River",166
+"136",1999,"North River/Back Sound",91
+"137",1999,"Ocean 0-3 mi, N of Cape Hatt",4
+"138",1999,"Ocean 0-3 mi, S of Cape Hatt",342
+"139",1999,"Ocean >3 mi, N of Cape Hatt",9
+"140",1999,"Ocean >3 mi, S of Cape Hatt",70
+"141",1999,"Ocean less than 3 miles",26
+"142",1999,"Ocean more than 3 miles",6
+"143",1999,"Pamlico River",26
+"144",1999,"Pamlico Sound",544
+"145",1999,"Roanoke Sound",18
+"146",1999,"Shallotte River",3
+"147",1999,"Stump Sound",52
+"148",1999,"Topsail Sound",69
+"149",1999,"White Oak River",38
+"150",2000,"Albemarle Sound",3
+"151",2000,"Bay River",49
+"152",2000,"Bogue Sound",66
+"153",2000,"Cape Fear River",32
+"154",2000,"Core Sound",297
+"155",2000,"Croatan Sound",68
+"156",2000,"Inland Waterway",140
+"157",2000,"Lockwood's Folly",4
+"158",2000,"Masonboro Sound",9
+"159",2000,"Neuse River",123
+"160",2000,"New River",325
+"161",2000,"Newport River",149
+"162",2000,"North River/Back Sound",121
+"163",2000,"Ocean 0-3 mi, N of Cape Hatt",9
+"164",2000,"Ocean 0-3 mi, S of Cape Hatt",321
+"165",2000,"Ocean >3 mi, N of Cape Hatt",5
+"166",2000,"Ocean >3 mi, S of Cape Hatt",67
+"167",2000,"Pamlico River",32
+"168",2000,"Pamlico Sound",610
+"169",2000,"Pungo River",9
+"170",2000,"Roanoke Sound",30
+"171",2000,"Shallotte River",4
+"172",2000,"Stump Sound",29
+"173",2000,"Topsail Sound",64
+"174",2000,"White Oak River",47
+"175",2001,"Bay River",16
+"176",2001,"Bogue Sound",32
+"177",2001,"Cape Fear River",26
+"178",2001,"Core Sound",252
+"179",2001,"Croatan Sound",5
+"180",2001,"Inland Waterway",119
+"181",2001,"Lockwood's Folly",1
+"182",2001,"Masonboro Sound",15
+"183",2001,"Neuse River",39
+"184",2001,"New River",197
+"185",2001,"Newport River",123
+"186",2001,"North River/Back Sound",96
+"187",2001,"Ocean 0-3 mi, S of Cape Hatt",258
+"188",2001,"Ocean >3 mi, N of Cape Hatt",1
+"189",2001,"Ocean >3 mi, S of Cape Hatt",52
+"190",2001,"Pamlico River",22
+"191",2001,"Pamlico Sound",390
+"192",2001,"Pasquotank River",1
+"193",2001,"Pungo River",15
+"194",2001,"Roanoke Sound",2
+"195",2001,"Shallotte River",8
+"196",2001,"Stump Sound",32
+"197",2001,"Topsail Sound",63
+"198",2001,"White Oak River",39
+"199",2002,"Alligator River",1
+"200",2002,"Bay River",15
+"201",2002,"Bogue Sound",39
+"202",2002,"Cape Fear River",35
+"203",2002,"Core Sound",278
+"204",2002,"Croatan Sound",20
+"205",2002,"Inland Waterway",113
+"206",2002,"Inland Waterway (Onslow)",6
+"207",2002,"Lockwood's Folly",1
+"208",2002,"Masonboro Sound",15
+"209",2002,"Neuse River",124
+"210",2002,"New River",219
+"211",2002,"Newport River",118
+"212",2002,"North River/Back Sound",80
+"213",2002,"Ocean 0-3 mi, N of Cape Hatt",2
+"214",2002,"Ocean 0-3 mi, S of Cape Hatt",281
+"215",2002,"Ocean >3 mi, N of Cape Hatt",2
+"216",2002,"Ocean >3 mi, S of Cape Hatt",29
+"217",2002,"Pamlico River",49
+"218",2002,"Pamlico Sound",571
+"219",2002,"Pungo River",17
+"220",2002,"Roanoke Sound",65
+"221",2002,"Shallotte River",2
+"222",2002,"Stump Sound",40
+"223",2002,"Topsail Sound",38
+"224",2002,"White Oak River",37
+"225",2003,"Bay River",3
+"226",2003,"Bogue Sound",61
+"227",2003,"Cape Fear River",33
+"228",2003,"Core Sound",239
+"229",2003,"Croatan Sound",4
+"230",2003,"Inland Waterway",76
+"231",2003,"Inland Waterway (Brunswick)",13
+"232",2003,"Inland Waterway (Brunswick) and Shallotte River (Landings Only)",14
+"233",2003,"Inland Waterway (Onslow)",41
+"234",2003,"Lockwood's Folly",1
+"235",2003,"Masonboro Sound",18
+"236",2003,"Neuse River",54
+"237",2003,"New River",192
+"238",2003,"Newport River",94
+"239",2003,"North River/Back Sound",101
+"240",2003,"Ocean 0-3 mi, N of Cape Hatt",1
+"241",2003,"Ocean 0-3 mi, S of Cape Hatt",266
+"242",2003,"Ocean >3 mi, N of Cape Hatt",2
+"243",2003,"Ocean >3 mi, S of Cape Hatt",67
+"244",2003,"Pamlico River",18
+"245",2003,"Pamlico Sound",210
+"246",2003,"Pungo River",1
+"247",2003,"Roanoke Sound",6
+"248",2003,"Shallotte River",4
+"249",2003,"Stump Sound",46
+"250",2003,"Topsail Sound",47
+"251",2003,"White Oak River",36
+"252",2004,"Bay River",2
+"253",2004,"Bogue Sound",37
+"254",2004,"Cape Fear River",23
+"255",2004,"Core Sound",195
+"256",2004,"Croatan Sound",23
+"257",2004,"Inland Waterway",29
+"258",2004,"Inland Waterway (Brunswick)",28
+"259",2004,"Inland Waterway (Onslow)",43
+"260",2004,"Masonboro Sound",16
+"261",2004,"Neuse River",70
+"262",2004,"New River",177
+"263",2004,"Newport River",73
+"264",2004,"North River/Back Sound",83
+"265",2004,"Ocean 0-3 mi, N of Cape Hatt",4
+"266",2004,"Ocean 0-3 mi, S of Cape Hatt",264
+"267",2004,"Ocean >3 mi, S of Cape Hatt",51
+"268",2004,"Pamlico River",5
+"269",2004,"Pamlico Sound",305
+"270",2004,"Roanoke Sound",29
+"271",2004,"Shallotte River",1
+"272",2004,"Stump Sound",18
+"273",2004,"Topsail Sound",44
+"274",2004,"White Oak River",21
+"275",2005,"Bay River",5
+"276",2005,"Bogue Sound",24
+"277",2005,"Cape Fear River",19
+"278",2005,"Core Sound",157
+"279",2005,"Croatan Sound",1
+"280",2005,"Inland Waterway",25
+"281",2005,"Inland Waterway (Brunswick)",37
+"282",2005,"Inland Waterway (Onslow)",51
+"283",2005,"Masonboro Sound",13
+"284",2005,"Neuse River",65
+"285",2005,"New River",93
+"286",2005,"Newport River",51
+"287",2005,"North River/Back Sound",53
+"288",2005,"Ocean 0-3 mi, S of Cape Hatt",173
+"289",2005,"Ocean >3 mi, S of Cape Hatt",22
+"290",2005,"Pamlico River",7
+"291",2005,"Pamlico Sound",117
+"292",2005,"Pungo River",2
+"293",2005,"Roanoke Sound",5
+"294",2005,"Shallotte River",1
+"295",2005,"Stump Sound",31
+"296",2005,"Topsail Sound",36
+"297",2005,"White Oak River",12
+"298",2006,"Bay River",1
+"299",2006,"Bogue Sound",44
+"300",2006,"Cape Fear River",15
+"301",2006,"Core Sound",128
+"302",2006,"Croatan Sound",9
+"303",2006,"Inland Waterway (Brunswick)",26
+"304",2006,"Inland Waterway (Onslow)",38
+"305",2006,"Masonboro Sound",12
+"306",2006,"Neuse River",46
+"307",2006,"New River",74
+"308",2006,"Newport River",47
+"309",2006,"North River/Back Sound",55
+"310",2006,"Ocean 0-3 mi, N of Cape Hatt",3
+"311",2006,"Ocean 0-3 mi, S of Cape Hatt",199
+"312",2006,"Ocean >3 mi, S of Cape Hatt",35
+"313",2006,"Pamlico River",10
+"314",2006,"Pamlico Sound",274
+"315",2006,"Pungo River",2
+"316",2006,"Roanoke Sound",4
+"317",2006,"Stump Sound",13
+"318",2006,"Topsail Sound",31
+"319",2006,"White Oak River",17
+"320",2007,"Bay River",3
+"321",2007,"Bogue Sound",18
+"322",2007,"Cape Fear River",19
+"323",2007,"Core Sound",115
+"324",2007,"Croatan Sound",25
+"325",2007,"Inland Waterway",1
+"326",2007,"Inland Waterway (Brunswick)",38
+"327",2007,"Inland Waterway (Onslow)",23
+"328",2007,"Lockwood's Folly",1
+"329",2007,"Masonboro Sound",7
+"330",2007,"Neuse River",51
+"331",2007,"New River",103
+"332",2007,"Newport River",38
+"333",2007,"North River/Back Sound",72
+"334",2007,"Ocean 0-3 mi, N of Cape Hatt",6
+"335",2007,"Ocean 0-3 mi, S of Cape Hatt",228
+"336",2007,"Ocean >3 mi, N of Cape Hatt",3
+"337",2007,"Ocean >3 mi, S of Cape Hatt",16
+"338",2007,"Pamlico River",16
+"339",2007,"Pamlico Sound",352
+"340",2007,"Roanoke Sound",14
+"341",2007,"Stump Sound",20
+"342",2007,"Topsail Sound",30
+"343",2007,"White Oak River",15
+"344",2008,"Bay River",5
+"345",2008,"Bogue Sound",24
+"346",2008,"Cape Fear River",23
+"347",2008,"Core Sound",116
+"348",2008,"Croatan Sound",15
+"349",2008,"Inland Waterway (Brunswick)",40
+"350",2008,"Inland Waterway (Onslow)",30
+"351",2008,"Masonboro Sound",1
+"352",2008,"Neuse River",118
+"353",2008,"New River",69
+"354",2008,"Newport River",41
+"355",2008,"North River/Back Sound",80
+"356",2008,"Ocean 0-3 mi, N of Cape Hatt",4
+"357",2008,"Ocean 0-3 mi, S of Cape Hatt",228
+"358",2008,"Ocean >3 mi, N of Cape Hatt",3
+"359",2008,"Ocean >3 mi, S of Cape Hatt",33
+"360",2008,"Pamlico River",14
+"361",2008,"Pamlico Sound",399
+"362",2008,"Roanoke Sound",12
+"363",2008,"Stump Sound",33
+"364",2008,"Topsail Sound",20
+"365",2008,"White Oak River",14
+"366",2009,"Albemarle Sound",1
+"367",2009,"Bay River",3
+"368",2009,"Bogue Sound",19
+"369",2009,"Cape Fear River",22
+"370",2009,"Core Sound",143
+"371",2009,"Croatan Sound",7
+"372",2009,"Inland Waterway (Brunswick)",43
+"373",2009,"Inland Waterway (Onslow)",50
+"374",2009,"Masonboro Sound",1
+"375",2009,"Neuse River",46
+"376",2009,"New River",38
+"377",2009,"Newport River",39
+"378",2009,"North River/Back Sound",60
+"379",2009,"Ocean 0-3 mi, N of Cape Hatt",2
+"380",2009,"Ocean 0-3 mi, S of Cape Hatt",223
+"381",2009,"Ocean >3 mi, N of Cape Hatt",1
+"382",2009,"Ocean >3 mi, S of Cape Hatt",25
+"383",2009,"Pamlico River",9
+"384",2009,"Pamlico Sound",345
+"385",2009,"Roanoke Sound",15
+"386",2009,"Stump Sound",32
+"387",2009,"Topsail Sound",31
+"388",2009,"White Oak River",19
+"389",2010,"Bay River",3
+"390",2010,"Bogue Sound",30
+"391",2010,"Cape Fear River",33
+"392",2010,"Core Sound",103
+"393",2010,"Croatan Sound",4
+"394",2010,"Inland Waterway (Brunswick) and Shallotte River (Landings Only)",27
+"395",2010,"Inland Waterway (Brunswick)",34
+"396",2010,"Inland Waterway (Onslow)",52
+"397",2010,"Masonboro Sound",5
+"398",2010,"Neuse River",69
+"399",2010,"New River",64
+"400",2010,"Newport River",48
+"401",2010,"North River/Back Sound",40
+"402",2010,"Ocean 0-3 mi, N of Cape Hatt",3
+"403",2010,"Ocean 0-3 mi, S of Cape Hatt",169
+"404",2010,"Ocean >3 mi, S of Cape Hatt",22
+"405",2010,"Pamlico River",10
+"406",2010,"Pamlico Sound",275
+"407",2010,"Roanoke Sound",6
+"408",2010,"Shallotte River",1
+"409",2010,"Stump Sound",26
+"410",2010,"Topsail Sound",31
+"411",2010,"White Oak River",14
+"412",2011,"Bay River",10
+"413",2011,"Bogue Sound",21
+"414",2011,"Cape Fear River",23
+"415",2011,"Core Sound",43
+"416",2011,"Croatan Sound",4
+"417",2011,"Inland Waterway (Brunswick)",49
+"418",2011,"Inland Waterway (Onslow)",18
+"419",2011,"Lockwood's Folly",1
+"420",2011,"Masonboro Sound",1
+"421",2011,"Neuse River",49
+"422",2011,"New River",40
+"423",2011,"Newport River",16
+"424",2011,"North River/Back Sound",17
+"425",2011,"Ocean 0-3 mi, N of Cape Hatt",3
+"426",2011,"Ocean 0-3 mi, S of Cape Hatt",136
+"427",2011,"Ocean >3 mi, S of Cape Hatt",18
+"428",2011,"Pamlico River",2
+"429",2011,"Pamlico Sound",209
+"430",2011,"Pungo River",1
+"431",2011,"Roanoke Sound",6
+"432",2011,"Stump Sound",9
+"433",2011,"Topsail Sound",22
+"434",2011,"White Oak River",11
+"435",2012,"Bay River",8
+"436",2012,"Bogue Sound",17
+"437",2012,"Cape Fear River",27
+"438",2012,"Core Sound",170
+"439",2012,"Croatan Sound",8
+"440",2012,"Inland Waterway (Brunswick)",66
+"441",2012,"Inland Waterway (Onslow)",45
+"442",2012,"Masonboro Sound",2
+"443",2012,"Neuse River",71
+"444",2012,"New River",83
+"445",2012,"Newport River",56
+"446",2012,"North River/Back Sound",37
+"447",2012,"Ocean 0-3 mi, N of Cape Hatt",1
+"448",2012,"Ocean 0-3 mi, S of Cape Hatt",196
+"449",2012,"Ocean >3 mi, N of Cape Hatt",2
+"450",2012,"Ocean >3 mi, S of Cape Hatt",13
+"451",2012,"Pamlico River",5
+"452",2012,"Pamlico Sound",304
+"453",2012,"Roanoke Sound",3
+"454",2012,"Stump Sound",21
+"455",2012,"Topsail Sound",35
+"456",2012,"White Oak River",28
+"457",2013,"Bay River",7
+"458",2013,"Bogue Sound",29
+"459",2013,"Cape Fear River",27
+"460",2013,"Core Sound",162
+"461",2013,"Croatan Sound",16
+"462",2013,"Inland Waterway (Brunswick)",36
+"463",2013,"Inland Waterway (Onslow)",71
+"464",2013,"Masonboro Sound",3
+"465",2013,"Neuse River",64
+"466",2013,"New River",68
+"467",2013,"Newport River",44
+"468",2013,"North River/Back Sound",44
+"469",2013,"Ocean 0-3 mi, N of Cape Hatt",2
+"470",2013,"Ocean 0-3 mi, S of Cape Hatt",166
+"471",2013,"Ocean >3 mi, N of Cape Hatt",1
+"472",2013,"Ocean >3 mi, S of Cape Hatt",5
+"473",2013,"Pamlico River",7
+"474",2013,"Pamlico Sound",318
+"475",2013,"Roanoke Sound",4
+"476",2013,"Stump Sound",28
+"477",2013,"Topsail Sound",36
+"478",2013,"White Oak River",22
+"479",2014,"Bay River",4
+"480",2014,"Bogue Sound",20
+"481",2014,"Cape Fear River",18
+"482",2014,"Core Sound",169
+"483",2014,"Croatan Sound",7
+"484",2014,"Inland Waterway (Brunswick)",41
+"485",2014,"Inland Waterway (Onslow)",24
+"486",2014,"Neuse River",62
+"487",2014,"New River",64
+"488",2014,"Newport River",51
+"489",2014,"North River/Back Sound",31
+"490",2014,"Ocean 0-3 mi, N of Cape Hatt",1
+"491",2014,"Ocean 0-3 mi, S of Cape Hatt",153
+"492",2014,"Ocean >3 mi, S of Cape Hatt",4
+"493",2014,"Pamlico Sound",268
+"494",2014,"Roanoke Sound",3
+"495",2014,"Stump Sound",8
+"496",2014,"Topsail Sound",20
+"497",2014,"White Oak River",11
+"498",2015,"Albemarle Sound",4
+"499",2015,"Bay River",16
+"500",2015,"Bogue Sound",28
+"501",2015,"Cape Fear River",19
+"502",2015,"Core Sound",104
+"503",2015,"Croatan Sound",22
+"504",2015,"Currituck Sound",2
+"505",2015,"Inland Waterway (Brunswick)",34
+"506",2015,"Inland Waterway (Onslow)",45
+"507",2015,"Neuse River",72
+"508",2015,"New River",55
+"509",2015,"Newport River",57
+"510",2015,"North River/Back Sound",18
+"511",2015,"Ocean 0-3 mi, N of Cape Hatt",4
+"512",2015,"Ocean 0-3 mi, S of Cape Hatt",196
+"513",2015,"Ocean >3 mi, N of Cape Hatt",3
+"514",2015,"Ocean >3 mi, S of Cape Hatt",1
+"515",2015,"Pamlico River",11
+"516",2015,"Pamlico Sound",300
+"517",2015,"Roanoke Sound",8
+"518",2015,"Shallotte River",2
+"519",2015,"Stump Sound",20
+"520",2015,"Topsail Sound",24
+"521",2015,"White Oak River",5
+"522",2016,"Albemarle Sound",2
+"523",2016,"Bay River",5
+"524",2016,"Bogue Sound",42
+"525",2016,"Cape Fear River",20
+"526",2016,"Core Sound",152
+"527",2016,"Croatan Sound",19
+"528",2016,"Currituck Sound",2
+"529",2016,"Inland Waterway (Brunswick)",16
+"530",2016,"Inland Waterway (Onslow)",16
+"531",2016,"Masonboro Sound",5
+"532",2016,"Neuse River",81
+"533",2016,"New River",61
+"534",2016,"Newport River",60
+"535",2016,"North River/Back Sound",28
+"536",2016,"Ocean 0-3 mi, N of Cape Hatt",50
+"537",2016,"Ocean 0-3 mi, S of Cape Hatt",304
+"538",2016,"Ocean >3 mi, N of Cape Hatt",4
+"539",2016,"Ocean >3 mi, S of Cape Hatt",2
+"540",2016,"Pamlico River",7
+"541",2016,"Pamlico Sound",346
+"542",2016,"Roanoke Sound",29
+"543",2016,"Shallotte River",3
+"544",2016,"Stump Sound",17
+"545",2016,"Topsail Sound",20
+"546",2016,"White Oak River",15
+"547",2017,"Bay River",6
+"548",2017,"Bogue Sound",35
+"549",2017,"Cape Fear River",24
+"550",2017,"Core Sound",149
+"551",2017,"Croatan Sound",37
+"552",2017,"Inland Waterway (Brunswick)",26
+"553",2017,"Inland Waterway (Onslow)",18
+"554",2017,"Masonboro Sound",5
+"555",2017,"Neuse River",69
+"556",2017,"New River",42
+"557",2017,"Newport River",43
+"558",2017,"North River/Back Sound",24
+"559",2017,"Ocean 0-3 mi, N of Cape Hatt",55
+"560",2017,"Ocean 0-3 mi, S of Cape Hatt",303
+"561",2017,"Ocean >3 mi, N of Cape Hatt",7
+"562",2017,"Ocean >3 mi, S of Cape Hatt",4
+"563",2017,"Pamlico River",5
+"564",2017,"Pamlico Sound",398
+"565",2017,"Roanoke Sound",16
+"566",2017,"Shallotte River",4
+"567",2017,"Stump Sound",20
+"568",2017,"Topsail Sound",13
+"569",2017,"White Oak River",6
+"570",2018,"Albemarle Sound",2
+"571",2018,"Bay River",4
+"572",2018,"Bogue Sound",31
+"573",2018,"Cape Fear River",16
+"574",2018,"Core Sound",95
+"575",2018,"Croatan Sound",29
+"576",2018,"Inland Waterway (Brunswick)",20
+"577",2018,"Inland Waterway (Onslow)",26
+"578",2018,"Lockwood's Folly",1
+"579",2018,"Neuse River",51
+"580",2018,"New River",49
+"581",2018,"Newport River",26
+"582",2018,"North River/Back Sound",21
+"583",2018,"Ocean 0-3 mi, N of Cape Hatt",31
+"584",2018,"Ocean 0-3 mi, S of Cape Hatt",171
+"585",2018,"Ocean >3 mi, N of Cape Hatt",10
+"586",2018,"Ocean >3 mi, S of Cape Hatt",8
+"587",2018,"Pamlico River",9
+"588",2018,"Pamlico Sound",337
+"589",2018,"Roanoke Sound",26
+"590",2018,"Shallotte River",1
+"591",2018,"Stump Sound",23
+"592",2018,"Topsail Sound",28
+"593",2018,"White Oak River",5
+"594",2019,"Bay River",3
+"595",2019,"Bogue Sound",19
+"596",2019,"Cape Fear River",23
+"597",2019,"Core Sound",66
+"598",2019,"Croatan Sound",29
+"599",2019,"Inland Waterway (Brunswick)",10
+"600",2019,"Inland Waterway (Onslow)",9
+"601",2019,"Neuse River",38
+"602",2019,"New River",31
+"603",2019,"Newport River",19
+"604",2019,"North River/Back Sound",14
+"605",2019,"Ocean 0-3 mi, N of Cape Hatt",76
+"606",2019,"Ocean 0-3 mi, S of Cape Hatt",227
+"607",2019,"Ocean >3 mi, N of Cape Hatt",8
+"608",2019,"Ocean >3 mi, S of Cape Hatt",7
+"609",2019,"Pamlico River",2
+"610",2019,"Pamlico Sound",251
+"611",2019,"Roanoke Sound",19
+"612",2019,"Shallotte River",2
+"613",2019,"Stump Sound",7
+"614",2019,"Topsail Sound",9
+"615",2019,"White Oak River",2
+"616",2020,"Albemarle Sound",2
+"617",2020,"Bay River",5
+"618",2020,"Bogue Sound",35
+"619",2020,"Cape Fear River",23
+"620",2020,"Core Sound",98
+"621",2020,"Croatan Sound",36
+"622",2020,"Inland Waterway (Brunswick)",17
+"623",2020,"Inland Waterway (Onslow)",6
+"624",2020,"Neuse River",48
+"625",2020,"New River",26
+"626",2020,"Newport River",21
+"627",2020,"North River/Back Sound",20
+"628",2020,"Ocean 0-3 mi, N of Cape Hatt",69
+"629",2020,"Ocean 0-3 mi, S of Cape Hatt",225
+"630",2020,"Ocean >3 mi, N of Cape Hatt",18
+"631",2020,"Ocean >3 mi, S of Cape Hatt",1
+"632",2020,"Pamlico River",6
+"633",2020,"Pamlico Sound",272
+"634",2020,"Roanoke Sound",27
+"635",2020,"Shallotte River",1
+"636",2020,"Stump Sound",20
+"637",2020,"Topsail Sound",14
+"638",2020,"White Oak River",1
+"639",2021,"Bay River",3
+"640",2021,"Bogue Sound",17
+"641",2021,"Cape Fear River",10
+"642",2021,"Core Sound",93
+"643",2021,"Croatan Sound",23
+"644",2021,"Inland Waterway (Brunswick)",19
+"645",2021,"Inland Waterway (Onslow)",8
+"646",2021,"Neuse River",71
+"647",2021,"New River",17
+"648",2021,"Newport River",21
+"649",2021,"North River/Back Sound",14
+"650",2021,"Ocean 0-3 mi, N of Cape Hatt",78
+"651",2021,"Ocean 0-3 mi, S of Cape Hatt",224
+"652",2021,"Ocean >3 mi, N of Cape Hatt",10
+"653",2021,"Ocean >3 mi, S of Cape Hatt",5
+"654",2021,"Pamlico River",5
+"655",2021,"Pamlico Sound",175
+"656",2021,"Roanoke Sound",18
+"657",2021,"Shallotte River",1
+"658",2021,"Stump Sound",5
+"659",2021,"Topsail Sound",7
+"660",2021,"White Oak River",4
