@@ -1,0 +1,21 @@
+Datset File Name:,e1994ShrimpWtbodyNCSD.csv
+Dataset Title:,e1994ShrimpWtbodyNCSD
+Dataset Author:,Sally Dowd
+Dataset Author Contact:,sdowd@nyelab.org
+Data Owner:,NC Division of Marine Fisheries
+Data Owner Contact:,Meredith.whitten@ncdenr.gov
+Link to Publically Available Data (if applicable):,Got directly from Meredith
+Raw Data Citation,Got directly from Meredith
+Link to Code Creating Dataset:,
+Variables Generated in Dataset:,
+,"Initial dataset: Year, waterbody, species, pounds, dealers, trips, participants, vessels, licenses, CONF"
+,"Final dataset: Year, waterbody, # of participants (summed across species) "
+Timeframe of Dataset:,1994-2021
+Data Collection Period,Every Fiscal Year
+Geographic Study Area:,All of NC
+Does dataset include information governed under IRB or HIPAA?,Not sure
+Comments:,Some landings hidden due to confidentiality
+,Rows that are confidential have blanks in Pounds column and CONF column has asterik
+,"In three of the confidential situations, only one row for a particular year/species combination was confidential, so I had to roll those landings into another waterbody because you could theoretically use the annual landings I’ve already given you to interpolate the hidden confidential data."
+,"The first instance was 1995 – Lockwood’s Folly – Shrimp, Uncl. I rolled these landings into 1995 – Shallotte River, so you’ll see that row is labeled Shallotte River and Lockwood’s Folly. I only added the pounds from 1995 Lockwood’s Folly, not the dealers, trips, participants, vessels, or licenses because that could lead to a duplicate count."
+,"In the other two instances, 2010-Shallotte River-Shrimp,Brown and 2003-Shallotte River-Shrimp,White were the only confidential rows for that species for that year, so I added those landings to Inland Waterway (Brunswick), but not the participants, so you’ll see that row shows the combined waterbodies as the waterbody name. For each waterbody, the participant/trip counts are accurate, but in these cases, the pounds for those waterbodies were summed as indicated."
