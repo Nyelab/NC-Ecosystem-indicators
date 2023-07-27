@@ -27,6 +27,7 @@ BirdNests <- read_csv("data/finalized/b1977BirdNestsNCSD.csv")
 CommParts <- read_csv("data/finalized/e1994CommercialParticipantsBillNCSD.csv")
 RecCatch <- read_csv("data/finalized/b1981RecreationalTotalCatchNCSD.csv")
 RecRelAlive <- read_csv("data/finalized/b1981RecTotalRelAliveNCSD.csv")
+ShmpReg <- read_csv("data/finalized/e1994ShrimpRegionNCSD.csv")
 
 names(RecFishing) <- tolower(names(RecFishing))
 RecFishing <- filter(RecFishing, year < 2020)
@@ -52,6 +53,8 @@ names(RecCatch) <- tolower(names(RecCatch))
 RecCatch <- filter(RecCatch, year < 2020)
 names(RecRelAlive) <- tolower(names(RecRelAlive))
 RecRelAlive <- filter(RecRelAlive, year < 2020)
+names(ShmpReg) <- tolower(names(ShmpReg))
+ShmpReg <- filter(ShmpReg, year < 2020) %>% select(-...1)
 ```
 
 #### Running GAMs for Impacts and Responses Indicators
@@ -365,6 +368,33 @@ RecRelAliveRed <- RecRelAlive %>% filter(year > 1986)
 k_det(RecRelAliveRed)
 gam_diagn(RecRelAliveRed$relalive, 6, RecRelAliveRed) #p not sig at k= 6
 mod_RecRelAliveRed <- gam(relalive ~ s(year, k= 6), data = RecRelAliveRed)
+
+##Shrimp Region Participants
+##Northern:
+k_det(ShmpReg)
+ShmpRegPartN <- ShmpReg %>% filter(region %in% "Northern")
+gam_diagn(ShmpRegPartN$sum_participants, 4, ShmpRegPartN) #p not sig at k= 4, figures don't improve
+mod_ShmpRegPartN <- gam(sum_participants ~ s(year, k= 4), data = ShmpRegPartN)
+
+##Central:
+ShmpRegPartC <- ShmpReg %>% filter(region %in% "Central")
+gam_diagn(ShmpRegPartC$sum_participants, 4, ShmpRegPartC) #p not sig at k= 4, figures don't improve
+mod_ShmpRegPartC <- gam(sum_participants ~ s(year, k= 4), data = ShmpRegPartC)
+
+##Core Banks: 
+ShmpRegPartCB <- ShmpReg %>% filter(region %in% "Core Banks")
+gam_diagn(ShmpRegPartCB$sum_participants, 6, ShmpRegPartCB) #p sig. at k=4, looks better at k= 6 
+mod_ShmpRegPartCB <- gam(sum_participants ~ s(year, k= 6), data = ShmpRegPartCB)
+
+##Southern: 
+ShmpRegPartS <- ShmpReg %>% filter(region %in% "Southern")
+gam_diagn(ShmpRegPartS$sum_participants, 4, ShmpRegPartS) #p not sig at k= 4, figures don't improve
+mod_ShmpRegPartS <- gam(sum_participants ~ s(year, k= 4), data = ShmpRegPartS)
+
+##Shrimp Region Pounds 
+k_det(ShmpReg)
+gam_diagn(ShmpReg$sum_pounds, 7, ShmpReg) #p not sig at k= 4 and graphs don't imrpove
+mod_ShmpRegLbs <- gam(sum_pounds ~ s(year, k= 4), data = ShmpReg)
 ```
 
 #### GAM Functions: Results
@@ -1081,13 +1111,59 @@ summary(linearMod_1997)
 long_sig(MenhadenReduction, MenhadenReduction$pounds, intercept_MenhadenReduction, pdata_MenhadenReduction, mod.dsig_MenhadenReduction, "Pounds", "Year", "Total Landings in Menhaden \n Reduction Fishery") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "MenhadenReductionGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-```
 
-```{r}
+##Shrimp by Region: Participants
+###Northern:
+p2mod_ShmpRegPartN <- GAM_predict_p2mod(ShmpRegPartN, mod_ShmpRegPartN)
+intercept_ShmpRegPartN = as.numeric(attr(p2mod_ShmpRegPartN,"constant")) 
+pdata_ShmpRegPartN <- GAM_predict_pdata(ShmpRegPartN, mod_ShmpRegPartN)
+mod.dsig_ShmpRegPartN <- GAM_deriv(pdata_ShmpRegPartN, mod_ShmpRegPartN)
+linearMod <- lm(sum_participants ~ year, data= ShmpRegPartN)
+summary(linearMod)
+dfpost1997_ShmpRegPartN <- filter(ShmpRegPartN, year > 1997)
+linearMod_1997 <- lm(sum_participants ~ year, data=dfpost1997_ShmpRegPartN)
+summary(linearMod_1997)
+both_nonsig(ShmpRegPartN, ShmpRegPartN$sum_participants, intercept_ShmpRegPartN, pdata_ShmpRegPartN, mod.dsig_ShmpRegPartN, "Total Participants", "Year", "Total Participants in Shrimp \n Fishery in Northern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "ShmpRegPartNGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
+###Central:
+p2mod_ShmpRegPartC <- GAM_predict_p2mod(ShmpRegPartC, mod_ShmpRegPartC)
+intercept_ShmpRegPartC = as.numeric(attr(p2mod_ShmpRegPartC,"constant")) 
+pdata_ShmpRegPartC <- GAM_predict_pdata(ShmpRegPartC, mod_ShmpRegPartC)
+mod.dsig_ShmpRegPartC <- GAM_deriv(pdata_ShmpRegPartC, mod_ShmpRegPartC)
+linearMod <- lm(sum_participants ~ year, data= ShmpRegPartC)
+summary(linearMod)
+dfpost1997_ShmpRegPartC <- filter(ShmpRegPartC, year > 1997)
+linearMod_1997 <- lm(sum_participants ~ year, data=dfpost1997_ShmpRegPartC)
+summary(linearMod_1997)
+both_nonsig(ShmpRegPartC, ShmpRegPartC$sum_participants, intercept_ShmpRegPartC, pdata_ShmpRegPartC, mod.dsig_ShmpRegPartC, "Total Participants", "Year", "Total Participants in Shrimp \n Fishery in Northern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "ShmpRegPartCGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
+###Core Banks: 
+p2mod_ShmpRegPartCB <- GAM_predict_p2mod(ShmpRegPartCB, mod_ShmpRegPartCB)
+intercept_ShmpRegPartCB = as.numeric(attr(p2mod_ShmpRegPartCB,"constant")) 
+pdata_ShmpRegPartCB <- GAM_predict_pdata(ShmpRegPartCB, mod_ShmpRegPartCB)
+mod.dsig_ShmpRegPartCB <- GAM_deriv(pdata_ShmpRegPartCB, mod_ShmpRegPartCB)
+linearMod <- lm(sum_participants ~ year, data= ShmpRegPartCB)
+summary(linearMod)
+dfpost1997_ShmpRegPartCB <- filter(ShmpRegPartCB, year > 1997)
+linearMod_1997 <- lm(sum_participants ~ year, data=dfpost1997_ShmpRegPartCB)
+summary(linearMod_1997)
+both_sig(ShmpRegPartCB, ShmpRegPartCB$sum_participants, intercept_ShmpRegPartCB, pdata_ShmpRegPartCB, mod.dsig_ShmpRegPartCB, dfpost1997_ShmpRegPartCB, dfpost1997_ShmpRegPartCB$sum_participants, "Total Participants", "Year", "Total Participants in Shrimp \n Fishery in Northern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "ShmpRegPartCBGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-
+##Southern: 
+p2mod_ShmpRegPartS <- GAM_predict_p2mod(ShmpRegPartS, mod_ShmpRegPartS)
+intercept_ShmpRegPartS = as.numeric(attr(p2mod_ShmpRegPartS,"constant")) 
+pdata_ShmpRegPartS <- GAM_predict_pdata(ShmpRegPartS, mod_ShmpRegPartS)
+mod.dsig_ShmpRegPartS <- GAM_deriv(pdata_ShmpRegPartS, mod_ShmpRegPartS)
+linearMod <- lm(sum_participants ~ year, data= ShmpRegPartS)
+summary(linearMod)
+dfpost1997_ShmpRegPartS <- filter(ShmpRegPartS, year > 1997)
+linearMod_1997 <- lm(sum_participants ~ year, data=dfpost1997_ShmpRegPartS)
+summary(linearMod_1997)
+both_sig(ShmpRegPartS, ShmpRegPartS$sum_participants, intercept_ShmpRegPartS, pdata_ShmpRegPartS, mod.dsig_ShmpRegPartS, dfpost1997_ShmpRegPartS, dfpost1997_ShmpRegPartS$sum_participants, "Total Participants", "Year", "Total Participants in Shrimp \n Fishery in Northern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "ShmpRegPartSGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
 
 ```{r}
