@@ -62,6 +62,14 @@ df <- df_extract_2_2
 df$date <- as.Date(df$date)
 df$year <- format(df$date,"%Y")
 df$month <- format(df$date,"%m")
+#all
+df <- df %>% dplyr::select(date, temp, surfacesalinity, surfaceDO, latitude, longitude, Class, month, year)
+df$month <- as.numeric(df$month)
+df <- merge(df, season, by = "month", all.x = TRUE)
+df <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp, na.rm = TRUE), sdtemp = sd(temp), meansal = mean(surfacesalinity, na.rm = TRUE), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO,  na.rm = TRUE), sdDO = sd(surfaceDO), samplesize = n()) %>% ungroup()
+write.csv(df, "data/p1987AllPamlicoWaterCB.csv")
+
+#just north
 df <- df %>% dplyr::filter(Class == "NORTH") %>% dplyr::select(date, temp, surfacesalinity, surfaceDO, latitude, longitude, Class, month, year)
 
 df$month <- as.numeric(as.character(df$month))
@@ -108,3 +116,22 @@ dev.off()
 
 write.csv(centralfinaldf, "data/p1987CentralPamlicoWaterCB.csv")
 
+#try bottom temp
+#load temp data
+df <- read.csv("G:/My Drive/NCTempProject/P195/P195_1214.csv")
+names(df) <- tolower(names(df))
+df$date <- as.Date(df$date, format = "%m-%d-%Y")
+df <- df %>% dplyr::select(date, tempsurface, tempbottom, salinitysurface, sdo, latitudestart, longitudestart)
+names(df) <- c("date", "surfacetemp", "bottomtemp", "surfacesalinity", "surfaceDO", "latitude", "longitude")
+
+df$date <- as.Date(df$date)
+df$year <- format(df$date,"%Y")
+df$month <- format(df$date,"%m")
+df$month <- as.numeric(as.character(df$month))
+df$year <- as.numeric(as.character(df$year))
+df$region <- df$Class
+season <- c("winter", "winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "fall", "fall", "fall")
+season <- as.data.frame(season)
+season$month <- 1:12
+df <- merge(df, season, by = "month", all.x = TRUE)
+finaldf <- df %>% group_by(year, season) %>% summarise(meansurftemp = mean(surfacetemp, na.rm = TRUE),meanbottomtemp = mean(bottomtemp, na.rm = TRUE), sdtemp = sd(surfacetemp), meansal = mean(surfacesalinity, na.rm = TRUE), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO, na.rm = TRUE), sdDO = sd(surfaceDO), samplesize = n()) %>% ungroup() %>% filter(season %in% c("summer", "spring"))

@@ -8,7 +8,7 @@ library(chron)
 require(sf)
 shape <- sf::read_sf(file.path("~/NC-Ecosystem-indicators/data/shapefiles/rivers.shp"))
 shape <- st_transform(shape, crs = 4326)
-
+setwd("~/NC-Ecosystem-indicators/data")
 
 library(tidyverse)
 library(data.table)
@@ -30,7 +30,7 @@ stations <- read.csv("G:/My Drive/NCTempProject/NC DEQ Ambient Monitoring System
 stations <- dplyr::select(stations, OrganizationFormalName, MonitoringLocationIdentifier, MonitoringLocationName, LatitudeMeasure, LongitudeMeasure)
 names(stations) <- c("org", "LocationID", "name", "lat", "long")
 tempsold <- read.csv("G:/My Drive/NCTempProject/NC DEQ Ambient Monitoring System (estuarine stations only)/narrowresult.csv")
-tempsold <- temps %>% filter(CharacteristicName %in% "Temperature, water"|CharacteristicName %in% "pH"|CharacteristicName %in% "Dissolved oxygen (DO)"|CharacteristicName %in% "Salinity")
+tempsold <- temps %>% filter(name %in% c("Temperature, water", "pH", "Dissolved oxygen (DO)",  "Salinity"))
 tempsold  <- dplyr::select(temps,  MonitoringLocationIdentifier, ActivityStartDate, ActivityStartTime.Time, ActivityStartTime.TimeZoneCode, ActivityIdentifier, CharacteristicName, ResultMeasureValue, ResultMeasure.MeasureUnitCode)
 temps <- read.csv("G:/My Drive/NCTempProject/NC DEQ Ambient Monitoring System (estuarine stations only)/deqcontinuousstations.csv")
 temps <- dplyr::select(temps, LocationID, lat, long, date, month, year, name.x, measure, unit)
@@ -50,17 +50,17 @@ df <- temps
 
 
 #try depth
-depth$date <- as.POSIXct(depth$date, format ="%Y-%m-%d")
-depth$time <- times(depth$time)
-depth$datetime <- as.POSIXct(paste(depth$date, depth$time), format = "%Y-%m-%d %H:%M:%S")
-trydepth <- dplyr::select(depth, activityID, depth, datetime, timezone, time, latitude, longitude)
-colnames(trydepth) <- paste(colnames(trydepth),"depth",sep="_")
-trydepth$datetime_depth <- as.character(trydepth$datetime_depth)
-trydepth$depth_depth <- as.numeric(trydepth$depth_depth)
-colnames(trydepth)[1] <- c("activityID")
-colnames(trydepth)[3] <- c("datetime")
-colnames(trydepth)[6:7] <- c("lat", "long")
-names(trydepth)
+# depth$date <- as.POSIXct(depth$date, format ="%Y-%m-%d")
+# depth$time <- times(depth$time)
+# depth$datetime <- as.POSIXct(paste(depth$date, depth$time), format = "%Y-%m-%d %H:%M:%S")
+# trydepth <- dplyr::select(depth, activityID, depth, datetime, timezone, time, latitude, longitude)
+# colnames(trydepth) <- paste(colnames(trydepth),"depth",sep="_")
+# trydepth$datetime_depth <- as.character(trydepth$datetime_depth)
+# trydepth$depth_depth <- as.numeric(trydepth$depth_depth)
+# colnames(trydepth)[1] <- c("activityID")
+# colnames(trydepth)[3] <- c("datetime")
+# colnames(trydepth)[6:7] <- c("lat", "long")
+# names(trydepth)
 
 #pH 
 tryph <- filter(df, name %in% "pH")
@@ -214,11 +214,21 @@ print("hi")
 allvariables <- list(salinity, temperature, dissolvedoxygen, pH)
 finalallvariables <- Reduce(function(x, y) merge(x, y, by = c("year", "season", "id"), all = TRUE), allvariables)
 
+
 #yay
+annualallvariables <- finalallvariables %>% group_by(year, id) %>% summarize(mean_temperature = mean(mean_temperature, na.rm = TRUE), mean_salinity = mean(mean_salinity, na.rm = TRUE), mean_dissolvedoxygen = mean(mean_dissolvedoxygen, na.rm = TRUE),  mean_pH = mean(mean_pH, na.rm = TRUE))
+
 
 for (i in 1:length(locations)) {
-  df1 <- finalallvariables %>% dplyr::filter(id == locations[i])
+  df1 <- annualallvariables %>% dplyr::filter(id == locations[i]) %>% dplyr::select(year, mean_salinity)
+  names(df1) <- c("year", paste0(locations[i], "dissolvedoxygen"))
   
-  write.csv(df1, paste0("~/NC-Ecosystem-indicators/data/p", min(df1$year), locations[i], "WaterCB.csv"))
+  write.csv(df1, paste0("~/NC-Ecosystem-indicators/data/finalized/p", min(df1$year), locations[i], "salinityCB_finalized.csv"), row.names = FALSE)
+}
 
+for (i in 1:length(locations)) {
+    df1 <- finalallvariables %>% dplyr::filter(id == locations[i] & season == "fall") %>% dplyr::select(year, mean_dissolvedoxygen)
+    names(df1) <- c("year", paste0(locations[i], "dissolvedoxygen"))
+    
+    write.csv(df1, paste0("~/NC-Ecosystem-indicators/data/finalized/p", min(df1$year), locations[i], "DOCB_fall_finalized.csv"), row.names = FALSE)
 }

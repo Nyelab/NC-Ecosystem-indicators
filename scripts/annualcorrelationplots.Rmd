@@ -1,0 +1,77 @@
+```{r, libraries}
+library(tidyverse)
+library(data.table)
+library(stringr)
+library(ggpmisc)
+library(GGally)
+```
+
+
+
+```{r, load single data file}
+data_files <- list.files("~/NC-Ecosystem-indicators/data/finalized", pattern="*.csv")
+for(i in 1:length(data_files)) { 
+  assign(paste0(str_extract(data_files[i], '.*(?=\\.csv)')), 
+         read.csv(paste0("~/NC-Ecosystem-indicators/data/finalized/",
+                         data_files[i])))
+}
+data_files <- str_extract(data_files, '.*(?=\\.csv)')
+for (i in 1:length(data_files)) {
+  df <- get(data_files[i])
+  ifelse(grepl('X', colnames(df)), df <- df[,-1], df)
+  colnames(df) <- tolower(colnames(df))
+  assign(data_files[i], df)
+}
+data_files <- data_files[-29] 
+data_files <- data_files[-30] 
+data_files <- data_files[-31] 
+data_files <- data_files[-30] 
+data_files <- data_files[-30] 
+data_files <- data_files[-30] 
+data_files <- data_files[-30] 
+data_files <- data_files[-31]
+for (i in 1:length(data_files)) {
+  df <- get(data_files[i])
+  colnames(df)[2] <- data_files[i]
+  assign(data_files[i], df)
+}
+alldata <- list()
+for (i in 1:length(data_files)) {
+  alldata[[i]] <- get(data_files[i])
+}
+
+alldfs <- alldata %>% reduce(full_join, by = "year")
+alldfsnonas <- alldfs %>% filter(year > 1979 & year < 2020) %>% select_if(~ !any(is.na(.)))
+```
+
+
+```{r}
+names <- names(alldfsnonas)
+names <- gsub('_finalized', '', names)
+names <- str_sub(names, start=6)
+names[1] <- "year"
+names(alldfsnonas) <- names
+corr_mat <- round(cor(alldfsnonas),2) 
+
+library(reshape2)
+ 
+# reduce the size of correlation matrix
+melted_corr_mat <- melt(corr_mat)
+# head(melted_corr_mat)
+ 
+# plotting the correlation heatmap
+library(ggplot2)
+ggplot(data = melted_corr_mat, aes(x=Var1, y=Var2,fill=value)) +
+geom_tile() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  scale_fill_gradient(low = "blue", high = "red", na.value = NA)
+ggsave("C:/Users/Camryn/Documents/correlationmatrixtrialindicators.png")
+```
+
+```{r}
+library(corrplot)
+library(RColorBrewer)
+M <-cor(alldfsnonas)
+png("C:/Users/Camryn/Documents/correlationmatrixindicators.png", units="in", width=5, height=5, res=300)
+corrplot(M,  tl.cex = 0.5, type="upper", order="hclust", addCoef.col = 1, number.cex = 0.25, col=brewer.pal(n=8, name="RdYlBu"), title= "Indicators Pairwise Correlations", mar=c(0,0,1,0))
+dev.off()
+```

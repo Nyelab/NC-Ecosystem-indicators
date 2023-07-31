@@ -210,7 +210,7 @@ for(i in 1:length(data_files)) {
   i = 1
   assign(paste0(str_sub(data_files[i], end=-4)),                                  
          read.csv(paste0("~/NC-Ecosystem-indicators/data/",
-                         data_files[i])))
+                         data_files[i]), header=FALSE, stringsAsFactors=FALSE,fileEncoding="latin1"))
 }
 data_files <- str_sub(data_files, end=-4)
 
