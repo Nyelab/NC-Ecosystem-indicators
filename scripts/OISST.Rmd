@@ -1,0 +1,70 @@
+```{r}
+library(tidyverse)
+library(data.table)
+library(stringr)
+library(ggmap)
+```
+
+
+
+```{r}
+#this is to show which points on the coast I am choosing to get SST from
+options(digits=9)
+north <- read.csv("C:/Users/Camryn/Documents/northwallgulfstream.csv")
+northlatitudes <- north %>% pivot_longer(cols = starts_with("latitude"), values_to = "latitude") %>% dplyr::select(latitude)
+northlongitudes <- north %>% pivot_longer(cols = starts_with("longitude"), values_to = "longitude") %>% dplyr::select(longitude) 
+
+northfinal <- as.data.frame(cbind(northlatitudes, northlongitudes))
+northfinal$latitude <- as.numeric(substr(northfinal$latitude, 1, nchar(northfinal$latitude)-1))
+northfinal$longitude <- -1* (as.numeric(substr(northfinal$longitude, 1, nchar(northfinal$longitude)-1)))
+northfinal <- northfinal %>% filter(longitude > -80 & longitude < -70) %>% filter(latitude > 33 & latitude < 37)
+
+
+south <- read.csv("C:/Users/Camryn/Documents/southwallgulfstream.csv")
+southlatitudes <- south %>% pivot_longer(cols = starts_with("latitude"), values_to = "latitude") %>% dplyr::select(latitude)
+southlongitudes <- south %>% pivot_longer(cols = starts_with("longitude"), values_to = "longitude") %>% dplyr::select(longitude) 
+
+southfinal <- as.data.frame(cbind(southlatitudes, southlongitudes))
+southfinal$latitude <- as.numeric(substr(southfinal$latitude, 1, nchar(southfinal$latitude)-1))
+southfinal$longitude <- -1* (as.numeric(substr(southfinal$longitude, 1, nchar(southfinal$longitude)-1)))
+southfinal <- southfinal %>% filter(longitude > -80 & longitude < -70) %>% filter(latitude > 33 & latitude < 37)
+
+myLocation <- c(-80,33,-70,37)
+# myLocation <- c(min(northfinal$longitude),min(northfinal$latitude),max(northfinal$longitude),max(northfinal$latitude))
+myMap <- get_map(location=myLocation, source="stamen", color="bw")
+
+ggmap(myMap) myLocation <- c(-80,33,-70,37)
+# myLocation <- c(min(northfinal$longitude),min(northfinal$latitude),max(northfinal$longitude),max(northfinal$latitude))
+myMap <- get_map(location=myLocation, source="stamen", color="bw")
+
+ggmap(myMap) + geom_path(northfinal, mapping = aes(x = longitude, y = latitude), color = "blue") + geom_path(southfinal, mapping = aes(x = longitude, y = latitude), color = "red")  + geom_text(label = "1", aes(y = 35.5, x =	-75.5)) + geom_text(label = "2", aes(y = 35.5, x =	-74.5)) + geom_text(label = "3", aes(y = 34.5, x =	-77)) + geom_text(label = "4", aes(y = 34.5, x =	-75)) + ggtitle("NC SST for Indicator Project")
+
+# ggsave("C:/Users/Camryn/Documents/NCSSTforIndicators.png")
+
+```
+
+```{r}
+#actual data import from https://psl.noaa.gov/repository/entry/show?entryid=12159560-ab82-48a1-b3e4-88ace20475cd
+datalist <- list()
+data_files <- list.files("G:/My Drive/NCTempProject/oisst")
+data_files <- data_files[-c(1, 2)]
+directory <- "G:/My Drive/NCTempProject/oisst/"
+points <- c("point1", "point2", "point3", "point4")
+
+#rbind pre 1990 and post
+for(i in 1:length(points)) {
+  files <- data_files[grepl(points[i], data_files)]
+  firstsst <- read.csv(paste0(directory, files[1]))
+  secondsst <- read.csv(paste0(directory, files[2]))
+  allsst <- rbind(firstsst, secondsst)
+  names(allsst) <- c("date", "latitude", "longitude", "temperature")
+  allsst$date <- as.Date(allsst$date)
+  names(allsst) <- paste0(names(allsst), "_", points[i])
+  names(allsst)[1] = "date"
+  datalist[[i]] <- allsst
+}
+
+df <- datalist %>% reduce(left_join, by = "date")
+# write.csv(df, "C:/Users/Camryn/Documents/NC-Ecosystem-indicators/data/P1981NC_SSTCB.csv")
+```
+

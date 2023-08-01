@@ -1,0 +1,15 @@
+Datset File Name:,P1981NC_SSTCB.csv
+Dataset Title:,P1981NC_SSTCB
+Dataset Author:,Camryn Blawas
+Dataset Author Contact:,cblawas@nyelab.org
+Data Owner:,NOAA Optimum Interpolation (OI) SST V2
+Data Owner Contact:,
+Link to Publically Available Data (if applicable):,https://psl.noaa.gov/repository/entry/show?entryid=12159560-ab82-48a1-b3e4-88ace20475cd
+Raw Data Citation,"Reynolds, R. W., T. M. Smith, C. Liu, D. B. Chelton, K. S. Casey, and M. G. Schlax, 2007: Daily high-resolution-blended analyses for sea surface temperature. Journal of Climate, 20, 5473–5496, doi:10.1175/JCLI-D-14-00293.1"
+Link to Code Creating Dataset:,
+Variables Generated in Dataset:,"SST at four different points off of NC Coast, two in the gulf stream and two closer to the coast"
+Timeframe of Dataset:,1981-2023
+Data Collection Period,1981-2023
+Geographic Study Area:,NC Coast
+Does dataset include information governed under IRB or HIPAA?,No
+Comments:,"Data described in  Reynolds, R.W., N.A. Rayner, T.M.\nSmith, D.C. Stokes, and W. Wang, 2002: An Improved In Situ and Satellite\nSST Analysis for Climate, J. Climate"
