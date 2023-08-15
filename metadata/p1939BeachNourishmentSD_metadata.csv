@@ -1,0 +1,18 @@
+Datset File Name:,"p1939BeachNourishmentSD_,xlsx"
+Dataset Title:,p1939BeachNourishmentSD
+Dataset Author:,Sally Dowd
+Dataset Author Contact:,sdowd@nyelab.org
+Data Owner:,"NOAA, Office for Coastal Management "
+Data Owner Contact:,https://coast.noaa.gov/digitalcoast/tools/psds-viewer.html
+Link to Publically Available Data (if applicable):,Got directly from the above website
+Raw Data Citation,Got directly from the above website
+Link to Code Creating Dataset:,
+Variables Generated in Dataset:,
+,"Initial dataset: State, Location, Year Completed, Primary Funding Source, Justification, and variables associated with beach nourishment activity (volume, cost, etc.) "
+,"Final dataset: Year, Region, summed volume of project and summed cost (adjusted to 2022) of project "
+Timeframe of Dataset:,1970-2022 (dataset starts at 1939 but there wasn't much data back then)
+Data Collection Period,Whenver there is a beach nourishment 
+Geographic Study Area:,All of NC
+Does dataset include information governed under IRB or HIPAA?,Not sure
+Comments:,There was not rows for every year in the dataset for every region. I create empty rows (cost and volume 0) when there were no beach nourishment projects recorded
+,I filtered for 1970 and above as there was not much data before then. Earliest data point was 1939. 
