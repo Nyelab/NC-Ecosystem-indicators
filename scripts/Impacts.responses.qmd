@@ -28,6 +28,7 @@ CommParts <- read_csv("data/finalized/e1994CommercialParticipantsBillNCSD.csv")
 RecCatch <- read_csv("data/finalized/b1981RecreationalTotalCatchNCSD.csv")
 RecRelAlive <- read_csv("data/finalized/b1981RecTotalRelAliveNCSD.csv")
 ShmpReg <- read_csv("data/finalized/e1994ShrimpRegionNCSD.csv")
+BeachNouris <- read_csv("data/finalized/p1939BeachNourishmentSD_finalized.csv")
 
 names(RecFishing) <- tolower(names(RecFishing))
 RecFishing <- filter(RecFishing, year < 2020)
@@ -55,6 +56,7 @@ names(RecRelAlive) <- tolower(names(RecRelAlive))
 RecRelAlive <- filter(RecRelAlive, year < 2020)
 names(ShmpReg) <- tolower(names(ShmpReg))
 ShmpReg <- filter(ShmpReg, year < 2020) %>% select(-...1)
+names(BeachNouris) <- tolower(names(BeachNouris))
 ```
 
 #### Running GAMs for Impacts and Responses Indicators
@@ -395,6 +397,40 @@ mod_ShmpRegPartS <- gam(sum_participants ~ s(year, k= 4), data = ShmpRegPartS)
 k_det(ShmpReg)
 gam_diagn(ShmpReg$sum_pounds, 7, ShmpReg) #p not sig at k= 4 and graphs don't imrpove
 mod_ShmpRegLbs <- gam(sum_pounds ~ s(year, k= 4), data = ShmpReg)
+
+##Beach Nourishment: cost
+k_det(BeachNouris) #10
+##Northern
+BeachNourisN <- BeachNouris %>% filter(region %in% "Northern")
+gam_diagn(BeachNourisN$sum_cost, 10, BeachNourisN)
+mod_BeachNourisN<- gam(sum_cost ~ s(year, k= 10), data = BeachNourisN)
+
+##Central
+BeachNourisC <- BeachNouris %>% filter(region %in% "Central")
+gam_diagn(BeachNourisC$sum_cost, 10, BeachNourisC)
+mod_BeachNourisC<- gam(sum_cost ~ s(year, k= 10), data = BeachNourisC)
+
+##Southern 
+BeachNourisS <- BeachNouris %>% filter(region %in% "Southern")
+gam_diagn(BeachNourisS$sum_cost, 10, BeachNourisN)
+mod_BeachNourisS <- gam(sum_cost ~ s(year, k= 10), data = BeachNourisS)
+
+##Beach Nourishment: Volume
+k_det(BeachNouris) #10
+##Northern
+BeachNourisNvol <- BeachNouris %>% filter(region %in% "Northern")
+gam_diagn(BeachNourisNvol$sum_vol, 10, BeachNourisNvol)
+mod_BeachNourisNvol <- gam(sum_vol ~ s(year, k= 10), data = BeachNourisNvol)
+
+##Central
+BeachNourisCvol <- BeachNouris %>% filter(region %in% "Central")
+gam_diagn(BeachNourisCvol$sum_vol, 10, BeachNourisCvol)
+mod_BeachNourisCvol <- gam(sum_vol ~ s(year, k= 10), data = BeachNourisCvol)
+
+##Southern 
+BeachNourisSvol <- BeachNouris %>% filter(region %in% "Southern")
+gam_diagn(BeachNourisSvol$sum_vol, 10, BeachNourisNvol)
+mod_BeachNourisSvol <- gam(sum_vol ~ s(year, k= 10), data = BeachNourisSvol)
 ```
 
 #### GAM Functions: Results
@@ -1136,7 +1172,7 @@ summary(linearMod)
 dfpost1997_ShmpRegPartC <- filter(ShmpRegPartC, year > 1997)
 linearMod_1997 <- lm(sum_participants ~ year, data=dfpost1997_ShmpRegPartC)
 summary(linearMod_1997)
-both_nonsig(ShmpRegPartC, ShmpRegPartC$sum_participants, intercept_ShmpRegPartC, pdata_ShmpRegPartC, mod.dsig_ShmpRegPartC, "Total Participants", "Year", "Total Participants in Shrimp \n Fishery in Northern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_nonsig(ShmpRegPartC, ShmpRegPartC$sum_participants, intercept_ShmpRegPartC, pdata_ShmpRegPartC, mod.dsig_ShmpRegPartC, "Total Participants", "Year", "Total Participants in Shrimp \n Fishery in Central Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "ShmpRegPartCGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 ###Core Banks: 
@@ -1149,7 +1185,7 @@ summary(linearMod)
 dfpost1997_ShmpRegPartCB <- filter(ShmpRegPartCB, year > 1997)
 linearMod_1997 <- lm(sum_participants ~ year, data=dfpost1997_ShmpRegPartCB)
 summary(linearMod_1997)
-both_sig(ShmpRegPartCB, ShmpRegPartCB$sum_participants, intercept_ShmpRegPartCB, pdata_ShmpRegPartCB, mod.dsig_ShmpRegPartCB, dfpost1997_ShmpRegPartCB, dfpost1997_ShmpRegPartCB$sum_participants, "Total Participants", "Year", "Total Participants in Shrimp \n Fishery in Northern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_sig(ShmpRegPartCB, ShmpRegPartCB$sum_participants, intercept_ShmpRegPartCB, pdata_ShmpRegPartCB, mod.dsig_ShmpRegPartCB, dfpost1997_ShmpRegPartCB, dfpost1997_ShmpRegPartCB$sum_participants, "Total Participants", "Year", "Total Participants in Shrimp \n Fishery in Core Banks Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "ShmpRegPartCBGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 ##Southern: 
@@ -1162,8 +1198,88 @@ summary(linearMod)
 dfpost1997_ShmpRegPartS <- filter(ShmpRegPartS, year > 1997)
 linearMod_1997 <- lm(sum_participants ~ year, data=dfpost1997_ShmpRegPartS)
 summary(linearMod_1997)
-both_sig(ShmpRegPartS, ShmpRegPartS$sum_participants, intercept_ShmpRegPartS, pdata_ShmpRegPartS, mod.dsig_ShmpRegPartS, dfpost1997_ShmpRegPartS, dfpost1997_ShmpRegPartS$sum_participants, "Total Participants", "Year", "Total Participants in Shrimp \n Fishery in Northern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_sig(ShmpRegPartS, ShmpRegPartS$sum_participants, intercept_ShmpRegPartS, pdata_ShmpRegPartS, mod.dsig_ShmpRegPartS, dfpost1997_ShmpRegPartS, dfpost1997_ShmpRegPartS$sum_participants, "Total Participants", "Year", "Total Participants in Shrimp \n Fishery in Southern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "ShmpRegPartSGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Beach Nourishment: Cost
+##Northern
+p2mod_BeachNourisN <- GAM_predict_p2mod(BeachNourisN, mod_BeachNourisN)
+intercept_BeachNourisN = as.numeric(attr(p2mod_BeachNourisN,"constant")) 
+pdata_BeachNourisN <- GAM_predict_pdata(BeachNourisN, mod_BeachNourisN)
+mod.dsig_BeachNourisN <- GAM_deriv(pdata_BeachNourisN, mod_BeachNourisN)
+linearMod <- lm(sum_cost ~ year, data= BeachNourisN)
+summary(linearMod)
+dfpost1997_BeachNourisN <- filter(BeachNourisN, year > 1997)
+linearMod_1997 <- lm(sum_cost ~ year, data=dfpost1997_BeachNourisN)
+summary(linearMod_1997)
+both_sig(BeachNourisN, BeachNourisN$sum_cost, intercept_BeachNourisN, pdata_BeachNourisN, mod.dsig_BeachNourisN, dfpost1997_BeachNourisN, dfpost1997_BeachNourisN$sum_cost, "Total Cost", "Year", "Total Cost for Beach \n Nourishment in Northern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "BeachNourisN.cost.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Central
+p2mod_BeachNourisC <- GAM_predict_p2mod(BeachNourisC, mod_BeachNourisC)
+intercept_BeachNourisC = as.numeric(attr(p2mod_BeachNourisC,"constant")) 
+pdata_BeachNourisC <- GAM_predict_pdata(BeachNourisC, mod_BeachNourisC)
+mod.dsig_BeachNourisC <- GAM_deriv(pdata_BeachNourisC, mod_BeachNourisC)
+linearMod <- lm(sum_cost ~ year, data= BeachNourisC)
+summary(linearMod)
+dfpost1997_BeachNourisC <- filter(BeachNourisC, year > 1997)
+linearMod_1997 <- lm(sum_cost ~ year, data=dfpost1997_BeachNourisC)
+summary(linearMod_1997)
+both_nonsig(BeachNourisC, BeachNourisC$sum_cost, intercept_BeachNourisC, pdata_BeachNourisC, mod.dsig_BeachNourisC, "Total Cost", "Year", "Total Cost for Beach \n Nourishment in Central Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "BeachNourisC.cost.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Southern
+p2mod_BeachNourisS <- GAM_predict_p2mod(BeachNourisS, mod_BeachNourisS)
+intercept_BeachNourisS = as.numeric(attr(p2mod_BeachNourisS,"constant")) 
+pdata_BeachNourisS <- GAM_predict_pdata(BeachNourisS, mod_BeachNourisS)
+mod.dsig_BeachNourisS <- GAM_deriv(pdata_BeachNourisS, mod_BeachNourisS)
+linearMod <- lm(sum_cost ~ year, data= BeachNourisS)
+summary(linearMod)
+dfpost1997_BeachNourisS <- filter(BeachNourisS, year > 1997)
+linearMod_1997 <- lm(sum_cost ~ year, data=dfpost1997_BeachNourisS)
+summary(linearMod_1997)
+long_sig(BeachNourisS, BeachNourisS$sum_cost, intercept_BeachNourisS, pdata_BeachNourisS, mod.dsig_BeachNourisS, "Total Cost", "Year", "Total Cost for Beach \n Nourishment in Southern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "BeachNourisS.cost.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Beach Nourishment: Volume
+##Northern
+p2mod_BeachNourisNvol <- GAM_predict_p2mod(BeachNourisNvol, mod_BeachNourisNvol)
+intercept_BeachNourisNvol = as.numeric(attr(p2mod_BeachNourisNvol,"constant")) 
+pdata_BeachNourisNvol <- GAM_predict_pdata(BeachNourisNvol, mod_BeachNourisNvol)
+mod.dsig_BeachNourisNvol <- GAM_deriv(pdata_BeachNourisNvol, mod_BeachNourisNvol)
+linearMod <- lm(sum_vol ~ year, data= BeachNourisNvol)
+summary(linearMod)
+dfpost1997_BeachNourisNvol <- filter(BeachNourisNvol, year > 1997)
+linearMod_1997 <- lm(sum_vol ~ year, data=dfpost1997_BeachNourisNvol)
+summary(linearMod_1997)
+long_sig(BeachNourisNvol, BeachNourisNvol$sum_cost, intercept_BeachNourisNvol, pdata_BeachNourisNvol, mod.dsig_BeachNourisNvol, "Total Volume", "Year", "Total Volume for Beach \n Nourishment in Northern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "BeachNourisNvol.cost.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Central
+p2mod_BeachNourisCvol <- GAM_predict_p2mod(BeachNourisCvol, mod_BeachNourisCvol)
+intercept_BeachNourisCvol = as.numeric(attr(p2mod_BeachNourisCvol,"constant")) 
+pdata_BeachNourisCvol <- GAM_predict_pdata(BeachNourisCvol, mod_BeachNourisCvol)
+mod.dsig_BeachNourisCvol <- GAM_deriv(pdata_BeachNourisCvol, mod_BeachNourisCvol)
+linearMod <- lm(sum_vol ~ year, data= BeachNourisCvol)
+summary(linearMod)
+dfpost1997_BeachNourisCvol <- filter(BeachNourisCvol, year > 1997)
+linearMod_1997 <- lm(sum_vol ~ year, data=dfpost1997_BeachNourisCvol)
+summary(linearMod_1997)
+long_sig(BeachNourisCvol, BeachNourisCvol$sum_cost, intercept_BeachNourisCvol, pdata_BeachNourisCvol, mod.dsig_BeachNourisCvol, "Total Volume", "Year", "Total Volume for Beach \n Nourishment in Central Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "BeachNourisCvol.cost.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Central
+p2mod_BeachNourisSvol <- GAM_predict_p2mod(BeachNourisSvol, mod_BeachNourisSvol)
+intercept_BeachNourisSvol = as.numeric(attr(p2mod_BeachNourisSvol,"constant")) 
+pdata_BeachNourisSvol <- GAM_predict_pdata(BeachNourisSvol, mod_BeachNourisSvol)
+mod.dsig_BeachNourisSvol <- GAM_deriv(pdata_BeachNourisSvol, mod_BeachNourisSvol)
+linearMod <- lm(sum_vol ~ year, data= BeachNourisSvol)
+summary(linearMod)
+dfpost1997_BeachNourisSvol <- filter(BeachNourisSvol, year > 1997)
+linearMod_1997 <- lm(sum_vol ~ year, data=dfpost1997_BeachNourisSvol)
+summary(linearMod_1997)
+long_sig(BeachNourisSvol, BeachNourisSvol$sum_cost, intercept_BeachNourisSvol, pdata_BeachNourisSvol, mod.dsig_BeachNourisSvol, "Total Volume", "Year", "Total Volume for Beach \n Nourishment in Southern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "BeachNourisSvol.cost.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
 
 ```{r}
