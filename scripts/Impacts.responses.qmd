@@ -29,6 +29,11 @@ RecCatch <- read_csv("data/finalized/b1981RecreationalTotalCatchNCSD.csv")
 RecRelAlive <- read_csv("data/finalized/b1981RecTotalRelAliveNCSD.csv")
 ShmpReg <- read_csv("data/finalized/e1994ShrimpRegionNCSD.csv")
 BeachNouris <- read_csv("data/finalized/p1939BeachNourishmentSD_finalized.csv")
+RecGK <- read_excel("~/Desktop/gulf_kingfish.xlsx")
+RecRD <- read_excel("~/Desktop/red_drum.xlsx")
+RecSH <- read_excel("~/Desktop/sheepshead.xlsx")
+RecSF <- read_excel("~/Desktop/southern_flounder.xlsx")
+RecSST <- read_excel("~/Desktop/spotted_seatrout.xlsx")
 
 names(RecFishing) <- tolower(names(RecFishing))
 RecFishing <- filter(RecFishing, year < 2020)
@@ -57,6 +62,16 @@ RecRelAlive <- filter(RecRelAlive, year < 2020)
 names(ShmpReg) <- tolower(names(ShmpReg))
 ShmpReg <- filter(ShmpReg, year < 2020) %>% select(-...1)
 names(BeachNouris) <- tolower(names(BeachNouris))
+names(RecGK) <- tolower(names(RecGK))
+RecGK <- filter(RecGK, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
+names(RecRD) <- tolower(names(RecRD))
+RecRD <- filter(RecRD, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
+names(RecSH) <- tolower(names(RecSH))
+RecSH <- filter(RecSH, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
+names(RecSF) <- tolower(names(RecSF))
+RecSF <- filter(RecSF, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
+names(RecSST) <- tolower(names(RecSST))
+RecSST <- filter(RecSST, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
 ```
 
 #### Running GAMs for Impacts and Responses Indicators
@@ -431,6 +446,32 @@ mod_BeachNourisCvol <- gam(sum_vol ~ s(year, k= 10), data = BeachNourisCvol)
 BeachNourisSvol <- BeachNouris %>% filter(region %in% "Southern")
 gam_diagn(BeachNourisSvol$sum_vol, 10, BeachNourisNvol)
 mod_BeachNourisSvol <- gam(sum_vol ~ s(year, k= 10), data = BeachNourisSvol)
+
+##Rec fishing by Species
+###Gulf kingfish
+gam_diagn(RecGK$Total_harvest, 6, RecGK)
+mod_RecGK <- gam(Total_harvest ~ s(year, k= 6), data = RecGK)
+
+###Red drum 
+gam_diagn(RecRD$Total_harvest, 6, RecRD)
+mod_RecRD <- gam(Total_harvest ~ s(year, k= 6), data = RecRD)
+
+####Red drum, modified
+RecRD.m <- RecRD %>% filter(year > 1990)
+gam_diagn(RecRD.m$Total_harvest, 6, RecRD.m)
+mod_RecRD.m <- gam(Total_harvest ~ s(year, k= 6), data = RecRD.m)
+
+###Sheepshead
+gam_diagn(RecSH$Total_harvest, 6, RecSH)
+mod_RecSH <- gam(Total_harvest ~ s(year, k= 6), data = RecSH)
+
+###Southern flounder
+gam_diagn(RecSF$Total_harvest, 6, RecSF)
+mod_RecSF <- gam(Total_harvest ~ s(year, k= 6), data = RecSF)
+
+###Spotted seatrout 
+gam_diagn(RecSST$Total_harvest, 6, RecSST)
+mod_RecSST <- gam(Total_harvest ~ s(year, k= 6), data = RecSST)
 ```
 
 #### GAM Functions: Results
@@ -1280,18 +1321,86 @@ linearMod_1997 <- lm(sum_vol ~ year, data=dfpost1997_BeachNourisSvol)
 summary(linearMod_1997)
 long_sig(BeachNourisSvol, BeachNourisSvol$sum_cost, intercept_BeachNourisSvol, pdata_BeachNourisSvol, mod.dsig_BeachNourisSvol, "Total Volume", "Year", "Total Volume for Beach \n Nourishment in Southern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "BeachNourisSvol.cost.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Rec Fishing by Species 
+
+##Gulf flounder
+p2mod_RecGK <- GAM_predict_p2mod(RecGK, mod_RecGK)
+intercept_RecGK = as.numeric(attr(p2mod_RecGK,"constant")) 
+pdata_RecGK <- GAM_predict_pdata(RecGK, mod_RecGK)
+mod.dsig_RecGK <- GAM_deriv(pdata_RecGK, mod_RecGK)
+linearMod <- lm(Total_harvest ~ year, data= RecGK)
+summary(linearMod)
+dfpost1997_RecGK <- filter(RecGK, year > 1997)
+linearMod_1997 <- lm(Total_harvest ~ year, data=dfpost1997_RecGK)
+summary(linearMod_1997)
+both_sig(RecGK, RecGK$Total_harvest, intercept_RecGK, pdata_RecGK, mod.dsig_RecGK, dfpost1997_RecGK, dfpost1997_RecGK$Total_harvest, "Total Harvest", "Year", "Total Recreational Harvest for \n Gulf Flounder in North Carolina") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecGK.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Red drum
+p2mod_RecRD <- GAM_predict_p2mod(RecRD, mod_RecRD)
+intercept_RecRD = as.numeric(attr(p2mod_RecRD,"constant")) 
+pdata_RecRD <- GAM_predict_pdata(RecRD, mod_RecRD)
+mod.dsig_RecRD <- GAM_deriv(pdata_RecRD, mod_RecRD)
+linearMod <- lm(Total_harvest ~ year, data= RecRD)
+summary(linearMod)
+dfpost1997_RecRD <- filter(RecRD, year > 1997)
+linearMod_1997 <- lm(Total_harvest ~ year, data=dfpost1997_RecRD)
+summary(linearMod_1997)
+short_sig(RecRD, RecRD$Total_harvest, intercept_RecRD, pdata_RecRD, mod.dsig_RecRD, dfpost1997_RecRD, dfpost1997_RecRD$Total_harvest, "Total Harvest", "Year", "Total Recreational Harvest for \n Red Drum in North Carolina") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecRD.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Red drum modified
+p2mod_RecRD.m <- GAM_predict_p2mod(RecRD.m, mod_RecRD.m)
+intercept_RecRD.m = as.numeric(attr(p2mod_RecRD.m,"constant")) 
+pdata_RecRD.m <- GAM_predict_pdata(RecRD.m, mod_RecRD.m)
+mod.dsig_RecRD.m <- GAM_deriv(pdata_RecRD.m, mod_RecRD.m)
+linearMod <- lm(Total_harvest ~ year, data= RecRD.m)
+summary(linearMod)
+dfpost1997_RecRD.m <- filter(RecRD.m, year > 1997)
+linearMod_1997 <- lm(Total_harvest ~ year, data=dfpost1997_RecRD.m)
+summary(linearMod_1997)
+both_sig(RecRD.m, RecRD.m$Total_harvest, intercept_RecRD.m, pdata_RecRD.m, mod.dsig_RecRD.m, dfpost1997_RecRD.m, dfpost1997_RecRD.m$Total_harvest, "Total Harvest", "Year", "Total Recreational Harvest for \n Red Drum in North Carolina") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecRD.m.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+
+##Sheepshead
+p2mod_RecSH <- GAM_predict_p2mod(RecSH, mod_RecSH)
+intercept_RecSH = as.numeric(attr(p2mod_RecSH,"constant")) 
+pdata_RecSH <- GAM_predict_pdata(RecSH, mod_RecSH)
+mod.dsig_RecSH <- GAM_deriv(pdata_RecSH, mod_RecSH)
+linearMod <- lm(Total_harvest ~ year, data= RecSH)
+summary(linearMod)
+dfpost1997_RecSH <- filter(RecSH, year > 1997)
+linearMod_1997 <- lm(Total_harvest ~ year, data=dfpost1997_RecSH)
+summary(linearMod_1997)
+long_sig(RecSH, RecSH$Total_harvest, intercept_RecSH, pdata_RecSH, mod.dsig_RecSH, "Total Harvest", "Year", "Total Recreational Harvest for \n Sheepshead in North Carolina") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecSH.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Southern flounder
+p2mod_RecSF <- GAM_predict_p2mod(RecSF, mod_RecSF)
+intercept_RecSF = as.numeric(attr(p2mod_RecSF,"constant")) 
+pdata_RecSF <- GAM_predict_pdata(RecSF, mod_RecSF)
+mod.dsig_RecSF <- GAM_deriv(pdata_RecSF, mod_RecSF)
+linearMod <- lm(Total_harvest ~ year, data= RecSF)
+summary(linearMod)
+dfpost1997_RecSF <- filter(RecSF, year > 1997)
+linearMod_1997 <- lm(Total_harvest ~ year, data=dfpost1997_RecSF)
+summary(linearMod_1997)
+long_sig(RecSF, RecSF$Total_harvest, intercept_RecSF, pdata_RecSF, mod.dsig_RecSF, "Total Harvest", "Year", "Total Recreational Harvest for \n Southern Flounder in North Carolina") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecSF.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Spotted seatrout 
+p2mod_RecSST <- GAM_predict_p2mod(RecSST, mod_RecSST)
+intercept_RecSST = as.numeric(attr(p2mod_RecSST,"constant")) 
+pdata_RecSST <- GAM_predict_pdata(RecSST, mod_RecSST)
+mod.dsig_RecSST <- GAM_deriv(pdata_RecSST, mod_RecSST)
+linearMod <- lm(Total_harvest ~ year, data= RecSST)
+summary(linearMod)
+dfpost1997_RecSST <- filter(RecSST, year > 1997)
+linearMod_1997 <- lm(Total_harvest ~ year, data=dfpost1997_RecSST)
+summary(linearMod_1997)
+long_sig(RecSST, RecSST$Total_harvest, intercept_RecSST, pdata_RecSST, mod.dsig_RecSST, "Total Harvest", "Year", "Total Recreational Harvest for \n Spotted Seatrout in North Carolina") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecSST.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
 
-```{r}
-ggplot() + 
-  geom_line(data = df, aes(x = year, y = angler_trips), color = 'grey53', alpha = 0.6) +
-  geom_point(data = df, aes(x = year, y = angler_trips), color = 'gray53', alpha = 0.6) + 
-  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
-  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) + 
-  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = "#D55E00", size = 1) +   geom_smooth(data = dfpost1997, aes(x = year, y = angler_trips), method = lm, se = FALSE, color = "#009E73") +
-   geom_smooth(data = df, aes(x = year, y = angler_trips), method = lm, se = FALSE, color = "gray", alpha = 0.2) +
-  theme_bw() +
-  labs (y = "Angler Trips", x = 'Year', title = paste0(name)) + 
-  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-ggsave("/users/sallydowd/desktop/rec.fishing.png")
-```
