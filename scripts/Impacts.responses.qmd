@@ -29,11 +29,11 @@ RecCatch <- read_csv("data/finalized/b1981RecreationalTotalCatchNCSD.csv")
 RecRelAlive <- read_csv("data/finalized/b1981RecTotalRelAliveNCSD.csv")
 ShmpReg <- read_csv("data/finalized/e1994ShrimpRegionNCSD.csv")
 BeachNouris <- read_csv("data/finalized/p1939BeachNourishmentSD_finalized.csv")
-RecGK <- read_excel("~/Desktop/gulf_kingfish.xlsx")
-RecRD <- read_excel("~/Desktop/red_drum.xlsx")
-RecSH <- read_excel("~/Desktop/sheepshead.xlsx")
-RecSF <- read_excel("~/Desktop/southern_flounder.xlsx")
-RecSST <- read_excel("~/Desktop/spotted_seatrout.xlsx")
+# RecGK <- read_excel("~/Desktop/gulf_kingfish.xlsx")
+# RecRD <- read_excel("~/Desktop/red_drum.xlsx")
+# RecSH <- read_excel("~/Desktop/sheepshead.xlsx")
+# RecSF <- read_excel("~/Desktop/southern_flounder.xlsx")
+# RecSST <- read_excel("~/Desktop/spotted_seatrout.xlsx")
 
 names(RecFishing) <- tolower(names(RecFishing))
 RecFishing <- filter(RecFishing, year < 2020)
@@ -181,6 +181,21 @@ VesselLength_over50 <- VesselLength %>% filter(vessellengthrange %in% ">50ft.")
 k_det(VesselLength_over50)
 gam_diagn(VesselLength_over50$count, 6, VesselLength_over50)
 mod_VesselLength_over50 <- gam(count ~ s(year, k= 6), data = VesselLength_over50)
+
+##Vessel length part 2 
+VesselLength_edt <- VesselLength %>% mutate(division= ifelse(vessellengthrange %in% c("0-18ft.", "19-38ft."), 1, 2))
+
+###Under 38 
+VesselLength_under38 <- VesselLength_edt %>% filter(division ==1) %>% group_by(year) %>% mutate(total_count= sum(count)) %>% distinct(total_count, .keep_all=TRUE) %>% select(year, division, total_count)
+k_det(VesselLength_under38)
+gam_diagn(VesselLength_under38$total_count, 6, VesselLength_under38) 
+mod_VesselLength_under38 <- gam(total_count ~ s(year, k= 6), data = VesselLength_under38)
+
+###Over 38 
+VesselLength_over38 <- VesselLength_edt %>% filter(division ==2) %>% group_by(year) %>% mutate(total_count= sum(count)) %>% distinct(total_count, .keep_all=TRUE) %>% select(year, division, total_count)
+k_det(VesselLength_over38)
+gam_diagn(VesselLength_over38$total_count, 6, VesselLength_over38) 
+mod_VesselLength_over38 <- gam(total_count ~ s(year, k= 6), data = VesselLength_over38)
 
 ##Clams landings 
 ClamsLandings_edt <- ClamsLandings %>% mutate(ratioprpub = private_lbs/public_lbs) %>% select(year, ratioprpub)
@@ -697,18 +712,32 @@ summary(linearMod_1997)
 both_sig(VesselLength_over50, VesselLength_over50$count, intercept_VesselLength_over50, pdata_VesselLength_over50, mod.dsig_VesselLength_over50, dfpost1997_VesselLength_over50, dfpost1997_VesselLength_over50$count, "Number of Vessels", "Year", "Number of Vessels over 50 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_over50GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-#Clams landings 
-p2mod_ClamsLandings_edt <- GAM_predict_p2mod(ClamsLandings_edt, mod_ClamsLandings_edt)
-intercept_ClamsLandings_edt = as.numeric(attr(p2mod_ClamsLandings_edt,"constant")) 
-pdata_ClamsLandings_edt <- GAM_predict_pdata(ClamsLandings_edt, mod_ClamsLandings_edt)
-mod.dsig_ClamsLandings_edt <- GAM_deriv(pdata_ClamsLandings_edt, mod_ClamsLandings_edt)
-linearMod <- lm(ratioprpub ~ year, data= ClamsLandings_edt)
+#Vessel length 2 
+##Under 38
+p2mod_VesselLength_under38 <- GAM_predict_p2mod(VesselLength_under38, mod_VesselLength_under38)
+intercept_VesselLength_under38 = as.numeric(attr(p2mod_VesselLength_under38,"constant")) 
+pdata_VesselLength_under38 <- GAM_predict_pdata(VesselLength_under38, mod_VesselLength_under38)
+mod.dsig_VesselLength_under38 <- GAM_deriv(pdata_VesselLength_under38, mod_VesselLength_under38)
+linearMod <- lm(total_count ~ year, data= VesselLength_under38)
 summary(linearMod)
-dfpost1997_ClamsLandings_edt <- filter(ClamsLandings_edt, year > 1997)
-linearMod_1997 <- lm(ratioprpub ~ year, data=dfpost1997_ClamsLandings_edt)
+dfpost1997_VesselLength_under38 <- filter(VesselLength_under38, year > 1997)
+linearMod_1997 <- lm(total_count ~ year, data=dfpost1997_VesselLength_under38)
 summary(linearMod_1997)
-both_sig(ClamsLandings_edt, ClamsLandings_edt$ratioprpub, intercept_ClamsLandings_edt, pdata_ClamsLandings_edt, mod.dsig_ClamsLandings_edt, dfpost1997_ClamsLandings_edt, dfpost1997_ClamsLandings_edt$ratioprpub, "Private:Public Harvest (lbs)", "Year", "Ratio of Clams Harvested with Private\n vs. Public Lease") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
-ggsave(paste0("/users/sallydowd/Desktop/Figures/", "ClamsLandings_edtGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+both_sig(VesselLength_under38, VesselLength_under38$total_count, intercept_VesselLength_under38, pdata_VesselLength_under38, mod.dsig_VesselLength_under38, dfpost1997_VesselLength_under38, dfpost1997_VesselLength_under38$total_count, "Number of Vessels", "Year", "Number of Vessels under 38 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Indicators/Figures/", "VesselLength_under38GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Over 38
+p2mod_VesselLength_over38 <- GAM_predict_p2mod(VesselLength_over38, mod_VesselLength_over38)
+intercept_VesselLength_over38 = as.numeric(attr(p2mod_VesselLength_over38,"constant")) 
+pdata_VesselLength_over38 <- GAM_predict_pdata(VesselLength_over38, mod_VesselLength_over38)
+mod.dsig_VesselLength_over38 <- GAM_deriv(pdata_VesselLength_over38, mod_VesselLength_over38)
+linearMod <- lm(total_count ~ year, data= VesselLength_over38)
+summary(linearMod)
+dfpost1997_VesselLength_over38 <- filter(VesselLength_over38, year > 1997)
+linearMod_1997 <- lm(total_count ~ year, data=dfpost1997_VesselLength_over38)
+summary(linearMod_1997)
+both_sig(VesselLength_over38, VesselLength_over38$total_count, intercept_VesselLength_over38, pdata_VesselLength_over38, mod.dsig_VesselLength_over38, dfpost1997_VesselLength_over38, dfpost1997_VesselLength_over38$total_count, "Number of Vessels", "Year", "Number of Vessels over 38 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Indicators/Figures/", "VesselLength_over38GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 #Oyster landings
 p2mod_OysterLandings_edt <- GAM_predict_p2mod(OysterLandings_edt, mod_OysterLandings_edt)
@@ -1403,4 +1432,3 @@ summary(linearMod_1997)
 long_sig(RecSST, RecSST$Total_harvest, intercept_RecSST, pdata_RecSST, mod.dsig_RecSST, "Total Harvest", "Year", "Total Recreational Harvest for \n Spotted Seatrout in North Carolina") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("~/Desktop/", "RecSST.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
-
