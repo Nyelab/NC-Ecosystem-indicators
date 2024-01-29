@@ -203,6 +203,12 @@ k_det(VesselLength_ratio)
 gam_diagn(VesselLength_ratio$ratio, 7, VesselLength_ratio) #p-value was signficant at 6
 mod_VesselLength_ratio <- gam(ratio ~ s(year, k= 6), data = VesselLength_ratio)
 
+##Vessel length: large to small ratio
+VesselLength_ratio2 <- VesselLength %>% mutate(division= ifelse(vessellengthrange %in% c("0-18ft.", "19-38ft."), "small", "large")) %>% group_by(year, division) %>% mutate(total_count= sum(count)) %>% distinct(total_count, .keep_all=TRUE) %>% select(year, division, total_count) %>% spread(division, total_count, fill= 0) %>% mutate(ratio= large/small) %>% filter(year >= 2000)
+k_det(VesselLength_ratio2)
+gam_diagn(VesselLength_ratio2$ratio, 6, VesselLength_ratio2) #p-value was significant at 4
+mod_VesselLength_ratio2 <- gam(ratio ~ s(year, k= 6), data = VesselLength_ratio2)
+
 ##Clams landings 
 ClamsLandings_edt <- ClamsLandings %>% mutate(ratioprpub = private_lbs/public_lbs) %>% select(year, ratioprpub)
 k_det(ClamsLandings_edt)
@@ -758,13 +764,27 @@ summary(linearMod_1997)
 both_nonsig(VesselLength_ratio, VesselLength_ratio$ratio, intercept_VesselLength_ratio, pdata_VesselLength_ratio, mod.dsig_VesselLength_ratio, "Ratio of Vessels", "Year", "Ratio of small to large vessels") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("/users/sallydowd/Desktop/Indicators/Figures/", "VesselLength_ratioGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-df, dep_var, intercept, pdata, mod.dsig, y_units, x_units, title_name
+##Vessel length ratio: large to small
+p2mod_VesselLength_ratio2 <- GAM_predict_p2mod(VesselLength_ratio2, mod_VesselLength_ratio2)
+intercept_VesselLength_ratio2 = as.numeric(attr(p2mod_VesselLength_ratio2,"constant")) 
+pdata_VesselLength_ratio2 <- GAM_predict_pdata(VesselLength_ratio2, mod_VesselLength_ratio2)
+mod.dsig_VesselLength_ratio2 <- GAM_deriv(pdata_VesselLength_ratio2, mod_VesselLength_ratio2)
+linearMod <- lm(ratio ~ year, data= VesselLength_ratio2)
+summary(linearMod)
+dfpost1997_VesselLength_ratio2 <- filter(VesselLength_ratio2, year > 1997)
+linearMod_1997 <- lm(ratio ~ year, data=dfpost1997_VesselLength_ratio2)
+summary(linearMod_1997)
+both_nonsig(VesselLength_ratio2, VesselLength_ratio2$ratio, intercept_VesselLength_ratio2, pdata_VesselLength_ratio2, mod.dsig_VesselLength_ratio2, "Ratio of Vessels", "Year", "Ratio of large to small vessels") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("/users/sallydowd/Desktop/Indicators/Figures/", "VesselLength_ratio2GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 
-VesselLength_ratio <- VesselLength %>% mutate(division= ifelse(vessellengthrange %in% c("0-18ft.", "19-38ft."), "small", "large")) %>% group_by(year, division) %>% mutate(total_count= sum(count)) %>% distinct(total_count, .keep_all=TRUE) %>% select(year, division, total_count) %>% spread(division, total_count, fill= 0) %>% mutate(ratio= small/large)
-k_det(VesselLength_ratio)
-gam_diagn(VesselLength_ratio$ratio, 7, VesselLength_ratio) #p-value was signficant at 6
-mod_VesselLength_ratio <- gam(ratio ~ s(year, k= 6), data = VesselLength_ratio)
+
+
+
+
+
+
+mod_VesselLength_ratio2 <- gam(ratio ~ s(year, k= 6), data = VesselLength_ratio2)
 
 #Oyster landings
 p2mod_OysterLandings_edt <- GAM_predict_p2mod(OysterLandings_edt, mod_OysterLandings_edt)
