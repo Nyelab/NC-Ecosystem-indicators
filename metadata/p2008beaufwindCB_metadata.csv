@@ -1,0 +1,15 @@
+Datset File Name:,p2008beaufwindCB.csv
+Dataset Title:,p2008beaufwindCB
+Dataset Author:,Camryn Blawas
+Dataset Author Contact:,cblawas@nyelab.org
+Data Owner:,NOAA
+Data Owner Contact:,
+Link to Publically Available Data (if applicable):,https://tidesandcurrents.noaa.gov/stationhome.html?id=8656483
+Raw Data Citation,National Data Buoy Center (1971). Meteorological and oceanographic data collected from the National Data Buoy Center Coastal-Marine Automated Network (C-MAN) and moored (weather) buoys. [indicate subset used]. NOAA National Centers for Environmental Information. Dataset. https://www.ncei.noaa.gov/archive/accession/NDBC-CMANWx. Accessed [date].
+Link to Code Creating Dataset:,
+Variables Generated in Dataset:,"Maximum gusts in knots, mean gusts in knots, angle in degrees"
+Timeframe of Dataset:,2008-2023
+Data Collection Period,2008-2023
+Geographic Study Area:,"Beaufort, NC"
+Does dataset include information governed under IRB or HIPAA?,No
+Comments:,

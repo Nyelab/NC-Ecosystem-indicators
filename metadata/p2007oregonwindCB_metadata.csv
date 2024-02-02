@@ -1,0 +1,15 @@
+Datset File Name:,p2007oregonwindCB.csv
+Dataset Title:,p2007oregonwindCB
+Dataset Author:,Camryn Blawas
+Dataset Author Contact:,cblawas@nyelab.org
+Data Owner:,NOAA
+Data Owner Contact:,
+Link to Publically Available Data (if applicable):,https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id=8652587
+Raw Data Citation,National Data Buoy Center (1971). Meteorological and oceanographic data collected from the National Data Buoy Center Coastal-Marine Automated Network (C-MAN) and moored (weather) buoys. [indicate subset used]. NOAA National Centers for Environmental Information. Dataset. https://www.ncei.noaa.gov/archive/accession/NDBC-CMANWx. Accessed [date].
+Link to Code Creating Dataset:,
+Variables Generated in Dataset:,"Maximum gusts in knots, mean gusts in knots, angle in degrees"
+Timeframe of Dataset:,2007-2023
+Data Collection Period,2007-2023
+Geographic Study Area:,"Oregon Inlet, NC"
+Does dataset include information governed under IRB or HIPAA?,No
+Comments:,
