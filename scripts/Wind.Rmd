@@ -1,0 +1,313 @@
+Purpose of this code is to pull wind data and plot
+
+Last updated 2/2/24
+
+#Load libraries
+```{r setup, include=FALSE}
+library(rnoaa)
+library(tidyverse)
+library(noaaoceans)
+library(ncdf4)
+library(clifro)
+library(lubridate)
+# setwd("G:/My Drive/Wind")
+```
+
+#Functions
+```{r}
+#error catch
+errorcatch <- function(id, start, end){
+    tryCatch(
+        #try to do this
+        {
+        query_coops_data(
+        station_id = id,
+        start_date = start,
+        end_date = end,
+        data_product = "wind",
+        datum = "MSL",
+        units = "english",
+        time_zone = "lst",
+      )
+        return(0)
+        },
+        #if an error occurs, tell me the error
+        error=function(e) {
+            message('An Error Occurred')
+            return(1)
+        },
+        #if a warning occurs, tell me the warning
+        warning=function(w) {
+            message('A Warning Occurred')
+            print(w)
+            return(1)
+        }
+    )
+}
+```
+
+```{r}
+direction <- function(angle){
+  ifelse(angle >= 315, "N",
+               ifelse(angle < 45, "N",
+                 ifelse(angle >= 45 & angle <= 135, "E",
+                        ifelse(angle > 135 & angle <= 225, "S",
+                           ifelse(angle > 225 & angle < 315, "W", "NA")))))
+}
+
+direction2 <- function(angle){
+  ifelse(angle >= 337.5, "N",
+               ifelse(angle < 22.5, "N",
+                 ifelse(angle >= 67.5 & angle <= 112.5, "E",
+                        ifelse(angle > 157.5 & angle <= 202.5, "S",
+                           ifelse(angle > 247.5 & angle < 292.5, "W", ifelse(angle >= 22.5 & angle <= 67.5, "NE", ifelse(angle >= 112.5 & angle <= 157.5, "SE", ifelse(angle >= 202.5 & angle <= 247.5, "SW", ifelse(angle >= 292.5 & angle <= 337.5, "NW", "NA")
+                                  )
+                           )
+                        )
+                 )
+         )
+                 )
+  )
+  )
+}
+  
+```
+
+#Buoy Information
+```{r}
+if (crul::ok("https://dods.ndbc.noaa.gov/thredds", timeout_ms = 1010)) {
+# Get buoy station information
+x <- buoy_stations()
+# refresh stations as needed, takes a while to run
+# you shouldn't need to update very often
+# x <- buoy_stations(refresh = TRUE)
+}
+```
+
+```{r}
+nbdcids <- c("DUKN7", "ORIN7", "HCGN7", "BFTN7", "WLON7", "JMPN7")
+tcids <- c(8651370, 8652587, 8654467,  8656483, 8658120, 8658163)
+names <- c("duck", "oregon", "hatteras", "beauf", "capefear", "wrightsville")
+
+nbdcstartyears <- c(2008, 2005, 2010, 2005, "NA", 2006)
+tcstartyears <- c(1995, 2007, 2010, 1994, "NA", 2005)
+
+seasons <- c("winter", "spring", "summer", "fall")
+season <- c("winter", "winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "fall", "fall", "fall")
+season <- as.data.frame(season)
+season$month <- 1:12
+
+my_theme <- function() {theme_bw() + theme(panel.grid.major.x = element_blank(), panel.grid.minor = element_blank(), plot.title = element_text(size=12, face= "bold", colour= "black"), axis.title.x = element_text(size=12, face="bold", colour = "black"), axis.title.y = element_text(size=12, face="bold", colour = "black"))}
+```
+
+#Pull Buoy Data NBDC
+
+```{r}
+#for nbdc years
+finalnbdcdatanames <- list()
+for (i in 1:length(nbdcids)) {
+  id <- nbdcids[i]
+  alldfs <- list()
+  startyear <- nbdcstartyears[i]
+  range <- startyear:2023
+  for (j in 1:length(range)) {
+    year <- buoy(dataset = "stdmet", buoyid = id,  year = range[j])
+    year <- as.data.frame(year$data)
+    year$date <- as.Date(year$time)
+    year <- select(year, date, lat, lon, wind_dir, wind_spd, gust)
+    names(year) <- c("date", "lat", "lon", "angle",  "speed", "gusts")
+    year$speed <- as.numeric(year$speed)
+    year$angle <- as.numeric(year$angle)
+    year$gusts <- as.numeric(year$gusts)
+    year2 <- year %>% group_by(date) %>% summarize(speed = mean(speed, na.rm = TRUE), angle = mean(angle, na.rm = TRUE), meangusts = mean(gusts, na.rm = TRUE), maxgusts = max(gusts, na.rm = TRUE))
+    year2 <- unique(year2)
+    year2$id <- id
+    alldfs[[j]] <- year2
+  }
+  
+  final <- do.call("rbind", alldfs)
+  final$speedmph <- 2.23694*final$speed
+  final$maxgustsmph <- 2.23694*final$maxgusts
+  y <- final
+  windrose(speed = y$speedmph, direction = y$angle, speed_cuts = c(10, 20, 30, 40), ggtheme = "bw", legend_title = "Wind Maximum Gusts (mph)") + ggtitle(title)
+  x <- paste0("id", id, "update")
+  finalnbdcdatanames <- c(finalnbdcdatanames, x)
+  assign(x, final)
+}
+
+x <- get(finalnbdcdatanames[[1]])
+x <- x %>% group_by(date) %>% summarize(speed = mean(speed, na.rm = TRUE), angle = mean(angle, na.rm = TRUE), meangusts = mean(gusts, na.rm = TRUE), maxgusts = max(gusts, na.rm = TRUE))
+x$year <- as.numeric(format(as.Date(x$date), "%Y"))
+y <- x %>% group_by(year) %>% summarize(speed = mean(speed, na.rm = TRUE), angle = mean(angle, na.rm = TRUE), meangusts = mean(meangusts, na.rm = TRUE), maxgusts = max(maxgusts, na.rm = TRUE))
+
+
+```
+
+
+#Pull Buoy Data NOAA Tides and Currents
+```{r}
+#for tc years
+finaltcdatanames <- list()
+totalmonths <- 13
+for(i in 1:length(tcids)) {
+  id <- tcids[i]
+  all <- data.frame()
+  startyear <- tcstartyears[i]
+  range <- startyear:2023
+    for (j in range) {
+    #iterate for each month
+    startdate <- as.Date(paste0(j, "-01-01"))
+    for (k in 1:totalmonths) {
+      #get dates
+      start <- as.character(format(startdate, "%Y%m%d"))
+      end <- as.character(format(startdate %m+% months(1), "%Y%m%d"))
+      #get buoy data 
+      if(errorcatch(id, start, end) < 1) {
+        data <- query_coops_data(
+        station_id = tcids[i],
+        start_date = start,
+        end_date = end,
+        data_product = "wind",
+        interval = "h",
+        units = "metric",
+        time_zone = "lst",
+        )
+        metadata <- query_metadata(
+        station_id = tcids[i]
+        )
+
+        #append
+        names(data) <- c("time", "speed", "angle", "direction", "gusts", "blah", "station")
+        data <- dplyr::filter(data, blah != "1,1")
+        data$speed <- as.numeric(data$speed)
+        data$angle <- as.numeric(data$angle)
+        data$gusts <- as.numeric(data$gusts)
+          if(nrow(data) > 0) {
+            data$date <- as.Date(data$time)
+            data$date <- format(data$date, "%Y-%m-%d")
+            data <- data %>% group_by(date) %>% summarize(speed = mean(speed, na.rm = TRUE), angle = mean(angle, na.rm = TRUE), meangusts = mean(gusts, na.rm = TRUE), maxgusts = max(gusts, na.rm = TRUE))
+            data <- unique(data)
+            # data$direction <- d2c.2(data$angle)
+            all <- rbind(all, data)
+          }
+        #incr month
+        y <- as.Date(start,"%Y%m%d")
+        startdate <- as.Date(format(y %m+% months(1),"%Y-%m-%d"))
+        } else {
+        y <- as.Date(start,"%Y%m%d")
+        startdate <- as.Date(format(y %m+% months(1),"%Y-%m-%d")) 
+        }
+    }
+    }
+      final <- all
+      final$id <- NA
+      final$id <- id
+      final <- unique(final)
+      x <- paste0("id", id)
+      finaltcdatanames <- c(finaltcdatanames, x)
+      assign(x, final)
+}
+
+
+
+finaltcdatanames <- paste0("id", tcids)
+finaltcdatanames <- finaltcdatanames[c(1, 2, 3, 4, 6)]
+
+#save data
+for(i in 4:length(finaltcdatanames)) {
+  x <- get(finaltcdatanames[[i]])
+  x <- dplyr::select(x, date, speed, angle, meangusts, maxgusts, id)
+  x <- filter(x, angle < 360)
+  if (i == 6) {
+    x$name <- names[i+1]
+  } else {
+    x$name <- names[i]
+  }
+  
+  # write.csv(x, paste0("G:/My Drive/Wind/", names[i], "wind.csv"))
+}
+```
+
+#Get data from github
+```{r}
+data_list <- list()
+datafiles <- list.files(path = "G:/My Drive/Wind/", pattern = "*\\.csv$")
+datafiles <- datafiles[c(2, 7, 9, 14, 22)]
+for (i in 1:length(datafiles)){
+  df <- read.csv(paste0("G:/My Drive/Wind/", datafiles[i]))
+  data_list[[i]] <- df
+}
+```
+
+#Number of Days at different speeds
+
+```{r}
+d2c.2 <- function(x) {
+  upper <- seq(from = 11.25, by = 22.5, length.out = 17)
+  card1 <- c('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N')
+  ifelse(x>360 | x<0,NA,card1[findInterval(x,upper,rightmost.closed = T)+1])
+}
+
+#Wind direction by season
+seasons <- c("winter", "spring", "summer", "fall")
+season <- c("winter", "winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "fall", "fall", "fall")
+season <- as.data.frame(season)
+season$month <- 1:12
+
+allseasonsdf <- data.frame()
+allmonthsdf <- data.frame()
+
+for(i in 1:length(data_list)) {
+  x <- data_list[[i]]
+  x$date <- as.Date(x$date)
+  x$month <- as.numeric(format(x$date, "%m"))
+  x$year <- as.numeric(format(x$date, "%Y"))
+  x$maxgustsmph <- 2.23694*x$maxgusts
+  x$speedmph <- 2.23694*x$speed
+  x <- merge(x, season, by = "month")
+  range <- min(x$year, na.rm = TRUE):max(x$year, na.rm = TRUE)
+    for(k in 1:length(range)){
+    q <- dplyr::filter(x, year == range[k])
+      for(j in 1:length(seasons)){
+        y <- dplyr::filter(q, season == seasons[j])
+        if(nrow(y) >0){
+        y$direction <- direction2(y$angle)
+        byseason <- y %>% group_by(direction) %>% summarize(nofdays = n())
+        byseason$season <- seasons[j]
+        byseason$year <- range[k]
+        byseason$id <- datafiles[i]
+        allseasonsdf <- rbind(allseasonsdf, byseason)
+        }
+        for(p in 1:12){
+        y <- dplyr::filter(q, month == p)
+        if(nrow(y) >0){
+        y$direction <- direction2(y$angle)
+        bymonth <- y %>% group_by(direction) %>% summarize(nofdays = n())
+        bymonth$month <- p
+        bymonth$year <- range[k]
+        bymonth$id <- datafiles[i]
+        allmonthsdf <- rbind(allmonthsdf, bymonth)
+        }
+        }
+      }
+    }
+}
+
+write.csv(allseasonsdf, "~/NC-Ecosystem-indicators/data/pNofDaysWindDirectionbySeasonCB.csv")
+
+write.csv(allmonthsdf, "~/NC-Ecosystem-indicators/data/pNofDaysWindDirectionbyMonthCB.csv")
+
+
+for(i in 1:length(datafiles)){
+p <- allseasonsdf %>% dplyr::filter(id == datafiles[i]) %>% ggplot(mapping = aes(x = year, y = nofdays)) + geom_point(size = 0.5) + geom_smooth(method = "lm") + facet_grid(season~direction) + scale_x_continuous(breaks = round(seq(min(allseasonsdf$year), max(allseasonsdf$year), by = 20))) + my_theme() + theme(axis.text.x = element_text(angle=90)) + labs(title =  paste0(datafiles[i], " Number of Days in Each Direction by Season"), y = "Number of Days", x = "year")
+print(p)
+# 
+# ggsave(paste0("G:/My Drive/Wind/", datafiles[i], "NofDaysbySeasonLM.png"))
+
+p <- allmonthsdf %>% dplyr::filter(id == datafiles[i]) %>% ggplot(mapping = aes(x = year, y = nofdays)) + geom_point(size = 0.5) + geom_smooth(method = "lm") + facet_grid(month~direction) + scale_x_continuous(breaks = round(seq(min(allseasonsdf$year), max(allseasonsdf$year), by = 20))) + my_theme() + theme(axis.text.x = element_text(angle=90)) + labs(title =  paste0(datafiles[i], " Number of Days in Each Direction by Month"), y = "Number of Days", x = "year")
+# ggsave(paste0("G:/My Drive/Wind/", datafiles[i], "NofDaysbyMonthLM.png"))
+}
+
+write.csv(allmonthsdf, "G:/My Drive/Wind/NofDaysDirectionbyMonth.csv")
+
+```
