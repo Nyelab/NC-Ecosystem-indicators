@@ -34,6 +34,11 @@ BeachNouris <- read_csv("data/finalized/p1939BeachNourishmentSD_finalized.csv")
 # RecSH <- read_excel("~/Desktop/sheepshead.xlsx")
 # RecSF <- read_excel("~/Desktop/southern_flounder.xlsx")
 # RecSST <- read_excel("~/Desktop/spotted_seatrout.xlsx")
+RecLicenseCoast <- read_csv("data/finalized/s2007RecLicensesCoastalNCSD.csv")
+RecLicenseNonCoast <- read_csv("data/finalized/s2007RecLicensesNonCoastalNCSD.csv")
+RecLicenseInState <- read_csv("data/finalized/s2007RecLicensesInStateNCSD.csv")
+RecLicenseOutofState <- read_csv("data/finalized/s2007RecLicensesOutofStateNCSD.csv")
+RecLicenseTotal <- read_csv("data/finalized/s2007RecLicensesTotalNCSD.csv")
 
 names(RecFishing) <- tolower(names(RecFishing))
 RecFishing <- filter(RecFishing, year < 2020)
@@ -72,6 +77,12 @@ names(RecSF) <- tolower(names(RecSF))
 RecSF <- filter(RecSF, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
 names(RecSST) <- tolower(names(RecSST))
 RecSST <- filter(RecSST, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
+
+names(RecLicenseCoast) <- tolower(names(RecLicenseCoast))
+names(RecLicenseNonCoast) <- tolower(names(RecLicenseNonCoast))
+names(RecLicenseInState) <- tolower(names(RecLicenseInState))
+names(RecLicenseOutofState) <- tolower(names(RecLicenseOutofState))
+names(RecLicenseTotal) <- tolower(names(RecLicenseTotal))
 ```
 
 #### Running GAMs for Impacts and Responses Indicators
@@ -499,6 +510,29 @@ mod_RecSF <- gam(Total_harvest ~ s(year, k= 6), data = RecSF)
 ###Spotted seatrout 
 gam_diagn(RecSST$Total_harvest, 6, RecSST)
 mod_RecSST <- gam(Total_harvest ~ s(year, k= 6), data = RecSST)
+
+##Rec licenses
+k_det(RecLicenseCoast) #4
+
+###RecLicenseCoast
+gam_diagn(RecLicenseCoast$number, 4, RecLicenseCoast)
+mod_RecLicenseCoast <- gam(number ~ s(year, k= 10), data = RecLicenseCoast)
+
+###RecLicenseNonCoast
+gam_diagn(RecLicenseNonCoast$number, 4, RecLicenseNonCoast)
+mod_RecLicenseNonCoast <- gam(number ~ s(year, k= 4), data = RecLicenseNonCoast)
+
+###RecLicenseInState
+gam_diagn(RecLicenseInState$number, 4, RecLicenseInState)
+mod_RecLicenseInState <- gam(number ~ s(year, k= 4), data = RecLicenseInState)
+
+###RecLicenseOutofState
+gam_diagn(RecLicenseOutofState$number, 4, RecLicenseOutofState)
+mod_RecLicenseOutofState <- gam(number ~ s(year, k= 4), data = RecLicenseOutofState)
+
+###RecLicenseTotal
+gam_diagn(RecLicenseTotal$number, 4, RecLicenseTotal)
+mod_RecLicenseTotal <- gam(number ~ s(year, k= 10), data = RecLicenseTotal)
 ```
 
 #### GAM Functions: Results
@@ -1439,7 +1473,6 @@ summary(linearMod_1997)
 both_sig(RecRD.m, RecRD.m$Total_harvest, intercept_RecRD.m, pdata_RecRD.m, mod.dsig_RecRD.m, dfpost1997_RecRD.m, dfpost1997_RecRD.m$Total_harvest, "Total Harvest", "Year", "Total Recreational Harvest for \n Red Drum in North Carolina") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("~/Desktop/", "RecRD.m.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-
 ##Sheepshead
 p2mod_RecSH <- GAM_predict_p2mod(RecSH, mod_RecSH)
 intercept_RecSH = as.numeric(attr(p2mod_RecSH,"constant")) 
@@ -1478,4 +1511,58 @@ linearMod_1997 <- lm(Total_harvest ~ year, data=dfpost1997_RecSST)
 summary(linearMod_1997)
 long_sig(RecSST, RecSST$Total_harvest, intercept_RecSST, pdata_RecSST, mod.dsig_RecSST, "Total Harvest", "Year", "Total Recreational Harvest for \n Spotted Seatrout in North Carolina") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("~/Desktop/", "RecSST.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Recreational fishing licenses
+
+##Coastal recreational licenses
+p2mod_RecLicenseCoast <- GAM_predict_p2mod(RecLicenseCoast, mod_RecLicenseCoast)
+intercept_RecLicenseCoast = as.numeric(attr(p2mod_RecLicenseCoast,"constant")) 
+pdata_RecLicenseCoast <- GAM_predict_pdata(RecLicenseCoast, mod_RecLicenseCoast)
+mod.dsig_RecLicenseCoast <- GAM_deriv(pdata_RecLicenseCoast, mod_RecLicenseCoast)
+linearMod <- lm(number ~ year, data= RecLicenseCoast)
+summary(linearMod)
+dfpost1997_RecLicenseCoast <- filter(RecLicenseCoast, year > 1997)
+linearMod_1997 <- lm(number ~ year, data=dfpost1997_RecLicenseCoast)
+summary(linearMod_1997)
+both_nonsig(RecLicenseCoast, RecLicenseCoast$number, intercept_RecLicenseCoast, pdata_RecLicenseCoast, mod.dsig_RecLicenseCoast, "Number", "Year", "Number of CRFL Licenses Purchased in Coastal Counties") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecLicenseCoast.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##Non-coastal recreational licenses
+p2mod_RecLicenseNonCoast <- GAM_predict_p2mod(RecLicenseNonCoast, mod_RecLicenseNonCoast)
+intercept_RecLicenseNonCoast = as.numeric(attr(p2mod_RecLicenseNonCoast,"constant")) 
+pdata_RecLicenseNonCoast <- GAM_predict_pdata(RecLicenseNonCoast, mod_RecLicenseNonCoast)
+mod.dsig_RecLicenseNonCoast <- GAM_deriv(pdata_RecLicenseNonCoast, mod_RecLicenseNonCoast)
+linearMod <- lm(number ~ year, data= RecLicenseNonCoast)
+summary(linearMod)
+dfpost1997_RecLicenseNonCoast <- filter(RecLicenseNonCoast, year > 1997)
+linearMod_1997 <- lm(number ~ year, data=dfpost1997_RecLicenseNonCoast)
+summary(linearMod_1997)
+both_sig(RecLicenseNonCoast, RecLicenseNonCoast$number, intercept_RecLicenseNonCoast, pdata_RecLicenseNonCoast, mod.dsig_RecLicenseNonCoast, dfpost1997_RecLicenseNonCoast, dfpost1997_RecLicenseNonCoast$number, "Number", "Year", "Number of CRFL Licenses Purchased in Non-coastal Counties") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecLicenseNonCoast.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##In-State recreational licenses
+p2mod_RecLicenseInState <- GAM_predict_p2mod(RecLicenseInState, mod_RecLicenseInState)
+intercept_RecLicenseInState = as.numeric(attr(p2mod_RecLicenseInState,"constant")) 
+pdata_RecLicenseInState <- GAM_predict_pdata(RecLicenseInState, mod_RecLicenseInState)
+mod.dsig_RecLicenseInState <- GAM_deriv(pdata_RecLicenseInState, mod_RecLicenseInState)
+linearMod <- lm(number ~ year, data= RecLicenseInState)
+summary(linearMod)
+dfpost1997_RecLicenseInState <- filter(RecLicenseInState, year > 1997)
+linearMod_1997 <- lm(number ~ year, data=dfpost1997_RecLicenseInState)
+summary(linearMod_1997)
+both_nonsig(RecLicenseInState, RecLicenseInState$number, intercept_RecLicenseInState, pdata_RecLicenseInState, mod.dsig_RecLicenseInState, "Number", "Year", "Number of CRFL Licenses Purchased in NC Counties") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecLicenseInState.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+
+
+ggplot() + 
+  geom_line(data = df, aes(x = year, y = dep_var), color = 'grey53', alpha = 0.6) +
+  geom_point(data = df, aes(x = year, y = dep_var), color = 'gray53', alpha = 0.6) + 
+  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) + 
+  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = "#D55E00", size = 1) + 
+  theme_bw() +
+  labs (y = y_units, x = x_units, title = paste0(title_name)) + 
+  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
 ```
