@@ -1524,7 +1524,7 @@ summary(linearMod)
 dfpost1997_RecLicenseCoast <- filter(RecLicenseCoast, year > 1997)
 linearMod_1997 <- lm(number ~ year, data=dfpost1997_RecLicenseCoast)
 summary(linearMod_1997)
-both_nonsig(RecLicenseCoast, RecLicenseCoast$number, intercept_RecLicenseCoast, pdata_RecLicenseCoast, mod.dsig_RecLicenseCoast, "Number", "Year", "Number of CRFL Licenses Purchased in Coastal Counties") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_nonsig(RecLicenseCoast, RecLicenseCoast$number, intercept_RecLicenseCoast, pdata_RecLicenseCoast, mod.dsig_RecLicenseCoast, "Number", "Year", "Number of CRFL Licenses\n Purchased in Coastal Counties") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("~/Desktop/", "RecLicenseCoast.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 ##Non-coastal recreational licenses
@@ -1537,7 +1537,7 @@ summary(linearMod)
 dfpost1997_RecLicenseNonCoast <- filter(RecLicenseNonCoast, year > 1997)
 linearMod_1997 <- lm(number ~ year, data=dfpost1997_RecLicenseNonCoast)
 summary(linearMod_1997)
-both_sig(RecLicenseNonCoast, RecLicenseNonCoast$number, intercept_RecLicenseNonCoast, pdata_RecLicenseNonCoast, mod.dsig_RecLicenseNonCoast, dfpost1997_RecLicenseNonCoast, dfpost1997_RecLicenseNonCoast$number, "Number", "Year", "Number of CRFL Licenses Purchased in Non-coastal Counties") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_sig(RecLicenseNonCoast, RecLicenseNonCoast$number, intercept_RecLicenseNonCoast, pdata_RecLicenseNonCoast, mod.dsig_RecLicenseNonCoast, dfpost1997_RecLicenseNonCoast, dfpost1997_RecLicenseNonCoast$number, "Number", "Year", "Number of CRFL Licenses\n Purchased in Non-coastal Counties") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("~/Desktop/", "RecLicenseNonCoast.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 ##In-State recreational licenses
@@ -1550,19 +1550,32 @@ summary(linearMod)
 dfpost1997_RecLicenseInState <- filter(RecLicenseInState, year > 1997)
 linearMod_1997 <- lm(number ~ year, data=dfpost1997_RecLicenseInState)
 summary(linearMod_1997)
-both_nonsig(RecLicenseInState, RecLicenseInState$number, intercept_RecLicenseInState, pdata_RecLicenseInState, mod.dsig_RecLicenseInState, "Number", "Year", "Number of CRFL Licenses Purchased in NC Counties") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_nonsig(RecLicenseInState, RecLicenseInState$number, intercept_RecLicenseInState, pdata_RecLicenseInState, mod.dsig_RecLicenseInState, "Number", "Year", "Number of CRFL Licenses\n Purchased in NC Counties") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("~/Desktop/", "RecLicenseInState.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
+##Out-of-State recreational licenses
+p2mod_RecLicenseOutofState <- GAM_predict_p2mod(RecLicenseOutofState, mod_RecLicenseOutofState)
+intercept_RecLicenseOutofState = as.numeric(attr(p2mod_RecLicenseOutofState,"constant")) 
+pdata_RecLicenseOutofState <- GAM_predict_pdata(RecLicenseOutofState, mod_RecLicenseOutofState)
+mod.dsig_RecLicenseOutofState <- GAM_deriv(pdata_RecLicenseOutofState, mod_RecLicenseOutofState)
+linearMod <- lm(number ~ year, data= RecLicenseOutofState)
+summary(linearMod)
+dfpost1997_RecLicenseOutofState <- filter(RecLicenseOutofState, year > 1997)
+linearMod_1997 <- lm(number ~ year, data=dfpost1997_RecLicenseOutofState)
+summary(linearMod_1997)
+both_sig(RecLicenseOutofState, RecLicenseOutofState$number, intercept_RecLicenseOutofState, pdata_RecLicenseOutofState, mod.dsig_RecLicenseOutofState, dfpost1997_RecLicenseOutofState, dfpost1997_RecLicenseOutofState$number, "Number", "Year", "Number of CRFL Licenses\n Purchased outside of NC") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecLicenseOutofState.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
-
-ggplot() + 
-  geom_line(data = df, aes(x = year, y = dep_var), color = 'grey53', alpha = 0.6) +
-  geom_point(data = df, aes(x = year, y = dep_var), color = 'gray53', alpha = 0.6) + 
-  geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
-  geom_line(data = pdata, aes(y = unlist(mod.dsig$incr)+intercept, x = year), color = "#0072B2", size = 1) + 
-  geom_line(data = pdata, aes(y = unlist(mod.dsig$decr)+intercept, x = year), color = "#D55E00", size = 1) + 
-  theme_bw() +
-  labs (y = y_units, x = x_units, title = paste0(title_name)) + 
-  theme(plot.title=element_text(size = 16,face = 'bold',hjust = 0.5), axis.title=element_text(size = 14, face = 'bold'), axis.text= element_text(color = 'black', size = 12)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
+##Total recreational licenses
+p2mod_RecLicenseTotal <- GAM_predict_p2mod(RecLicenseTotal, mod_RecLicenseTotal)
+intercept_RecLicenseTotal = as.numeric(attr(p2mod_RecLicenseTotal,"constant")) 
+pdata_RecLicenseTotal <- GAM_predict_pdata(RecLicenseTotal, mod_RecLicenseTotal)
+mod.dsig_RecLicenseTotal <- GAM_deriv(pdata_RecLicenseTotal, mod_RecLicenseTotal)
+linearMod <- lm(number ~ year, data= RecLicenseTotal)
+summary(linearMod)
+dfpost1997_RecLicenseTotal <- filter(RecLicenseTotal, year > 1997)
+linearMod_1997 <- lm(number ~ year, data=dfpost1997_RecLicenseTotal)
+summary(linearMod_1997)
+both_sig(RecLicenseTotal, RecLicenseTotal$number, intercept_RecLicenseTotal, pdata_RecLicenseTotal, mod.dsig_RecLicenseTotal, dfpost1997_RecLicenseTotal, dfpost1997_RecLicenseTotal$number, "Number", "Year", "Number of CRFL Licenses\n Purchased by Year") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "RecLicenseTotal.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
