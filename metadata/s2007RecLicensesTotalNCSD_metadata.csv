@@ -1,0 +1,15 @@
+Datset File Name:,s2007RecLicensesTotalNCSD
+Dataset Title:,Total Number of Recreational Licenses Sold 
+Dataset Author:,Sally Dowd
+Dataset Author Contact:,sdowd@nyelab.org
+Data Owner:,NCDMF
+Data Owner Contact:,Andrew.Valmassoi@deq.nc.gov
+Link to Publically Available Data (if applicable):,https://www.deq.nc.gov/marine-fisheries/science-statistics/fisheries-statistics/big-book/2023-annual-report/open
+Raw Data Citation,"Excel file from Andrew Valmassoi, is s2007RecLicensesNCSD.csv in Data file on GitHub"
+Link to Code Creating Dataset:,"No link, just summed together recreational licenses from all counties by year from original dataset (s2007RecLicensesNCSD.csv)"
+Variables Generated in Dataset:,"Year, Number (total number of CRFL recreational licenses from all counties (in and out of state) by year"
+Timeframe of Dataset:,2007-2022
+Data Collection Period,Every year up to 2022
+Geographic Study Area:,In-state and out-of-state
+Does dataset include information governed under IRB or HIPAA?,Unknown
+Comments:,"Licenses include annual, 10-day, and lifetime CRFL licenses "
