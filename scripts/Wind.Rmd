@@ -10,6 +10,16 @@ library(noaaoceans)
 library(ncdf4)
 library(clifro)
 library(lubridate)
+library(quantmod)
+library(cardidates)
+library(gsignal)
+library(mgcv)
+library(sf)
+library(sp)
+library(spatialEco)
+library(rnaturalearth)
+library(RNCEP)
+library(foehnix)
 # setwd("G:/My Drive/Wind")
 ```
 
@@ -339,5 +349,89 @@ for(i in 1:length(data_list)) {
   warnings <- rbind(warnings, y)
 }
 write.csv(warnings, "~/NC-Ecosystem-indicators/data/p1995SmallCraftWarningsandTropicalStormWarningsCB.csv")
+```
+
+#Day of Switch
+```{r}
+#Get data from NCEP Reanalysis
+
+#v wind
+data <- RNCEP::NCEP.gather(variable = "vwnd.sig995", level = "surface",
+                    months.minmax = c(1,12), years.minmax = c(1975,2023),
+                    lat.southnorth = c(35,36) ,lon.westeast = c(-78,-70),
+                    return.units = TRUE)
+
+vwind <- NCEP.array2df(data, var.names = "vwind")
+
+vwind$longitude <- vwind$longitude - 360
+
+#filter one point
+vwind <- dplyr::filter(vwind, latitude == 35 & longitude == -75)
+
+#u wind
+data2 <- RNCEP::NCEP.gather(variable = "uwnd.sig995", level = "surface",
+                    months.minmax = c(1,12), years.minmax = c(1975,2023),
+                    lat.southnorth = c(35,36) ,lon.westeast = c(-78,-70),
+                    return.units = TRUE)
+
+uwind <- NCEP.array2df(data2, var.names = "uwind")
+
+uwind$longitude <- uwind$longitude - 360
+
+#filter one point
+uwind <- dplyr::filter(uwind, latitude == 35 & longitude == -75)
+
+#bind
+all <- merge(vwind, uwind, by = c("datetime", "latitude", "longitude"))
+
+all$date <- as.Date(all$date, format("%Y_%m_%d_%H"))
+
+# uv2ddff <- function(u, v = NULL, rad = FALSE)
+# speedstress <- uv2ddff(u = all$uwind, v = all$vwind)
+# names(speedstress) <- c("speed", "direction")
+# all <- cbind(all, speedstress)
+
+all$doy <- yday(all$date)
+all$year <- as.numeric(format(all$date, "%Y"))
+all  %>% dplyr::filter(year == 2020) %>% ggplot(mapping = aes(x = date, y = direction)) + geom_point() + geom_smooth()  + labs(title = "Wind Stress") 
+
+#map
+world <- ne_countries(scale = "medium", returnclass = "sf")
+world <- st_make_valid(world)
+sab <- st_crop(world, xmin = -80, xmax = -70, ymin = 30, ymax = 38)
+
+ggplot(data = sab) + geom_sf() + geom_point(data = vwind, mapping = aes(x = longitude, y = latitude)) + labs(title = "Points for Wind", x = "Longitude", y = "Latitude") 
+
+#Width at half max
+peaks <- list()
+pvalues <- list()
+years <- 1975:2023
+
+for(i in 1:length(years)){
+    singleyear <- all %>% dplyr::filter(year == years[i]) %>% group_by(doy, year) %>% summarize(vwind = mean(vwind, na.rm = TRUE))
+    if(nrow(singleyear) > 5) {
+    year <- years[i]
+    model<-gam(vwind~s(doy), data=singleyear)
+    predictions <- predict(model, type = "response")
+    d <- data.frame(x = 1:length(predictions), y = predictions)
+    d$x <-  as.numeric(d$x)
+    ggplot(d, mapping = aes(x = x, y = y)) + geom_point()
+    
+    c <- dplyr::filter(d, x < 120)
+    ggplot(c, mapping = aes(x = x, y = y)) + geom_point()
+    c <- dplyr::filter(c, y < 0)
+    ggplot(c, mapping = aes(x = x, y = y)) + geom_point()
+    indexflip <- max(c$x)
+
+    if(length(x1) > 0){
+    alldf <- data.frame(year = years[i], doy = indexflip)
+    switchdate <- rbind(switchdate, alldf)
+    }
+    }
+  }
+
+switchdate$date <- as.Date(switchdate$doy, origin = paste0((switchdate$year-1), "-12-31"))
+write.csv(switchdate, "~/NC-Ecosystem-indicators/data/p1975DateofSwitchofVerticalWindComponentCB.csv")
+
 ```
 
