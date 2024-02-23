@@ -183,8 +183,9 @@ yearly_sst <- alloisst %>% group_by(Year, Long, Lat) %>% summarize(temp = mean(T
 
 point1_sst <- yearly_sst %>% dplyr::filter(Lat == 34.625 & Long == -76.125)
 point1_sst %>% ggplot(mapping = aes(x = Year, y = temp)) + geom_point() + geom_line() 
+points <- distinct(ungroup(yearly_sst), Lat, Long)
 
-point2_sst <- yearly_sst %>% dplyr::filter(Lat == 34.125 & Long == -75.375)
+point2_sst <- yearly_sst %>% dplyr::filter(Lat == 35.875 & Long == -75.375) 
 point2_sst %>% ggplot(mapping = aes(x = Year, y = temp)) + geom_point() + geom_line() 
 
 finalsst <- rbind(point1_sst, point2_sst)
