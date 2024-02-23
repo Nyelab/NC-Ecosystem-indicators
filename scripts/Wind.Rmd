@@ -311,3 +311,33 @@ p <- allmonthsdf %>% dplyr::filter(id == datafiles[i]) %>% ggplot(mapping = aes(
 write.csv(allmonthsdf, "G:/My Drive/Wind/NofDaysDirectionbyMonth.csv")
 
 ```
+
+#Small Craft Warnings
+```{r}
+for(i in 1:length(datafiles)) {
+  df <- data_list[[i]]
+  df <- select(df, date, speed, angle, meangusts, maxgusts, id, name)
+  df$date <- as.Date(df$date)
+  df$speedkts <- df$speed *(1/1852)*(3600/1)
+  df$month <- as.numeric(format(df$date, "%m"))
+  df$year <- as.numeric(format(df$date, "%Y"))
+  df <- merge(df, season, by = "month")
+  data_list[[i]] <- df
+}
+
+
+#get data
+warnings <- data.frame()
+for(i in 1:length(data_list)) {
+  x <- data_list[[i]]
+  x$category = 'No advisory'
+  x <- x %>% mutate(category = ifelse(x$speedkts >= 18 & x$speedkts <=33, 'small craft warning', ifelse(x$speedkts >= 34 & x$speedkts <=64, 'tropical storm warning', 'No advisory')))
+  y <- x %>% group_by(year, season) %>% 
+  summarise(n_scw = sum(category == 'small craft warning'),
+            n_tsw = sum(category == 'tropical storm warning'))
+  y$buoy <- unique(x$name)
+  warnings <- rbind(warnings, y)
+}
+write.csv(warnings, "~/NC-Ecosystem-indicators/data/p1995SmallCraftWarningsandTropicalStormWarningsCB.csv")
+```
+

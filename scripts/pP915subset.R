@@ -29,6 +29,13 @@ df$date <- as.Date(df$date)
 df$temp <- df$surfacetemp
 df <- df %>% dplyr::select(date, temp, surfacesal, surfacedo, pH, latitude, longitude) %>% drop_na(latitude, longitude)
 #took out na omit :?
+df %>% ggplot(mapping = aes(x = date, y = surfacedo)) + geom_point()
+weird <- df %>% mutate(year = as.numeric(format(date, "%Y")))
+weird <- weird %>% filter(year > 2014) %>% filter(year < 2016)
+weird  %>% ggplot(mapping = aes(x = date, y = surfacedo)) + geom_point()
+ggplot(data = world) + geom_sf() +
+  coord_sf(xlim=c(-78, -75), ylim=c(33,37), expand = TRUE) + theme(panel.background = element_rect(fill = "white", colour = "black")) + geom_point(weird, mapping = aes(x = longitude, y = latitude, color = surfacedo))
+
 
 #idk what this does
 coordinates(df) <- ~ longitude + latitude
