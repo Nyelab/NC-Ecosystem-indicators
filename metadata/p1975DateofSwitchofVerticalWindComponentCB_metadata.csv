@@ -1,0 +1,15 @@
+Datset File Name:,p1975DateofSwitchofVerticalWindComponentCB.csv
+Dataset Title:,p1975DateofSwitchofVerticalWindComponentCB.csv
+Dataset Author:,Camryn Blawas
+Dataset Author Contact:,cblawas@nyelab.org
+Data Owner:,NOAA Reanalysis
+Data Owner Contact:,
+Link to Publically Available Data (if applicable):,https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.html
+Raw Data Citation,"Kalnay et al.,The NCEP/NCAR 40-year reanalysis project, Bull. Amer. Meteor. Soc., 77, 437-470, 1996"
+Link to Code Creating Dataset:,https://github.com/Nyelab/NC-Ecosystem-indicators/blob/main/scripts/Wind.Rmd
+Variables Generated in Dataset:,"year, day of switch, date of switch"
+Timeframe of Dataset:,1975-2023
+Data Collection Period,1975-2023
+Geographic Study Area:,One point off NC Coast
+Does dataset include information governed under IRB or HIPAA?,No
+Comments:,

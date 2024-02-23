@@ -1,0 +1,15 @@
+Datset File Name:,p1995SmallCraftWarningsandTropicalStormWarningsCB.csv
+Dataset Title:,p1995SmallCraftWarningsandTropicalStormWarningsCB.csv
+Dataset Author:,Camryn Blawas
+Dataset Author Contact:,cblawas@nyelab.org
+Data Owner:,NOAA
+Data Owner Contact:,https://www.ndbc.noaa.gov/
+Link to Publically Available Data (if applicable):,
+Raw Data Citation,
+Link to Code Creating Dataset:,https://github.com/Nyelab/NC-Ecosystem-indicators/blob/main/scripts/Wind.Rmd
+Variables Generated in Dataset:,"year, season, n_scw (number of small craft warnings), n_tsw (number of tropical storm warnings), buoy"
+Timeframe of Dataset:,1995-present
+Data Collection Period,1995-present
+Geographic Study Area:,6 buoys on coast
+Does dataset include information governed under IRB or HIPAA?,No
+Comments:,
