@@ -5,66 +5,191 @@ library(stringr)
 library(ggmap)
 ```
 
-
+I changed which dataset to download SST from. Ignore everything before line 80
 
 ```{r}
 #this is to show which points on the coast I am choosing to get SST from
-options(digits=9)
-north <- read.csv("C:/Users/Camryn/Documents/northwallgulfstream.csv")
-northlatitudes <- north %>% pivot_longer(cols = starts_with("latitude"), values_to = "latitude") %>% dplyr::select(latitude)
-northlongitudes <- north %>% pivot_longer(cols = starts_with("longitude"), values_to = "longitude") %>% dplyr::select(longitude) 
-
-northfinal <- as.data.frame(cbind(northlatitudes, northlongitudes))
-northfinal$latitude <- as.numeric(substr(northfinal$latitude, 1, nchar(northfinal$latitude)-1))
-northfinal$longitude <- -1* (as.numeric(substr(northfinal$longitude, 1, nchar(northfinal$longitude)-1)))
-northfinal <- northfinal %>% filter(longitude > -80 & longitude < -70) %>% filter(latitude > 33 & latitude < 37)
-
-
-south <- read.csv("C:/Users/Camryn/Documents/southwallgulfstream.csv")
-southlatitudes <- south %>% pivot_longer(cols = starts_with("latitude"), values_to = "latitude") %>% dplyr::select(latitude)
-southlongitudes <- south %>% pivot_longer(cols = starts_with("longitude"), values_to = "longitude") %>% dplyr::select(longitude) 
-
-southfinal <- as.data.frame(cbind(southlatitudes, southlongitudes))
-southfinal$latitude <- as.numeric(substr(southfinal$latitude, 1, nchar(southfinal$latitude)-1))
-southfinal$longitude <- -1* (as.numeric(substr(southfinal$longitude, 1, nchar(southfinal$longitude)-1)))
-southfinal <- southfinal %>% filter(longitude > -80 & longitude < -70) %>% filter(latitude > 33 & latitude < 37)
-
-myLocation <- c(-80,33,-70,37)
-# myLocation <- c(min(northfinal$longitude),min(northfinal$latitude),max(northfinal$longitude),max(northfinal$latitude))
-myMap <- get_map(location=myLocation, source="stamen", color="bw")
-
-ggmap(myMap) myLocation <- c(-80,33,-70,37)
-# myLocation <- c(min(northfinal$longitude),min(northfinal$latitude),max(northfinal$longitude),max(northfinal$latitude))
-myMap <- get_map(location=myLocation, source="stamen", color="bw")
-
-ggmap(myMap) + geom_path(northfinal, mapping = aes(x = longitude, y = latitude), color = "blue") + geom_path(southfinal, mapping = aes(x = longitude, y = latitude), color = "red")  + geom_text(label = "1", aes(y = 35.5, x =	-75.5)) + geom_text(label = "2", aes(y = 35.5, x =	-74.5)) + geom_text(label = "3", aes(y = 34.5, x =	-77)) + geom_text(label = "4", aes(y = 34.5, x =	-75)) + ggtitle("NC SST for Indicator Project")
-
-# ggsave("C:/Users/Camryn/Documents/NCSSTforIndicators.png")
-
+# options(digits=9)
+# north <- read.csv("C:/Users/Camryn/Documents/northwallgulfstream.csv")
+# northlatitudes <- north %>% pivot_longer(cols = starts_with("latitude"), values_to = "latitude") %>% dplyr::select(latitude)
+# northlongitudes <- north %>% pivot_longer(cols = starts_with("longitude"), values_to = "longitude") %>% dplyr::select(longitude) 
+# 
+# northfinal <- as.data.frame(cbind(northlatitudes, northlongitudes))
+# northfinal$latitude <- as.numeric(substr(northfinal$latitude, 1, nchar(northfinal$latitude)-1))
+# northfinal$longitude <- -1* (as.numeric(substr(northfinal$longitude, 1, nchar(northfinal$longitude)-1)))
+# northfinal <- northfinal %>% filter(longitude > -80 & longitude < -70) %>% filter(latitude > 33 & latitude < 37)
+# 
+# 
+# south <- read.csv("C:/Users/Camryn/Documents/southwallgulfstream.csv")
+# southlatitudes <- south %>% pivot_longer(cols = starts_with("latitude"), values_to = "latitude") %>% dplyr::select(latitude)
+# southlongitudes <- south %>% pivot_longer(cols = starts_with("longitude"), values_to = "longitude") %>% dplyr::select(longitude) 
+# 
+# southfinal <- as.data.frame(cbind(southlatitudes, southlongitudes))
+# southfinal$latitude <- as.numeric(substr(southfinal$latitude, 1, nchar(southfinal$latitude)-1))
+# southfinal$longitude <- -1* (as.numeric(substr(southfinal$longitude, 1, nchar(southfinal$longitude)-1)))
+# southfinal <- southfinal %>% filter(longitude > -80 & longitude < -70) %>% filter(latitude > 33 & latitude < 37)
+# 
+# myLocation <- c(-80,33,-70,37)
+# # myLocation <- c(min(northfinal$longitude),min(northfinal$latitude),max(northfinal$longitude),max(northfinal$latitude))
+# myMap <- get_map(location=myLocation, source="stamen", color="bw")
+# 
+# ggmap(myMap) myLocation <- c(-80,33,-70,37)
+# # myLocation <- c(min(northfinal$longitude),min(northfinal$latitude),max(northfinal$longitude),max(northfinal$latitude))
+# myMap <- get_map(location=myLocation, source="stamen", color="bw")
+# 
+# ggmap(myMap) + geom_path(northfinal, mapping = aes(x = longitude, y = latitude), color = "blue") + geom_path(southfinal, mapping = aes(x = longitude, y = latitude), color = "red")  + geom_text(label = "1", aes(y = 35.5, x =	-75.5)) + geom_text(label = "2", aes(y = 35.5, x =	-74.5)) + geom_text(label = "3", aes(y = 34.5, x =	-77)) + geom_text(label = "4", aes(y = 34.5, x =	-75)) + ggtitle("NC SST for Indicator Project")
+# 
+# # ggsave("C:/Users/Camryn/Documents/NCSSTforIndicators.png")
+# 
 ```
+
 
 ```{r}
 #actual data import from https://psl.noaa.gov/repository/entry/show?entryid=12159560-ab82-48a1-b3e4-88ace20475cd
-datalist <- list()
-data_files <- list.files("G:/My Drive/NCTempProject/oisst")
-data_files <- data_files[-c(1, 2)]
-directory <- "G:/My Drive/NCTempProject/oisst/"
-points <- c("point1", "point2", "point3", "point4")
+# datalist <- list()
+# data_files <- list.files("G:/My Drive/NCTempProject/oisst")
+# data_files <- data_files[-c(1, 2)]
+# directory <- "G:/My Drive/NCTempProject/oisst/"
+# points <- c("point1", "point2", "point3", "point4")
+# 
+# #rbind pre 1990 and post
+# for(i in 1:length(points)) {
+#   files <- data_files[grepl(points[i], data_files)]
+#   firstsst <- read.csv(paste0(directory, files[1]))
+#   secondsst <- read.csv(paste0(directory, files[2]))
+#   allsst <- rbind(firstsst, secondsst)
+#   names(allsst) <- c("date", "latitude", "longitude", "temperature")
+#   allsst$date <- as.Date(allsst$date)
+#   names(allsst) <- paste0(names(allsst), "_", points[i])
+#   names(allsst)[1] = "date"
+#   datalist[[i]] <- allsst
+# }
+# 
+# df <- datalist %>% reduce(left_join, by = "date")
+# write.csv(df, "C:/Users/Camryn/Documents/NC-Ecosystem-indicators/data/P1981NC_SSTCB.csv")
+```
 
-#rbind pre 1990 and post
-for(i in 1:length(points)) {
-  files <- data_files[grepl(points[i], data_files)]
-  firstsst <- read.csv(paste0(directory, files[1]))
-  secondsst <- read.csv(paste0(directory, files[2]))
-  allsst <- rbind(firstsst, secondsst)
-  names(allsst) <- c("date", "latitude", "longitude", "temperature")
-  allsst$date <- as.Date(allsst$date)
-  names(allsst) <- paste0(names(allsst), "_", points[i])
-  names(allsst)[1] = "date"
-  datalist[[i]] <- allsst
+```{r}
+# sst <- read.csv("G:/My Drive/NCTempProject/oisst/FinalOISST_V2.csv")
+# points <- distinct(sst, Lat, Long)
+# 
+# ggplot(data = nc) + geom_sf() + geom_point(data = points, mapping = aes(x = Long, y = Lat)) + labs(title = "SST Locations", x = "Longitude", y = "Latitude")
+# 
+# sst %>% group_by(Month, Year, Lat, Long) %>% dplyr::filter(Lat == 34.375 & Long == -76.375) %>% summarize(meantemp = mean(Temp, na.rm = TRUE)) %>% ggplot(mapping = aes(x = Month, y = meantemp)) + geom_point() + geom_line() + geom_smooth(method = "lm") 
+```
+
+```{r}
+#Libraries
+library(tidyverse)
+library(sf)
+library(sp)
+library(spatialEco)
+library(rnaturalearth)
+source("https://raw.githubusercontent.com/millerlp/Misc_R_scripts/main/NOAA_OISST_ncdf4.R")
+
+#Data from https://psl.noaa.gov/data/gridded/data.noaa.oisst.v2.highres.html 
+
+shape <- sf::read_sf(file.path("C:/Users/Camryn/Documents/ArcGIS/SAVRegions.shp"))
+shape <- st_transform(shape, crs = 4326)
+
+# Inputs
+# fname: full path to NetCDF data file
+# lsmask: full path to land-sea mask NetCDF file
+# lonW: western-most longitude of search area, must be smaller than lonE
+# lonE: eastern-most longitude of search area, must be larger than lonW
+# latS: southern-most latitude of search area, must be smaller than latN
+# latN: northern-most latitude of search area, must be larger than latS
+# date1: first date in file to extract, must be Date class
+# date2: last date in file to extract, must be Date class
+# lonE, latN, date2 are optional. 
+# Inside the NetCDF files, data are available on a 
+# 0.25 degree latitude x 0.25 degree longitude global grid (720x1440 cells)
+# From -89.875N to 89.875N, 0.125E to 359.875E.
+# Locations are at the CENTER of a grid cell. 
+
+#You can download the mask locally from https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/
+
+oisst <- extractOISSTdaily(fname = "G:/My Drive/NCTempProject/oisst/OISST_NCDF/sst.day.mean.1981.nc",lsmask = "G:/My Drive/NCTempProject/oisst/OISST_NCDF/lsmask.oisst.nc", lonW = 360-78.5, lonE = 360-75, latS = 34, latN = 37, date1 = as.Date("1981-01-01"), date2 = as.Date("1981-12-31"))
+
+# Output is a 3-dimensional array with latitudes in rows, longitudes in columns, and
+# dates along the 3rd dimension. The value [1,1,1] is the northernmost, 
+# westernmost lat/long location on the 1st date. The value [1,1,2] is the
+# 2nd date at the same lat/long location (if more than 1 date is requested).
+# To extract lat/lon/date values from the output array, use the 
+# dimnames() function:
+
+oisst_df <- as.data.frame.table(oisst)
+oisst_df$Date <- as.Date(as.character(oisst_df$Date))
+oisst_df$Month <- as.numeric(format(oisst_df$Date, "%m"))
+oisst_df$Year <- as.numeric(format(oisst_df$Date, "%Y"))
+oisst_df$Lat <- as.numeric(as.character(oisst_df$Lat))
+oisst_df$Long <- as.numeric(as.character(oisst_df$Long)) - 360
+oisst_df <- oisst_df %>% drop_na(Freq)
+names(oisst_df) <- c("Lat", "Long", "Date", "Temp", "Month", "Year")
+
+# oisst_df %>% ggplot(mapping = aes(x = Date, y = Temp)) + geom_point() + geom_line() + facet_wrap(Lat~Long)
+
+#Map
+world <- ne_countries(scale = "medium", returnclass = "sf")
+world <- st_make_valid(world)
+nc <- st_crop(world, xmin = -78, xmax = -74, ymin = 33, ymax = 37)
+oisst_sf <- oisst_df %>% st_as_sf(coords = c("Long", "Lat"),  crs = 4326)
+
+#Take out points that are obviously on land or inshore
+takeout2 <- st_difference(oisst_sf, st_union(shape))
+finaloisst <- takeout2 %>% dplyr::mutate(Long = sf::st_coordinates(.)[,1],
+                                               Lat = sf::st_coordinates(.)[,2])
+finaloisst <- finaloisst %>% st_drop_geometry()
+finaloisst <- as.data.frame(finaloisst) 
+
+ggplot(data = nc) + geom_sf() + geom_point(data = finaloisst, mapping = aes(x = Long, y = Lat, color = Temp)) + labs(title = "SST Locations", x = "Longitude", y = "Latitude")
+
+#You can download the sst files for each year locally from https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/
+
+#Do all years 
+yearrange <- 1981:2023
+alloisst <- data.frame()
+for(i in 1:length(yearrange)) {
+  #Get year
+  year <- yearrange[i]
+  #Get data
+  oisst <- extractOISSTdaily(fname = paste0("G:/My Drive/NCTempProject/oisst/OISST_NCDF/sst.day.mean.", year,".nc"),lsmask = "G:/My Drive/NCTempProject/oisst/OISST_NCDF/lsmask.oisst.nc", lonW = 360-78, lonE = 360-75, latS = 34, latN = 37, date1 = as.Date(paste0(year, "-01-01")), date2 = as.Date(paste0(year, "-12-31")))
+
+  #Format data
+  oisst_df <- as.data.frame.table(oisst)
+  oisst_df$Date <- as.Date(as.character(oisst_df$Date))
+  oisst_df$Month <- as.numeric(format(oisst_df$Date, "%m"))
+  oisst_df$Year <- as.numeric(format(oisst_df$Date, "%Y"))
+  oisst_df$Lat <- as.numeric(as.character(oisst_df$Lat))
+  oisst_df$Long <- as.numeric(as.character(oisst_df$Long)) - 360
+  oisst_df <- oisst_df %>% drop_na(Freq)
+  names(oisst_df) <- c("Lat", "Long", "Date", "Temp", "Month", "Year")
+  
+  #Take out points that are obviously on land or inshore
+  oisst_sf <- oisst_df %>% st_as_sf(coords = c("Long", "Lat"),  crs = 4326)
+  takeout2 <- st_difference(oisst_sf, st_union(shape))
+  finaloisst <- takeout2 %>% dplyr::mutate(Long = sf::st_coordinates(.)[,1],
+                                           Lat = sf::st_coordinates(.)[,2])
+  finaloisst <- finaloisst %>% st_drop_geometry()
+  finaloisst <- as.data.frame(finaloisst) 
+  
+  #Append
+  alloisst <- rbind(alloisst, finaloisst)
 }
 
-df <- datalist %>% reduce(left_join, by = "date")
-# write.csv(df, "C:/Users/Camryn/Documents/NC-Ecosystem-indicators/data/P1981NC_SSTCB.csv")
+alloisst %>% ggplot(mapping = aes(x = Date, y = Temp)) + geom_point() + geom_line() 
+names(alloisst) <- c( "Date", "Temp",  "Month", "Year", "Long","Lat")
+yearly_sst <- alloisst %>% group_by(Year, Long, Lat) %>% summarize(temp = mean(Temp, na.rm = TRUE))
+
+point1_sst <- yearly_sst %>% dplyr::filter(Lat == 34.625 & Long == -76.125)
+point1_sst %>% ggplot(mapping = aes(x = Year, y = temp)) + geom_point() + geom_line() 
+points <- distinct(ungroup(yearly_sst), Lat, Long)
+
+point2_sst <- yearly_sst %>% dplyr::filter(Lat == 35.875 & Long == -75.375) 
+point2_sst %>% ggplot(mapping = aes(x = Year, y = temp)) + geom_point() + geom_line() 
+
+finalsst <- rbind(point1_sst, point2_sst)
+write.csv(finalsst, "~/NC-Ecosystem-indicators/data/P1981NC_SSTCB.csv")
+
 ```
 

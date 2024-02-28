@@ -1,0 +1,15 @@
+Datset File Name:,s1700CoastalDevelopmentVW.csv
+Dataset Title:,s1700CoastalDevelopmentVW
+Dataset Author:,Verena Wang
+Dataset Author Contact:,wangv21@ecu.edu
+Data Owner:,NC OneMap
+Data Owner Contact:,NC OneMap
+Link to Publically Available Data (if applicable):,https://www.nconemap.gov/search?q=parcel
+Raw Data Citation,
+Link to Code Creating Dataset:,
+Variables Generated in Dataset:,Number of single family homes built
+Timeframe of Dataset:,1700-2023
+Data Collection Period,1700-2023
+Geographic Study Area:,"Beaufort, Brunswick, Carteret, Currituck, Dare, Onslow, Washington counties"
+Does dataset include information governed under IRB or HIPAA?,Not sure
+Comments:,Included seven CAMA counties with construction year data and single family home (parcel type) data

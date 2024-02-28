@@ -1,0 +1,41 @@
+```{r}
+library(tidyverse)
+library(rstatix)
+
+my_theme <- function() {theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), plot.title = element_text(size=12, face= "bold", colour= "black"), axis.title.x = element_text(size=12, face="bold", colour = "black"), axis.title.y = element_text(size=12, face="bold", colour = "black"))}
+
+season <- c("winter", "winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "fall", "fall", "fall")
+season <- as.data.frame(season)
+season$month <- 1:12
+standard_error <- function(x) sd(x) / sqrt(length(x))
+
+```
+
+Data from https://www.ncei.noaa.gov/access/search/data-search/global-summary-of-the-month?bbox=36.558,-78.459,32.718,-72.361&pageNum=6
+
+```{r}
+airtemp <- read.csv("G:/My Drive/NCTempProject/airtemp/GSOM1.csv")
+names(airtemp) <- tolower(names(airtemp))
+airtemp$date <- paste0(airtemp$date, "-01")
+airtemp$date <- as.Date(airtemp$date)
+airtemp$month <- as.numeric(format(airtemp$date, "%m"))
+airtemp$year <- as.numeric(format(airtemp$date, "%Y"))
+airtemp <- merge(airtemp, season, by = "month", all.x = TRUE)
+```
+
+```{r}
+airtempyearly <- airtemp %>% group_by(year, name) %>% reframe(mean = mean(tavg, na.rm = TRUE), se = standard_error(tavg), samplesize = n())
+airtempyearly <- unique(airtempyearly)
+airtempyearly <- filter(airtempyearly, samplesize == 12) 
+
+airtempfilt <- filter(airtempyearly, name %in%  c("NEW BERN COASTAL CAROLINA REGIONAL AIRPORT, NC US", "WILMINGTON INTERNATIONAL AIRPORT, NC US", "CAPE HATTERAS BILLY MITCHELL FIELD, NC US", "NEW RIVER MCAF, NC US", "ELIZABETH CITY COAST GUARD AIR STATION, NC US"))
+
+ggplot(airtempfilt) + geom_line(aes(x = year, y = mean)) + facet_wrap(~name)
+
+# outliers <- airtempfilt %>% group_by(name) %>% identify_outliers(mean)
+
+airtempfilt <- dplyr::select(airtempfilt, year, name, mean)
+names(airtempfilt) <- c("Year", "AirportName", "Temperature")
+write.csv(airtempfilt, "~/NC-Ecosystem-indicators/data/p1948AirTemperatureCB.csv")
+```
+
