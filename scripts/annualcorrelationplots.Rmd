@@ -18,18 +18,11 @@ for(i in 1:length(data_files)) {
 data_files <- str_extract(data_files, '.*(?=\\.csv)')
 for (i in 1:length(data_files)) {
   df <- get(data_files[i])
-  ifelse(grepl('X', colnames(df)), df <- df[,-1], df)
+  # ifelse(grepl('X', colnames(df)), df <- df[,-1], df)
   colnames(df) <- tolower(colnames(df))
   assign(data_files[i], df)
 }
-data_files <- data_files[-29] 
-data_files <- data_files[-30] 
-data_files <- data_files[-31] 
-data_files <- data_files[-30] 
-data_files <- data_files[-30] 
-data_files <- data_files[-30] 
-data_files <- data_files[-30] 
-data_files <- data_files[-31]
+
 for (i in 1:length(data_files)) {
   df <- get(data_files[i])
   colnames(df)[2] <- data_files[i]
