@@ -39,13 +39,17 @@ RecLicenseNonCoast <- read_csv("data/finalized/s2007RecLicensesNonCoastalNCSD.cs
 RecLicenseInState <- read_csv("data/finalized/s2007RecLicensesInStateNCSD.csv")
 RecLicenseOutofState <- read_csv("data/finalized/s2007RecLicensesOutofStateNCSD.csv")
 RecLicenseTotal <- read_csv("data/finalized/s2007RecLicensesTotalNCSD.csv")
+setwd("/Users/sallydowd/Documents/GitHub/NC-Ecosystem-indicators")
+NTurbidity <- read_csv("data/finalized/p2008NPamlicoTurbiditySD.csv")
+CTurbidity <- read_csv("data/finalized/p2008CPamlicoTurbiditySD.csv")
+CBTurbidity <- read_csv("data/finalized/p2008CBPamlicoTurbiditySD.csv")
+STurbidity <- read_csv("data/finalized/p2008SPamlicoTurbiditySD.csv")
 
 names(RecFishing) <- tolower(names(RecFishing))
-RecFishing <- filter(RecFishing, year < 2020)
 names(CommLicense) <- tolower(names(CommLicense))
-CommLicense <- filter(CommLicense, between(year, 2000, 2019))
+CommLicense <- filter(CommLicense, year >= 2000)
 names(VesselLength) <- tolower(names(VesselLength))
-VesselLength <- filter(VesselLength, year < 2020)
+VesselLength <- VesselLength %>% filter(year >= 2000)
 names(ClamsLandings) <- tolower(names(ClamsLandings))
 ClamsLandings <- filter(ClamsLandings, year < 2020)
 names(OysterLandings) <- tolower(names(OysterLandings))
@@ -57,7 +61,6 @@ MenhadenLandings <- filter(MenhadenLandings, year < 2020)
 names(CommLandings) <- tolower(names(CommLandings))
 CommLandings <- filter(CommLandings, year < 2020)
 names(BirdNests) <- tolower(names(BirdNests))
-BirdNests <- filter(BirdNests, year < 2020)
 names(CommParts) <- tolower(names(CommParts))
 CommParts <- filter(CommParts, year < 2020)
 names(RecCatch) <- tolower(names(RecCatch))
@@ -65,19 +68,8 @@ RecCatch <- filter(RecCatch, year < 2020)
 names(RecRelAlive) <- tolower(names(RecRelAlive))
 RecRelAlive <- filter(RecRelAlive, year < 2020)
 names(ShmpReg) <- tolower(names(ShmpReg))
-ShmpReg <- filter(ShmpReg, year < 2020) %>% select(-...1)
+ShmpReg <- filter(ShmpReg, year < 2020)
 names(BeachNouris) <- tolower(names(BeachNouris))
-# names(RecGK) <- tolower(names(RecGK))
-# RecGK <- filter(RecGK, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
-# names(RecRD) <- tolower(names(RecRD))
-# RecRD <- filter(RecRD, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
-# names(RecSH) <- tolower(names(RecSH))
-# RecSH <- filter(RecSH, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
-# names(RecSF) <- tolower(names(RecSF))
-# RecSF <- filter(RecSF, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
-# names(RecSST) <- tolower(names(RecSST))
-# RecSST <- filter(RecSST, year < 2020) %>% select(year, "total harvest (a+b1)") %>% rename("Total_harvest"= "total harvest (a+b1)")
-
 names(RecLicenseCoast) <- tolower(names(RecLicenseCoast))
 names(RecLicenseNonCoast) <- tolower(names(RecLicenseNonCoast))
 names(RecLicenseInState) <- tolower(names(RecLicenseInState))
@@ -128,8 +120,6 @@ gam.check(mod)
 }
 
 ##Rec fishing 
-gam_diagn(RecFishing$angler_trips, 6, RecFishing) #p value not significant 
-mod_RecFishing <- gam(angler_trips ~ s(year, k= 6), data = RecFishing)
 gam_diagn(RecFishing$angler_trips, 6, RecFishing) #p value not significant 
 mod_RecFishing <- gam(angler_trips ~ s(year, k= 6), data = RecFishing)
 
@@ -331,8 +321,8 @@ mod_CommLandings_WhiteShrimp <- gam(pounds ~ s(year, k=  6), data = CommLandings
 ##Birds
 BirdNests <- BirdNests %>% select(year, sum_nests)
 k_det(BirdNests)
-gam_diagn(BirdNests$sum_nests, 8, BirdNests) #assumptions aren't met but doesn't get better with k 
-mod_BirdNests <- gam(sum_nests ~ s(year, k=  8), data = BirdNests)
+gam_diagn(BirdNests$sum_nests, 10, BirdNests) #assumptions aren't met but doesn't get better with k 
+mod_BirdNests <- gam(sum_nests ~ s(year, k= 10), data = BirdNests)
 
 ##Commercial participants 
 CommParts <- CommParts %>% select(year, species, participants)
@@ -533,6 +523,25 @@ mod_RecLicenseOutofState <- gam(number ~ s(year, k= 4), data = RecLicenseOutofSt
 ###RecLicenseTotal
 gam_diagn(RecLicenseTotal$number, 4, RecLicenseTotal)
 mod_RecLicenseTotal <- gam(number ~ s(year, k= 10), data = RecLicenseTotal)
+
+##Turbidity
+
+##NTurbidity
+k_det(NTurbidity)
+gam_diagn(NTurbidity$mean_turbidity, 4, NTurbidity)
+mod_NTurbidity <- gam(mean_turbidity ~ s(year, k= 4), data = NTurbidity)
+
+##CTurbidity
+gam_diagn(CTurbidity$mean_turbidity, 4, CTurbidity)
+mod_CTurbidity <- gam(mean_turbidity ~ s(year, k= 4), data = CTurbidity)
+
+##CBTurbidity
+gam_diagn(CBTurbidity$mean_turbidity, 4, CBTurbidity)
+mod_CBTurbidity <- gam(mean_turbidity ~ s(year, k= 4), data = CBTurbidity)
+
+##STurbidity
+gam_diagn(STurbidity$mean_turbidity, 4, STurbidity)
+mod_STurbidity <- gam(mean_turbidity ~ s(year, k= 4), data = STurbidity)
 ```
 
 #### GAM Functions: Results
@@ -634,7 +643,7 @@ mod.dsig_RecFishing <- GAM_deriv(pdata_RecFishing, mod_RecFishing)
 linearMod<- lm(angler_trips ~ year, data= RecFishing)
 summary(linearMod)
 dfpost1997_RecFishing <- filter(RecFishing, year > 1997)
-linearMod_1997<- lm(angler_trips ~ year, data=dfpost1997)
+linearMod_1997<- lm(angler_trips ~ year, data=dfpost1997_RecFishing)
 summary(linearMod_1997)
 both_sig(RecFishing, RecFishing$angler_trips, intercept_RecFishing, pdata_RecFishing, mod.dsig_RecFishing, dfpost1997_RecFishing, dfpost1997_RecFishing$angler_trips, "Number of Angler Trips", "Year", "Number of Recreational Angler Trips")
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "RecFishingGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
@@ -661,7 +670,7 @@ mod.dsig_CommLicense_SCFL <- GAM_deriv(pdata_CommLicense_SCFL, mod_CommLicense_S
 linearMod <- lm(licenses ~ year, data= CommLicense_SCFL)
 summary(linearMod)
 dfpost1997_CommLicense_SCFL <- filter(CommLicense_SCFL, year > 1997)
-linearMod_1997 <- lm(licenses ~ year, data=dfpost1997_SCFL)
+linearMod_1997 <- lm(licenses ~ year, dfpost1997_CommLicense_SCFL)
 summary(linearMod_1997)
 both_sig(CommLicense_SCFL, CommLicense_SCFL$licenses, intercept_CommLicense_SCFL, pdata_CommLicense_SCFL, mod.dsig_CommLicense_SCFL, dfpost1997_CommLicense_SCFL, dfpost1997_CommLicense_SCFL$licenses, "Number of SCFL Licenses", "Year", "Number of Standard Commercial Fishing Licenses")
 ggsave(paste0("/users/sallydowd/Desktop/Figures/", "CommLicenseSCFLGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
@@ -770,7 +779,7 @@ dfpost1997_VesselLength_under38 <- filter(VesselLength_under38, year > 1997)
 linearMod_1997 <- lm(total_count ~ year, data=dfpost1997_VesselLength_under38)
 summary(linearMod_1997)
 both_sig(VesselLength_under38, VesselLength_under38$total_count, intercept_VesselLength_under38, pdata_VesselLength_under38, mod.dsig_VesselLength_under38, dfpost1997_VesselLength_under38, dfpost1997_VesselLength_under38$total_count, "Number of Vessels", "Year", "Number of Vessels under 38 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
-ggsave(paste0("/users/sallydowd/Desktop/Indicators/Figures/", "VesselLength_under38GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_under38GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 ##Over 38
 p2mod_VesselLength_over38 <- GAM_predict_p2mod(VesselLength_over38, mod_VesselLength_over38)
@@ -783,7 +792,7 @@ dfpost1997_VesselLength_over38 <- filter(VesselLength_over38, year > 1997)
 linearMod_1997 <- lm(total_count ~ year, data=dfpost1997_VesselLength_over38)
 summary(linearMod_1997)
 both_sig(VesselLength_over38, VesselLength_over38$total_count, intercept_VesselLength_over38, pdata_VesselLength_over38, mod.dsig_VesselLength_over38, dfpost1997_VesselLength_over38, dfpost1997_VesselLength_over38$total_count, "Number of Vessels", "Year", "Number of Vessels over 38 ft.") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
-ggsave(paste0("/users/sallydowd/Desktop/Indicators/Figures/", "VesselLength_over38GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_over38GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 ##Vessel length 3: ratio of small to large
 p2mod_VesselLength_ratio <- GAM_predict_p2mod(VesselLength_ratio, mod_VesselLength_ratio)
@@ -809,16 +818,7 @@ dfpost1997_VesselLength_ratio2 <- filter(VesselLength_ratio2, year > 1997)
 linearMod_1997 <- lm(ratio ~ year, data=dfpost1997_VesselLength_ratio2)
 summary(linearMod_1997)
 both_nonsig(VesselLength_ratio2, VesselLength_ratio2$ratio, intercept_VesselLength_ratio2, pdata_VesselLength_ratio2, mod.dsig_VesselLength_ratio2, "Ratio of Vessels", "Year", "Ratio of large to small vessels") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
-ggsave(paste0("/users/sallydowd/Desktop/Indicators/Figures/", "VesselLength_ratio2GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
-
-
-
-
-
-
-
-
-mod_VesselLength_ratio2 <- gam(ratio ~ s(year, k= 6), data = VesselLength_ratio2)
+ggsave(paste0("/users/sallydowd/Desktop/Figures/", "VesselLength_ratio2GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 #Oyster landings
 p2mod_OysterLandings_edt <- GAM_predict_p2mod(OysterLandings_edt, mod_OysterLandings_edt)
@@ -1578,4 +1578,57 @@ linearMod_1997 <- lm(number ~ year, data=dfpost1997_RecLicenseTotal)
 summary(linearMod_1997)
 both_sig(RecLicenseTotal, RecLicenseTotal$number, intercept_RecLicenseTotal, pdata_RecLicenseTotal, mod.dsig_RecLicenseTotal, dfpost1997_RecLicenseTotal, dfpost1997_RecLicenseTotal$number, "Number", "Year", "Number of CRFL Licenses\n Purchased by Year") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("~/Desktop/", "RecLicenseTotal.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#Turbidity
+##NTurbidity
+p2mod_NTurbidity <- GAM_predict_p2mod(NTurbidity, mod_NTurbidity)
+intercept_NTurbidity = as.numeric(attr(p2mod_NTurbidity,"constant")) 
+pdata_NTurbidity <- GAM_predict_pdata(NTurbidity, mod_NTurbidity)
+mod.dsig_NTurbidity <- GAM_deriv(pdata_NTurbidity, mod_NTurbidity)
+linearMod <- lm(mean_turbidity ~ year, data= NTurbidity)
+summary(linearMod)
+dfpost1997_NTurbidity <- filter(NTurbidity, year > 1997)
+linearMod_1997 <- lm(mean_turbidity ~ year, data=dfpost1997_NTurbidity)
+summary(linearMod_1997)
+both_nonsig(NTurbidity, NTurbidity$mean_turbidity, intercept_NTurbidity, pdata_NTurbidity, mod.dsig_NTurbidity, "Average Turbidity", "Year", "Average Spring Turbidity in Northern\n Pamlico Sound ") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "NTurbidity.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##CTurbidity 
+p2mod_CTurbidity <- GAM_predict_p2mod(CTurbidity, mod_CTurbidity)
+intercept_CTurbidity = as.numeric(attr(p2mod_CTurbidity,"constant")) 
+pdata_CTurbidity <- GAM_predict_pdata(CTurbidity, mod_CTurbidity)
+mod.dsig_CTurbidity <- GAM_deriv(pdata_CTurbidity, mod_CTurbidity)
+linearMod <- lm(mean_turbidity ~ year, data= CTurbidity)
+summary(linearMod)
+dfpost1997_CTurbidity <- filter(CTurbidity, year > 1997)
+linearMod_1997 <- lm(mean_turbidity ~ year, data=dfpost1997_CTurbidity)
+summary(linearMod_1997)
+both_nonsig(CTurbidity, CTurbidity$mean_turbidity, intercept_CTurbidity, pdata_CTurbidity, mod.dsig_CTurbidity, "Average Turbidity", "Year", "Average Spring Turbidity in Central\n Pamlico Sound ") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "CTurbidity.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##CBTurbidity 
+p2mod_CBTurbidity <- GAM_predict_p2mod(CBTurbidity, mod_CBTurbidity)
+intercept_CBTurbidity = as.numeric(attr(p2mod_CBTurbidity,"constant")) 
+pdata_CBTurbidity <- GAM_predict_pdata(CBTurbidity, mod_CBTurbidity)
+mod.dsig_CBTurbidity <- GAM_deriv(pdata_CBTurbidity, mod_CBTurbidity)
+linearMod <- lm(mean_turbidity ~ year, data= CBTurbidity)
+summary(linearMod)
+dfpost1997_CBTurbidity <- filter(CBTurbidity, year > 1997)
+linearMod_1997 <- lm(mean_turbidity ~ year, data=dfpost1997_CBTurbidity)
+summary(linearMod_1997)
+both_nonsig(CBTurbidity, CBTurbidity$mean_turbidity, intercept_CBTurbidity, pdata_CBTurbidity, mod.dsig_CBTurbidity, "Average Turbidity", "Year", "Average Spring Turbidity in Core Banks") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "CBTurbidity.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+##STurbidity 
+p2mod_STurbidity <- GAM_predict_p2mod(STurbidity, mod_STurbidity)
+intercept_STurbidity = as.numeric(attr(p2mod_STurbidity,"constant")) 
+pdata_STurbidity <- GAM_predict_pdata(STurbidity, mod_STurbidity)
+mod.dsig_STurbidity <- GAM_deriv(pdata_STurbidity, mod_STurbidity)
+linearMod <- lm(mean_turbidity ~ year, data= STurbidity)
+summary(linearMod)
+dfpost1997_STurbidity <- filter(STurbidity, year > 1997)
+linearMod_1997 <- lm(mean_turbidity ~ year, data=dfpost1997_STurbidity)
+summary(linearMod_1997)
+both_nonsig(STurbidity, STurbidity$mean_turbidity, intercept_STurbidity, pdata_STurbidity, mod.dsig_STurbidity, "Average Turbidity", "Year", "Average Spring Turbidity in\n Southern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "STurbidity.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
