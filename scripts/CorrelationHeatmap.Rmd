@@ -33,6 +33,9 @@ for(i in 1:length(data_files)) {
 }
 data_files <- str_extract(data_files, '.*(?=\\.csv)')
 
+#If you wanted to filter files before loading
+# turb_files <- data_files[grepl("Turbidity", data_files)]
+
 finalfiles <- data.frame()
 for (i in 1:length(data_files)) {
   df <- get(data_files[i])
@@ -47,6 +50,13 @@ for (i in 1:length(data_files)) {
 finalfiles$Dataset <- gsub('_finalized', '', finalfiles$Dataset)
 finalfiles <- finalfiles %>% pivot_wider(values_from  = "Measurement", names_from = "Dataset")
 finalfiles <- mutate_all(finalfiles, function(x) as.numeric(as.character(x)))
+```
+
+#Turbidity
+```{r}
+#Filter for turbidity after importing all
+turbidity <- finalfiles[, grep("Turbidity", names(finalfiles)), with = FALSE]
+turbidity$Year <- finalfiles$Year
 ```
 
 #This is annoying me so lets pick like 4 datasets
