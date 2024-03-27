@@ -72,7 +72,7 @@ library(rstatix)
 outliers <- df %>% identify_outliers(meanDO) %>% dplyr::filter(is.extreme == TRUE)
 finaldf <- df %>% anti_join(outliers)
 ggplot(finaldf, mapping = aes(x = as.numeric(year), y = meanDO)) + geom_point() + geom_smooth(method = "lm")
-write.csv(df, "data/p1987AllPamlicoWaterCB.csv")
+write.csv(finaldf, "data/p1987AllPamlicoWaterCB.csv")
 
 #just north
 df <- df_extract_2_2
