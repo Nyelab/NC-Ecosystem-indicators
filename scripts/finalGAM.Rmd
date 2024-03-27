@@ -27,6 +27,7 @@ colnames(df)[colnames(df) == "OLDNAME"] ="mean"
 
 #just select those two columns
 df <- dplyr::select(df, year, mean)
+df$mean <- as.numeric(df$mean)
 
 # Creat a GAM - adjust k and remember to check model
 #k should be between 5 and the number of years in the data set, but start with 2 * the number of decades in the data set
@@ -115,7 +116,7 @@ ggsave(paste0("~/NC-Ecosystem-indicators/figures", nospacesname, "GAMwithTrend.p
 
 ```{r, plot GAM significant total trend, and significant post 1997}
 ##Run this if your significant total trend, and significant post 1997
-ggplot() + 
+ ggplot() + 
   geom_line(data = df, aes(x = year, y = mean), color = 'grey53', alpha = 0.6) +
   geom_point(data = df, aes(x = year, y = mean), color = 'gray53', alpha = 0.6) + 
   geom_line(data=pdata, aes(x = year, y = p2_mod+intercept), se = FALSE, color = 'black', linetype = 'twodash', size = 1) + 
