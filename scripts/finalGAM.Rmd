@@ -10,7 +10,6 @@ setwd("~/NC-Ecosystem-indicators/data")
 
 ```{r, load single data file}
 df <- read.csv("~/NC-Ecosystem-indicators/data/FILLINNAME.csv")
-df <- dplyr::select(df, Roanoke, Year)
 ```
 
 ```{r, format your data}
