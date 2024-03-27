@@ -57,19 +57,28 @@ df_extract_2_2 <- df_extract_2[!duplicated(df_extract_2[c("date", "longitude","l
 ggplot(data = world) + geom_sf() + geom_sf(data = shape)  + geom_point(data = df_extract_2_2, aes(x = longitude, y = latitude, color = gridID)) +
   coord_sf(xlim=c(-80, -74), ylim=c(32,37), expand = TRUE) + theme(panel.background = element_rect(fill = "white", colour = "black")) + ggtitle(paste( "Subsetted Points")) + ggtitle(paste("Grid Subset")) + xlab("Longitude") + ylab("Latitude") 
 
-#subset north
+#all
 df <- df_extract_2_2
 df$date <- as.Date(df$date)
-df$year <- format(df$date,"%Y")
-df$month <- format(df$date,"%m")
+df$year <- as.numeric(format(df$date,"%Y"))
+df$month <- as.numeric(format(df$date,"%m"))
 #all
 df <- df %>% dplyr::select(date, temp, surfacesalinity, surfaceDO, latitude, longitude, Class, month, year)
 df$month <- as.numeric(df$month)
 df <- merge(df, season, by = "month", all.x = TRUE)
 df <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp, na.rm = TRUE), sdtemp = sd(temp), meansal = mean(surfacesalinity, na.rm = TRUE), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO,  na.rm = TRUE), sdDO = sd(surfaceDO), samplesize = n()) %>% ungroup()
+#Take out obvious outliers in 2016/2017
+library(rstatix)
+outliers <- df %>% identify_outliers(meanDO) %>% dplyr::filter(is.extreme == TRUE)
+finaldf <- df %>% anti_join(outliers)
+ggplot(finaldf, mapping = aes(x = as.numeric(year), y = meanDO)) + geom_point() + geom_smooth(method = "lm")
 write.csv(df, "data/p1987AllPamlicoWaterCB.csv")
 
 #just north
+df <- df_extract_2_2
+df$date <- as.Date(df$date)
+df$year <- as.numeric(format(df$date,"%Y"))
+df$month <- as.numeric(format(df$date,"%m"))
 df <- df %>% dplyr::filter(Class == "NORTH") %>% dplyr::select(date, temp, surfacesalinity, surfaceDO, latitude, longitude, Class, month, year)
 
 df$month <- as.numeric(as.character(df$month))
@@ -81,6 +90,9 @@ season$month <- 1:12
 df <- merge(df, season, by = "month", all.x = TRUE)
 northdf <- df
 northfinaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp), sdtemp = sd(temp), meansal = mean(surfacesalinity), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO), sdDO = sd(surfaceDO), samplesize = n()) %>% ungroup()
+
+outliers <- northfinaldf %>% identify_outliers(meanDO) %>% dplyr::filter(is.extreme == TRUE)
+northfinaldf <- northfinaldf %>% anti_join(outliers)
 
 ts_df <- northfinaldf %>% filter(season != "fall") %>% dplyr::select(meantemp, meansal, meanDO) 
 ts_df <- ts(ts_df, frequency = 2, start = 1987)
@@ -106,6 +118,9 @@ season$month <- 1:12
 df <- merge(df, season, by = "month", all.x = TRUE)
 centraldf <- df
 centralfinaldf <- df %>% group_by(year, season) %>% summarise(meantemp = mean(temp), sdtemp = sd(temp), meansal = mean(surfacesalinity), sdsal = sd(surfacesalinity), meanDO = mean(surfaceDO), sdDO = sd(surfaceDO), samplesize = n()) %>% ungroup()
+
+outliers <- centralfinaldf %>% identify_outliers(meanDO) %>% dplyr::filter(is.extreme == TRUE)
+centralfinaldf <- centralfinaldf %>% anti_join(outliers)
 
 ts_df <- centralfinaldf %>% filter(season != "fall") %>% dplyr::select(meantemp, meansal, meanDO)
 ts_df <- ts(ts_df, frequency = 2, start = 1996)
