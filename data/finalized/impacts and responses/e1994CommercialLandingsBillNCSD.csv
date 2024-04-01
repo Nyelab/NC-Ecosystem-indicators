@@ -1,0 +1,359 @@
+Year,Species,Pounds
+1994,Bay Scallop,63953.85
+1994,Blue Crab,53513123.63
+1994,Hard Clams,690793.85
+1994,Kingfishes,620841
+1994,Oyster,183703.73
+1994,Red Drum,142168.89
+1994,River Herring,644333.51
+1994,Southern Flounder,4878605.75
+1994,Spotted Seatrout,412358.08
+1994,Striped Bass,261899.74
+1994,Striped Mullet,1726241.64
+1995,Bay Scallop,173795.52
+1995,Blue Crab,46443653.2
+1995,Hard Clams,702653.6
+1995,Kingfishes,1058784.66
+1995,Oyster,220661.17
+1995,Red Drum,248122.07
+1995,River Herring,453984.48
+1995,Southern Flounder,4166946.91
+1995,Spotted Seatrout,574295.61
+1995,Striped Bass,446789.06
+1995,Striped Mullet,2298446.42
+1996,Bay Scallop,27388.44
+1996,Blue Crab,67080199.71
+1996,Hard Clams,619836.98
+1996,Kingfishes,528260.44
+1996,Oyster,210931.09
+1996,Red Drum,113338.24
+1996,River Herring,529502.65
+1996,Southern Flounder,3807008.63
+1996,Spotted Seatrout,226588.82
+1996,Striped Bass,181599.76
+1996,Striped Mullet,1756863.05
+1997,Bay Scallop,54606.49
+1997,Blue Crab,56090109.01
+1997,Hard Clams,696295.05
+1997,Kingfishes,872888.44
+1997,Oyster,218970.28
+1997,Red Drum,52502.39
+1997,River Herring,334808.73
+1997,Southern Flounder,4076791.33
+1997,Spotted Seatrout,232496.97
+1997,Striped Bass,587785.53
+1997,Striped Mullet,2442656.5
+1998,Bay Scallop,102818.63
+1998,Blue Crab,62076170.45
+1998,Hard Clams,689510.21
+1998,Kingfishes,399312.65
+1998,Oyster,224214.01
+1998,Red Drum,294365.51
+1998,River Herring,521930.33
+1998,Southern Flounder,3952563.48
+1998,Spotted Seatrout,307671.07
+1998,Striped Bass,422868.5
+1998,Striped Mullet,2218107.9
+1999,Bay Scallop,29650.99
+1999,Blue Crab,57545842.55
+1999,Hard Clams,576836.16
+1999,Kingfishes,607465.24
+1999,Oyster,216831.06
+1999,Red Drum,372941.91
+1999,River Herring,443494.14
+1999,"Shrimp, Brown",1672958.76
+1999,"Shrimp, Pink",10059.95
+1999,"Shrimp, White",3659301.72
+1999,Southern Flounder,2933275.84
+1999,Spotted Seatrout,546674.83
+1999,Striped Bass,588311.39
+1999,Striped Mullet,1460850.31
+2000,Bay Scallop,21029.1
+2000,Blue Crab,40638384.29
+2000,Hard Clams,675814.03
+2000,Kingfishes,551939.83
+2000,Oyster,203426.56
+2000,Red Drum,270952.67
+2000,River Herring,332335.5
+2000,"Shrimp, Brown",6489494.92
+2000,"Shrimp, Pink",161421.9
+2000,"Shrimp, White",3214861.51
+2000,Southern Flounder,3205788.65
+2000,Spotted Seatrout,376574.13
+2000,Striped Bass,407439.73
+2000,Striped Mullet,2829086.41
+2001,Bay Scallop,2517.25
+2001,Blue Crab,32179345.14
+2001,Hard Clams,763572.6
+2001,Kingfishes,489742.94
+2001,Oyster,258086.47
+2001,Red Drum,149615.54
+2001,River Herring,306761
+2001,"Shrimp, Brown",3923539.89
+2001,"Shrimp, Pink",211858.41
+2001,"Shrimp, White",863153.1
+2001,Southern Flounder,3522135.92
+2001,Spotted Seatrout,105714.23
+2001,Striped Bass,626052.3
+2001,Striped Mullet,2317655.02
+2002,Bay Scallop,19219.4
+2002,Blue Crab,37736318.8
+2002,Hard Clams,619720.53
+2002,Kingfishes,619747.92
+2002,Oyster,243775.16
+2002,Red Drum,81369.87
+2002,River Herring,174829.75
+2002,"Shrimp, Brown",6029219.47
+2002,"Shrimp, Pink",879894.2
+2002,"Shrimp, White",2514342.18
+2002,Southern Flounder,3436751.32
+2002,Spotted Seatrout,175555.21
+2002,Striped Bass,701458.73
+2002,Striped Mullet,2596304.06
+2003,Bay Scallop,14193.95
+2003,Blue Crab,42769796.8
+2003,Hard Clams,533026.93
+2003,Kingfishes,652635.52
+2003,Oyster,261043.04
+2003,Red Drum,90525.47
+2003,River Herring,199716.25
+2003,"Shrimp, Brown",4828512.61
+2003,"Shrimp, Pink",219009.6
+2003,"Shrimp, White",1100128.42
+2003,Southern Flounder,2198501.17
+2003,Spotted Seatrout,181462.01
+2003,Striped Bass,565919.22
+2003,Striped Mullet,1629313.66
+2004,Bay Scallop,***
+2004,Blue Crab,34130608.16
+2004,Hard Clams,542935.48
+2004,Kingfishes,567659.01
+2004,Oyster,367961.24
+2004,Red Drum,54086.45
+2004,River Herring,188540.75
+2004,"Shrimp, Brown",2749009.16
+2004,"Shrimp, Pink",143953.9
+2004,"Shrimp, White",1923459.53
+2004,Southern Flounder,2454584.73
+2004,Spotted Seatrout,130961.16
+2004,Striped Bass,911398.8
+2004,Striped Mullet,1598616.66
+2005,Blue Crab,25430118.9
+2005,Hard Clams,412995.44
+2005,Kingfishes,296262.69
+2005,Oyster,378014.43
+2005,Red Drum,128769.73
+2005,River Herring,250020.5
+2005,"Shrimp, Brown",1523028.35
+2005,"Shrimp, Pink",43489.25
+2005,"Shrimp, White",780169.18
+2005,Southern Flounder,1870754.3
+2005,Spotted Seatrout,129855.1
+2005,Striped Bass,864288.9
+2005,Striped Mullet,1620393.52
+2006,Blue Crab,25343158.5
+2006,Hard Clams,422292.8
+2006,Kingfishes,559440.42
+2006,Oyster,447888.85
+2006,Red Drum,169206.21
+2006,River Herring,109846.5
+2006,"Shrimp, Brown",1944380.27
+2006,"Shrimp, Pink",65231.75
+2006,"Shrimp, White",3682528.63
+2006,Southern Flounder,2287822.94
+2006,Spotted Seatrout,312623.97
+2006,Striped Bass,281736.2
+2006,Striped Mullet,1728607.37
+2007,Blue Crab,21424959.66
+2007,Hard Clams,425333.39
+2007,Kingfishes,817587.74
+2007,Oyster,441415.27
+2007,Red Drum,243657.92
+2007,River Herring,1103
+2007,"Shrimp, Brown",3110266.23
+2007,"Shrimp, Pink",84167.95
+2007,"Shrimp, White",6339882.85
+2007,Southern Flounder,2083042.81
+2007,Spotted Seatrout,374722.3
+2007,Striped Bass,576156.5
+2007,Striped Mullet,1668804.47
+2008,Blue Crab,32916691.33
+2008,Hard Clams,382049.47
+2008,Kingfishes,921120.08
+2008,Oyster,466176.38
+2008,Red Drum,229808.63
+2008,River Herring,1292
+2008,"Shrimp, Brown",5502792.53
+2008,"Shrimp, Pink",830488.32
+2008,"Shrimp, White",3076443.81
+2008,Southern Flounder,2602273.95
+2008,Spotted Seatrout,304430.14
+2008,Striped Bass,373444.68
+2008,Striped Mullet,1675858.66
+2009,Bay Scallop,29002.76
+2009,Blue Crab,29707231.6
+2009,Hard Clams,350669.03
+2009,Kingfishes,721925.88
+2009,Oyster,573629.67
+2009,Red Drum,200295.74
+2009,River Herring,643
+2009,"Shrimp, Brown",3804694.07
+2009,"Shrimp, Pink",250213.25
+2009,"Shrimp, White",1347561.2
+2009,Southern Flounder,2396240.38
+2009,Spotted Seatrout,320246.78
+2009,Striped Bass,310603.55
+2009,Striped Mullet,1685614.91
+2010,Bay Scallop,***
+2010,Blue Crab,30683010.9
+2010,Hard Clams,354960.74
+2010,Kingfishes,886840.98
+2010,Oyster,1040406.9
+2010,Red Drum,231827.74
+2010,River Herring,1765
+2010,"Shrimp, Brown",4233181.42
+2010,"Shrimp, Pink",52657.3
+2010,"Shrimp, White",1658681.11
+2010,Southern Flounder,1689557.43
+2010,Spotted Seatrout,202647.32
+2010,Striped Bass,500152.47
+2010,Striped Mullet,2082832.18
+2011,Blue Crab,30035391.95
+2011,Hard Clams,295466.46
+2011,Kingfishes,486852.76
+2011,Oyster,800543.17
+2011,Red Drum,91979.74
+2011,River Herring,1611
+2011,"Shrimp, Brown",4337643.21
+2011,"Shrimp, Pink",2294.6
+2011,"Shrimp, White",696200.18
+2011,Southern Flounder,1247449.61
+2011,Spotted Seatrout,75239.47
+2011,Striped Bass,410685.37
+2011,Striped Mullet,1627893.71
+2012,Blue Crab,26785668.68
+2012,Hard Clams,396428.74
+2012,Kingfishes,596248.97
+2012,Oyster,440062.75
+2012,Red Drum,66518.65
+2012,River Herring,678
+2012,"Shrimp, Brown",3599107.63
+2012,"Shrimp, Pink",774967.65
+2012,"Shrimp, White",1751039
+2012,Southern Flounder,1646137.28
+2012,Spotted Seatrout,265015.72
+2012,Striped Bass,144555.25
+2012,Striped Mullet,1859586.92
+2013,Bay Scallop,1336.69
+2013,Blue Crab,22202622.62
+2013,Hard Clams,347072.8
+2013,Kingfishes,605953.35
+2013,Oyster,586624.55
+2013,Red Drum,371948.9
+2013,River Herring,743
+2013,"Shrimp, Brown",2298916.55
+2013,"Shrimp, Pink",231302.35
+2013,"Shrimp, White",2341235.18
+2013,Southern Flounder,2186579.25
+2013,Spotted Seatrout,367648.08
+2013,Striped Bass,96934.8
+2013,Striped Mullet,1549156.57
+2014,Blue Crab,26231112.13
+2014,Hard Clams,430815.74
+2014,Kingfishes,955087.12
+2014,Oyster,727775.18
+2014,Red Drum,90649.71
+2014,River Herring,1139
+2014,"Shrimp, Brown",3354809.06
+2014,"Shrimp, Pink",111882.2
+2014,"Shrimp, White",1218851.98
+2014,Southern Flounder,1673511.14
+2014,Spotted Seatrout,242244.8
+2014,Striped Bass,96233.41
+2014,Striped Mullet,1828350.68
+2015,Blue Crab,32099632.96
+2015,Hard Clams,415027.17
+2015,Kingfishes,784753.48
+2015,Oyster,648444.31
+2015,Red Drum,80388.32
+2015,"Shrimp, Brown",6314178.89
+2015,"Shrimp, Pink",29139.5
+2015,"Shrimp, White",2772320.33
+2015,Southern Flounder,1202952.12
+2015,Spotted Seatrout,128767.82
+2015,Striped Bass,141823.92
+2015,Striped Mullet,1247128.56
+2016,Blue Crab,25462942.81
+2016,Hard Clams,331214.69
+2016,Kingfishes,834770.9
+2016,Oyster,668422.56
+2016,Red Drum,77101.12
+2016,"Shrimp, Brown",4818960.51
+2016,"Shrimp, Pink",45070.75
+2016,"Shrimp, White",8330195.47
+2016,Southern Flounder,899932.11
+2016,Spotted Seatrout,254590.18
+2016,Striped Bass,146188.6
+2016,Striped Mullet,965337.26
+2017,Blue Crab,19263758.47
+2017,Hard Clams,273280.33
+2017,Kingfishes,942946.41
+2017,Oyster,852847.98
+2017,Red Drum,187038.7
+2017,"Shrimp, Brown",4529615.15
+2017,"Shrimp, Pink",209773.33
+2017,"Shrimp, White",9133284.81
+2017,Southern Flounder,1396383.92
+2017,Spotted Seatrout,299951.5
+2017,Striped Bass,99008.98
+2017,Striped Mullet,1366350.86
+2018,Blue Crab,17015697.05
+2018,Hard Clams,199954.96
+2018,Kingfishes,407172.88
+2018,Oyster,625277.81
+2018,Red Drum,144640.05
+2018,"Shrimp, Brown",6125841.21
+2018,"Shrimp, Pink",69350.9
+2018,"Shrimp, White",3521247.66
+2018,Southern Flounder,903841.93
+2018,Spotted Seatrout,128979.66
+2018,Striped Bass,136047.42
+2018,Striped Mullet,1314385.2
+2019,Bay Scallop,***
+2019,Blue Crab,23027007.82
+2019,Hard Clams,118148.74
+2019,Kingfishes,702327.56
+2019,Oyster,832708.37
+2019,Red Drum,56419.15
+2019,"Shrimp, Brown",1496597
+2019,"Shrimp, Pink",2077.82
+2019,"Shrimp, White",8106871.17
+2019,Southern Flounder,800079.87
+2019,Spotted Seatrout,378499.7
+2019,Striped Bass,137555.11
+2019,Striped Mullet,1362216.59
+2020,Bay Scallop,***
+2020,Blue Crab,13548410.75
+2020,Hard Clams,71051.59
+2020,Kingfishes,640758.76
+2020,Oyster,829105.54
+2020,Red Drum,165666.45
+2020,"Shrimp, Brown",1863556.46
+2020,"Shrimp, Pink",29733.01
+2020,"Shrimp, White",7819441.44
+2020,Southern Flounder,479905.26
+2020,Spotted Seatrout,568762.57
+2020,Striped Bass,123933
+2020,Striped Mullet,1299499.97
+2021,Blue Crab,12819844.25
+2021,Hard Clams,81275.15
+2021,Kingfishes,808049.32
+2021,Oyster,1227399.95
+2021,Red Drum,200824.97
+2021,"Shrimp, Brown",2054934.97
+2021,"Shrimp, Pink",4564.75
+2021,"Shrimp, White",7085146.68
+2021,Southern Flounder,485023.66
+2021,Spotted Seatrout,695970.31
+2021,Striped Bass,27929.6
+2021,Striped Mullet,2140619.94
