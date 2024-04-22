@@ -44,6 +44,7 @@ NTurbidity <- read_csv("data/finalized/p2008NPamlicoTurbiditySD.csv")
 CTurbidity <- read_csv("data/finalized/p2008CPamlicoTurbiditySD.csv")
 CBTurbidity <- read_csv("data/finalized/p2008CBPamlicoTurbiditySD.csv")
 STurbidity <- read_csv("data/finalized/p2008SPamlicoTurbiditySD.csv")
+VesselsNum <- read.csv("/users/sallydowd/Desktop/vessel_nums.csv")
 
 names(RecFishing) <- tolower(names(RecFishing))
 names(CommLicense) <- tolower(names(CommLicense))
@@ -75,6 +76,7 @@ names(RecLicenseNonCoast) <- tolower(names(RecLicenseNonCoast))
 names(RecLicenseInState) <- tolower(names(RecLicenseInState))
 names(RecLicenseOutofState) <- tolower(names(RecLicenseOutofState))
 names(RecLicenseTotal) <- tolower(names(RecLicenseTotal))
+names(VesselsNum) <- tolower(names(VesselsNum))
 ```
 
 #### Running GAMs for Impacts and Responses Indicators
@@ -111,6 +113,7 @@ k_det(OysterLandings) #4
 k_det(CommercialTrips) #4
 k_det(MenhadenLandings) #6
 k_det(CommLandings) #4
+k_det(VesselsNum) #6
 
 #Create a GAM - adjust k and remember to check model
 gam_diagn <- function(dep_var, k_value, df){
@@ -542,6 +545,10 @@ mod_CBTurbidity <- gam(mean_turbidity ~ s(year, k= 4), data = CBTurbidity)
 ##STurbidity
 gam_diagn(STurbidity$mean_turbidity, 4, STurbidity)
 mod_STurbidity <- gam(mean_turbidity ~ s(year, k= 4), data = STurbidity)
+
+##VesselsNum
+gam_diagn(VesselsNum$num_reg, 10, VesselsNum)
+mod_VesselsNum <- gam(num_reg ~ s(year, k= 10), data = VesselsNum)
 ```
 
 #### GAM Functions: Results
@@ -1631,4 +1638,17 @@ linearMod_1997 <- lm(mean_turbidity ~ year, data=dfpost1997_STurbidity)
 summary(linearMod_1997)
 both_nonsig(STurbidity, STurbidity$mean_turbidity, intercept_STurbidity, pdata_STurbidity, mod.dsig_STurbidity, "Average Turbidity", "Year", "Average Spring Turbidity in\n Southern Region") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("~/Desktop/", "STurbidity.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#VesselsNum
+p2mod_VesselsNum <- GAM_predict_p2mod(VesselsNum, mod_VesselsNum)
+intercept_VesselsNum = as.numeric(attr(p2mod_VesselsNum,"constant")) 
+pdata_VesselsNum <- GAM_predict_pdata(VesselsNum, mod_VesselsNum)
+mod.dsig_VesselsNum <- GAM_deriv(pdata_VesselsNum, mod_VesselsNum)
+linearMod <- lm(num_reg ~ year, data= VesselsNum)
+summary(linearMod)
+dfpost1997_VesselsNum <- filter(VesselsNum, year > 1997)
+linearMod_1997 <- lm(num_reg ~ year, data=dfpost1997_VesselsNum)
+summary(linearMod_1997)
+both_sig(VesselsNum, VesselsNum$num_reg, intercept_VesselsNum, pdata_VesselsNum, mod.dsig_VesselsNum, dfpost1997_VesselsNum, dfpost1997_VesselsNum$num_reg, "Number Registered", "Year", "Number of Recreational Vessels Registered in NC") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "VesselsNum.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
