@@ -44,7 +44,9 @@ NTurbidity <- read_csv("data/finalized/p2008NPamlicoTurbiditySD.csv")
 CTurbidity <- read_csv("data/finalized/p2008CPamlicoTurbiditySD.csv")
 CBTurbidity <- read_csv("data/finalized/p2008CBPamlicoTurbiditySD.csv")
 STurbidity <- read_csv("data/finalized/p2008SPamlicoTurbiditySD.csv")
-VesselsNum <- read.csv("/users/sallydowd/Desktop/vessel_nums.csv")
+VesselsNum <- read.csv("/users/sallydowd/Desktop/vessel_nums2.csv")
+VesselsNum_cf <- read.csv("/users/sallydowd/Desktop/vessel_nums_cf.csv")
+VesselsNum_caf <- read.csv("/users/sallydowd/Desktop/vessel_nums_caf.csv")
 
 names(RecFishing) <- tolower(names(RecFishing))
 names(CommLicense) <- tolower(names(CommLicense))
@@ -77,6 +79,8 @@ names(RecLicenseInState) <- tolower(names(RecLicenseInState))
 names(RecLicenseOutofState) <- tolower(names(RecLicenseOutofState))
 names(RecLicenseTotal) <- tolower(names(RecLicenseTotal))
 names(VesselsNum) <- tolower(names(VesselsNum))
+names(VesselsNum_cf) <- tolower(names(VesselsNum_cf))
+names(VesselsNum_caf) <- tolower(names(VesselsNum_caf))
 ```
 
 #### Running GAMs for Impacts and Responses Indicators
@@ -547,8 +551,12 @@ gam_diagn(STurbidity$mean_turbidity, 4, STurbidity)
 mod_STurbidity <- gam(mean_turbidity ~ s(year, k= 4), data = STurbidity)
 
 ##VesselsNum
-gam_diagn(VesselsNum$num_reg, 10, VesselsNum)
-mod_VesselsNum <- gam(num_reg ~ s(year, k= 10), data = VesselsNum)
+gam_diagn(VesselsNum$num_reg, 5, VesselsNum)
+mod_VesselsNum <- gam(num_reg ~ s(year, k= 5), data = VesselsNum)
+
+##VesselsNum_cf
+gam_diagn(VesselsNum_cf$num_reg, 4, VesselsNum_cf)
+mod_VesselsNum_cf <- gam(num_reg ~ s(year, k= 4), data = VesselsNum_cf)
 ```
 
 #### GAM Functions: Results
@@ -1649,6 +1657,19 @@ summary(linearMod)
 dfpost1997_VesselsNum <- filter(VesselsNum, year > 1997)
 linearMod_1997 <- lm(num_reg ~ year, data=dfpost1997_VesselsNum)
 summary(linearMod_1997)
-both_sig(VesselsNum, VesselsNum$num_reg, intercept_VesselsNum, pdata_VesselsNum, mod.dsig_VesselsNum, dfpost1997_VesselsNum, dfpost1997_VesselsNum$num_reg, "Number Registered", "Year", "Number of Recreational Vessels Registered in NC") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_nonsig(VesselsNum, VesselsNum$num_reg, intercept_VesselsNum, pdata_VesselsNum, mod.dsig_VesselsNum, "Number Registered", "Year", "Number of Recreational Vessels Registered in NC") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
 ggsave(paste0("~/Desktop/", "VesselsNum.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+
+#VesselsNum_cf
+p2mod_VesselsNum_cf <- GAM_predict_p2mod(VesselsNum_cf, mod_VesselsNum_cf)
+intercept_VesselsNum_cf = as.numeric(attr(p2mod_VesselsNum_cf,"constant")) 
+pdata_VesselsNum_cf <- GAM_predict_pdata(VesselsNum_cf, mod_VesselsNum_cf)
+mod.dsig_VesselsNum_cf <- GAM_deriv(pdata_VesselsNum_cf, mod_VesselsNum_cf)
+linearMod <- lm(num_reg ~ year, data= VesselsNum_cf)
+summary(linearMod)
+dfpost1997_VesselsNum_cf <- filter(VesselsNum_cf, year > 1997)
+linearMod_1997 <- lm(num_reg ~ year, data=dfpost1997_VesselsNum_cf)
+summary(linearMod_1997)
+both_nonsig(VesselsNum_cf, VesselsNum_cf$num_reg, intercept_VesselsNum_cf, pdata_VesselsNum_cf, mod.dsig_VesselsNum_cf, "Number Registered", "Year", "Number of Commercial Fishing Vessels Registered in NC") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+ggsave(paste0("~/Desktop/", "VesselsNum_cf.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 ```
