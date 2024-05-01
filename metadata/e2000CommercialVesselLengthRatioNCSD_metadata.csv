@@ -12,4 +12,4 @@ Timeframe of Dataset:,2000-2023
 Data Collection Period,2000-2023
 Geographic Study Area:,North Carolina
 Does dataset include information governed under IRB or HIPAA?,No
-Comments:,
+Comments:,For vessel licenses, we have data going back to 1989. We probably have at least vessel length data for that older data, but our vessel licensing system also changed a bit around that 1999/2000 time. We implemented the Commercial Fishing Vessel Registration (CFVR) system, so there are some data elements that may be captured in more recent data that would not be included in the earlier data. The spreadsheet I sent Rich and Janet included CFVRs from 2000-2022, broken out into length categories. I am still exploring some of our older vessel data to pull together more historic data for them. That older data is just more complicated to work through, so it’s taken me some time to get to it. 
