@@ -44,7 +44,11 @@ NTurbidity <- read_csv("data/finalized/p2008NPamlicoTurbiditySD.csv")
 CTurbidity <- read_csv("data/finalized/p2008CPamlicoTurbiditySD.csv")
 CBTurbidity <- read_csv("data/finalized/p2008CBPamlicoTurbiditySD.csv")
 STurbidity <- read_csv("data/finalized/p2008SPamlicoTurbiditySD.csv")
-VesselsNum <- read.csv("/users/sallydowd/Desktop/vessel_nums2.csv")
+setwd("/Users/sallydowd/Documents/GitHub/NC-Ecosystem-indicators")
+
+setwd("/Users/sallydowd/Documents/GitHub/NC-Ecosystem-indicators")
+VesselsNum <- read.csv("data/finalized/impacts and responses/s1992VesselRegistration.csv")
+VesselsNum <-VesselsNum %>% dplyr::select(-X)
 VesselsNum_cf <- read.csv("/users/sallydowd/Desktop/vessel_nums_cf.csv")
 VesselsNum_caf <- read.csv("/users/sallydowd/Desktop/vessel_nums_caf.csv")
 
@@ -551,8 +555,8 @@ gam_diagn(STurbidity$mean_turbidity, 4, STurbidity)
 mod_STurbidity <- gam(mean_turbidity ~ s(year, k= 4), data = STurbidity)
 
 ##VesselsNum
-gam_diagn(VesselsNum$num_reg, 5, VesselsNum)
-mod_VesselsNum <- gam(num_reg ~ s(year, k= 5), data = VesselsNum)
+gam_diagn(VesselsNum$Num_reg, 10, VesselsNum)
+mod_VesselsNum <- gam(Num_reg ~ s(year, k= 10), data = VesselsNum)
 
 ##VesselsNum_cf
 gam_diagn(VesselsNum_cf$num_reg, 4, VesselsNum_cf)
@@ -1652,12 +1656,12 @@ p2mod_VesselsNum <- GAM_predict_p2mod(VesselsNum, mod_VesselsNum)
 intercept_VesselsNum = as.numeric(attr(p2mod_VesselsNum,"constant")) 
 pdata_VesselsNum <- GAM_predict_pdata(VesselsNum, mod_VesselsNum)
 mod.dsig_VesselsNum <- GAM_deriv(pdata_VesselsNum, mod_VesselsNum)
-linearMod <- lm(num_reg ~ year, data= VesselsNum)
+linearMod <- lm(Num_reg ~ year, data= VesselsNum)
 summary(linearMod)
 dfpost1997_VesselsNum <- filter(VesselsNum, year > 1997)
-linearMod_1997 <- lm(num_reg ~ year, data=dfpost1997_VesselsNum)
+linearMod_1997 <- lm(Num_reg ~ year, data=dfpost1997_VesselsNum)
 summary(linearMod_1997)
-both_nonsig(VesselsNum, VesselsNum$num_reg, intercept_VesselsNum, pdata_VesselsNum, mod.dsig_VesselsNum, "Number Registered", "Year", "Number of Recreational Vessels Registered in NC") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
+both_sig(VesselsNum, VesselsNum$Num_reg, intercept_VesselsNum, pdata_VesselsNum, mod.dsig_VesselsNum, dfpost1997_VesselsNum, dfpost1997_VesselsNum$Num_reg, "Number Registered", "Year", "Number of Recreational Vessels Registered in NC") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))+ geom_vline(xintercept = 2007, linetype= "dotdash")
 ggsave(paste0("~/Desktop/", "VesselsNum.GAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 #VesselsNum_cf
