@@ -7,7 +7,9 @@ Data Owner Contact:,"Meredith Whitten (meredith.Whitten@ncdenr.gov), Alan Bianch
 Link to Publically Available Data (if applicable):,NA
 Raw Data Citation,
 Link to Code Creating Dataset:,
-Variables Generated in Dataset:,"Length of vessels in NC of size class 0-18ft, 19-38ft, 39-50ft, >50ft"
+Variables Generated in Dataset:,
+Initial dataset: Fiscal year, Length of vessels in NC of size class 0-18ft, 19-38ft, 39-50ft, >50ft, Total (number of size class vessel)
+Final dataset: Year, VesselLengthRange, Count
 Timeframe of Dataset:,2000-2023
 Data Collection Period,2000-2023
 Geographic Study Area:,North Carolina
