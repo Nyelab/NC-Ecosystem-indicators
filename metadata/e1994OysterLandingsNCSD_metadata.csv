@@ -7,7 +7,9 @@ Data Owner Contact:,Meredith.whitten@ncdenr.gov
 Link to Publically Available Data (if applicable):,Got directly from Meredith
 Raw Data Citation,Got directly from Meredith
 Link to Code Creating Dataset:,
-Variables Generated in Dataset:,"Year, species, pounds private lease, pounds public lease"
+Variables Generated in Dataset:,
+Initial dataset: Year, Species, Bottom (Private vs. public lease), Pounds, Value, Dealers, Trips, Particpants, Vessels, Leases, CONF
+Final dataset: "Year, Private_lbs (pounds harvested on private lease), Public_lbs
 Timeframe of Dataset:,1994-2021
 Data Collection Period,Every Year
 Geographic Study Area:,All of NC
@@ -17,7 +19,7 @@ Comments:,"Oyster, clam, and bay scallop data by"
 ,"caveat, the number of leases has a small amount of error. Sometimes we are missing a lease number in"
 ,"our data, and sometimes the same lease number may be entered in a slightly different format which"
 ,"could lead to double counting (e.g., lease 123-b could also be entered as 123 B, which would be counted"
-,"as 2 leases in this program). Generally those things are caught in our edits, but it’s hard to account for"
+,"as 2 leases in this program). Generally those things are caught in our edits, but itâ€™s hard to account for"
 ,"everything in the lease data. For Bay Scallops, many of the private landings were confidential, so then I"
 ,had to make private and public both confidential since I had given you the total annual landings in the
 ,Commercial Landings 94-21 dataset which would have made it possible to back calculate the
