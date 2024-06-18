@@ -9,7 +9,7 @@ Raw Data Citation,Received from Carmen and can’t find a link of this data bein
 Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
 Variables Generated in Dataset:,
 Initial dataset: "Species, # of Nests per Year, 14 year or total sampling years average, # of nests difference between the 2017 and 2020 survey, % change of nests between the 2017 and 2020 survey"
-Final dataset: Year, Total 
+Final dataset: Year, sum_nests (total number of nests in a year)
 Timeframe of Dataset:,1977-2020
 Data Collection Period,"They said every three years, but you can see that’s no the case in the data. "
 Geographic Study Area:,From what I understood it was a large portion of coastal NC where nesting fish eating waterbirds were present
