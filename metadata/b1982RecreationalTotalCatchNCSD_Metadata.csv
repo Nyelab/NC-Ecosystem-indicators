@@ -7,7 +7,9 @@ Data Owner Contact:,NOAA
 Link to Publically Available Data (if applicable):,Recreational Fisheries Statistics Queries | NOAA Fisheries
 Raw Data Citation,Recreational Fisheries Statistics Queries | NOAA Fisheries
 Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
-Variables Generated in Dataset:,"Estimate Status, Year, Species Group, Sub Group, Total Catch (A+B1+B2), PSE"
+Variables Generated in Dataset:,
+Initial: "Estimate Status, Year, Species Group, Sub Group, Total Catch (A+B1+B2), PSE"
+Final: Year, sum_catch (total recreational catch)
 Timeframe of Dataset:,1981-2022
 Data Collection Period,Every year up to 2022
 Geographic Study Area:,All of NC
