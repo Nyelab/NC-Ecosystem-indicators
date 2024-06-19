@@ -7,7 +7,9 @@ Data Owner Contact:,Andrew.Valmassoi@deq.nc.gov
 Link to Publically Available Data (if applicable):,https://www.deq.nc.gov/marine-fisheries/science-statistics/fisheries-statistics/big-book/2023-annual-report/open
 Raw Data Citation,"Excel file from Andrew Valmassoi, is s2007RecLicensesNCSD.csv in Data file on GitHub"
 Link to Code Creating Dataset:,"No link, just summed together recreational licenses from all counties by year from original dataset (s2007RecLicensesNCSD.csv)"
-Variables Generated in Dataset:,"Year, Number (total number of CRFL recreational licenses from all counties (in and out of state) by year"
+Variables Generated in Dataset:,
+Initial: County, Years with number of licenses purchased 
+Final: "Year, Number (total number of CRFL recreational licenses from all counties (in and out of state) by year"
 Timeframe of Dataset:,2007-2022
 Data Collection Period,Every year up to 2022
 Geographic Study Area:,In-state and out-of-state
