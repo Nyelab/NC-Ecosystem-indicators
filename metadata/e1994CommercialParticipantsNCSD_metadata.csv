@@ -7,7 +7,9 @@ Data Owner Contact:,Meredith.whitten@ncdenr.gov
 Link to Publically Available Data (if applicable):,Got directly from Meredith
 Raw Data Citation,Got directly from Meredith
 Link to Code Creating Dataset:,Just provided the csv file on NCGA NCC Fisheries and Habitat Study>Timeseries/indicator analysis>Data
-Variables Generated in Dataset:,"Year, number of participants "
+Variables Generated in Dataset:,
+Initial dataset: Year, Species, Pounds, Value, Dealers, Trips, Participants, Vessels, Licenses, CONF
+Final: Year, Species, Particpants (number of particpants in fishery for that species)
 Timeframe of Dataset:,1994-2023
 Data Collection Period,Every Fiscal Year
 Geographic Study Area:,All of NC
