@@ -14,7 +14,7 @@ Timeframe of Dataset:,1994-2023
 Data Collection Period,Every Fiscal Year
 Geographic Study Area:,All of NC
 Does dataset include information governed under IRB or HIPAA?,Not sure
-Comments:,This is a dataset of our major commercial fisheries with participant
+Comments:,"This is a dataset of our major commercial fisheries with participant
 ,"data. A few species are grouped (tuna, triggerfishes, porgies, etc.) to help aggregate things enough to"
 ,"not have issues with confidentiality. I think thread herring, scup, and bay scallop are the only species"
 ,"included in this list that are confidential for some years. You’ll see an asterisk in the CONF column, and"
