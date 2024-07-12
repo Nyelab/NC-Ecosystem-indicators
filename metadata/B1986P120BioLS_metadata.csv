@@ -1,0 +1,15 @@
+﻿Datset File Name:,B1986P120BioLS
+Dataset Title:,NC DMF P120 Biological Indicators
+Dataset Author:,Lela Schlenker
+Dataset Author Contact:,lelaschlenker@gmail.com
+Data Owner:,NC DMF
+Data Owner Contact:,daniel.zapf@deq.nc.gov
+Link to Publically Available Data (if applicable):,NA
+Raw Data Citation,NC Division of Marine Fisheries (2022). Fisheries Statistics. [Dataset]. Pers. comm. Daniel Zapf.
+Link to Code Creating Dataset:,NA
+Variables Generated in Dataset:,"Annual: SppRichness (mean species richness across all sites), shannonwiener (mean shannon weiner evenness across all sites), CPUE (mean catch per hectare across all sites)"
+Timeframe of Dataset:,1986-2021
+"Data Collection Period (e.g., June and September)","May and June, combined into one annual value"
+Geographic Study Area:,"Tidal Creeks feeding into the Pamlico Sound, NC"
+Does dataset include informaton governed under IRB or HIPAA?,No
+Comments:,"Jellies and plants and anthing ""suspicious"" filtered out, some species grouped (blennies and gobbies) based on discussions with Jim about potential for misidentification"
