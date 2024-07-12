@@ -1,0 +1,15 @@
+﻿Datset File Name:,B1987P195BioLS
+Dataset Title:,NC DMF P195 Biological Indicators
+Dataset Author:,Lela Schlenker
+Dataset Author Contact:,lelaschlenker@gmail.com
+Data Owner:,Lela Schlenker
+Data Owner Contact:,lelaschlenker@gmail.com
+Link to Publically Available Data (if applicable):,http://www.seamap.org/datapage.html
+Raw Data Citation,"SEAMAP-SA Data Management Work Group . 2022, November, 1. SEAMAP-SA online database. Retrieved from: http://www.dnr.sc.gov/SEAMAP/data.html by: Lela Schlenker."
+Link to Code Creating Dataset:,NA
+Variables Generated in Dataset:,"Summer and Fall: CPUE (catch per unit effort), MPUE (biomass per unit effort), CrabCPUE (catch per unit effort of macroinvertebrates), CrabMPUE (biomass per unit effort of macroinvertebrates), FishCPUE (catch per unit effort of finfish), FishMPUE (biomass per unit effort of finfish),  Species Richness, DtoPBioMRatio (demersal to pelagic biomass ratio), shannon wiener diversity index, NonShrimpInvertCPUE (catch per unit effort of non-shrimp macroinvertebrates)"
+Timeframe of Dataset:,1987-2021
+"Data Collection Period (e.g., June and September)","summer (June), fall (september)"
+Geographic Study Area:,"Pamlico Sound, NC"
+Does dataset include informaton governed under IRB or HIPAA?,No
+Comments:,"Jellies and plants and anthing ""suspicious"" filtered out, some species grouped (blennies and gobbies) based on discussions with Jim about potential for misidentification"
