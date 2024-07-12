@@ -1,0 +1,20 @@
+﻿Datset File Name:,B1987estimatedshrimpLS
+Dataset Title:,"Predicted number of brown, pink, and white shrimp in Pamlico Sound based on spatial GAMs using P195 data"
+Dataset Author:,Lela Schlenker
+Dataset Author Contact:,lelaschlenker@gmail.com
+Data Owner:,Lela Schlenker
+Data Owner Contact:,lelaschlenker@gmail.com
+Link to Publically Available Data (if applicable):,https://datadryad.org/stash/dataset/doi:10.5061/dryad.m37pvmd76
+Raw Data Citation,"Schlenker, Lela (2023). Data from: Environmental and climate variability drive population size of annual penaeid shrimp in a large lagoonal estuary [Dataset]. Dryad. https://doi.org/10.5061/dryad.m37pvmd76"
+Link to Code Creating Dataset:,"Methods available: Schlenker LS, Stewart C, Rock J, Heck N,
+Morley JW (2023) Environmental and climate
+variability drive population size of annual penaeid
+shrimp in a large lagoonal estuary. PLoS ONE
+18(5): e0285498. https://doi.org/10.1371/journal.
+pone.0285498"
+Variables Generated in Dataset:,"Estimated number of brown, pink, and white shrimp in Pamlico Sound"
+Timeframe of Dataset:,1987-2019
+"Data Collection Period (e.g., June and September)",June and September
+Geographic Study Area:,Pamlico Sound Mainbody (>2 m)
+Does dataset include informaton governed under IRB or HIPAA?,No
+Comments:,"Estimates are derived from spatial GAMs that use CPUE data from P195, white shrimp only have estimates for Fall (September) because they are infrequently caught in P195 in the summer survey"
