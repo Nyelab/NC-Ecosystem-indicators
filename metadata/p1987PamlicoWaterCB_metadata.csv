@@ -1,0 +1,16 @@
+﻿Datset File Name:,"p1974PAMSOUNDTemperatureCB_finalized.csv, p1974PAMSOUNDSalinityCB_finalized, p1974PAMSOUNDDOCB_finalized"
+Dataset Title:,"Water temperature, salinity, and dissolved oxygen measurements averaged by season (winter = jan, feb, march) and their sample size. "
+Dataset Author:,Camryn Blawas
+Dataset Author Contact:,cblawas@nyelab.org
+Data Owner:,NC Division of Marine Fisheries
+Data Owner Contact:,
+Link to Publically Available Data (if applicable):,https://www2.dnr.sc.gov/seamap/ 
+Raw Data Citation,"SEAMAP-SA Data Management Work Group. 2023, May, 24. SEAMAP-SA online
+database. Retrieved from: http://www.dnr.sc.gov/SEAMAP/data.html by: Camryn Blawas."
+Link to Code Creating Dataset:,https://github.com/Nyelab/NC-Ecosystem-indicators/blob/main/scripts/pPamlicoSoundSubset.R
+Variables Generated in Dataset:,"Year, season, mean temp, standard deviation of temperature, mean salinity, standard deviation of salinity, mean dissolved oxygen, standard deviation of dissolved oxygen, and sample size"
+Timeframe of Dataset:,1987-2019
+Data Collection Period,1987-2019
+Geographic Study Area:,Pamlico Sound in North Carolina ( shapefile here: https://github.com/Nyelab/NC-Ecosystem-indicators/tree/main/data/shapefiles/SAVRegions.shp)
+Does dataset include information governed under IRB or HIPAA?,No
+Comments:,
