@@ -15,7 +15,7 @@ source_gist("https://gist.github.com/gavinsimpson/e73f011fdaaab4bb5a30")
 standard_theme <- theme_bw() + theme(panel.border = element_rect(fill=NA, colour = "black")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + theme(legend.text.align= 0, legend.title= element_text(size = 12), legend.text = element_text(size= 10), axis.text=element_text(size=10), axis.title=element_text(size=12))
 
 setwd("/Users/sallydowd/Documents/GitHub/NC-Ecosystem-indicators")
-RecFishing <- read_csv("data/finalized/e1981RecreationalEffortNCSD.csv")
+RecFishing <- read_csv("data/finalized/impacts and responses/e1981RecreationalEffortNCSD.csv")
 CommLicense <- read_csv("data/finalized/e1994CommercialLicensesNCCB.csv")
 VesselLength <- read_csv("data/finalized/e1989CommercialVesselLengthSD.csv")
 ClamsLandings <- read_csv("data/finalized/e1994ClamsLandingsNCSD.csv")
@@ -25,8 +25,8 @@ MenhadenLandings <- read_csv("data/finalized/e1985MenhadenLandingsNCSD.csv")
 CommLandings <- read_csv("data/finalized/e1994CommercialLandingsBillNCSD.csv")
 BirdNests <- read_csv("data/finalized/b1977BirdNestsNCSD.csv")
 CommParts <- read_csv("data/finalized/e1994CommercialParticipantsBillNCSD.csv")
-RecCatch <- read_csv("data/finalized/b1981RecreationalTotalCatchNCSD.csv")
-RecRelAlive <- read_csv("data/finalized/b1981RecTotalRelAliveNCSD.csv")
+RecCatch <- read_csv("/users/sallydowd/Desktop/b1981RecreationalTotalCatchNCSD.csv")
+RecRelAlive <- read_csv("/users/sallydowd/Desktop/b1981RecRelAliveNCSD.csv")
 ShmpReg <- read_csv("data/finalized/e1994ShrimpRegionNCSD.csv")
 BeachNouris <- read_csv("data/finalized/p1939BeachNourishmentSD_finalized.csv")
 # RecGK <- read_excel("~/Desktop/gulf_kingfish.xlsx")
@@ -131,8 +131,8 @@ gam.check(mod)
 }
 
 ##Rec fishing 
-gam_diagn(RecFishing$angler_trips, 6, RecFishing) #p value not significant 
-mod_RecFishing <- gam(angler_trips ~ s(year, k= 6), data = RecFishing)
+gam_diagn(RecFishing$angler_trips, 7, RecFishing) #p value not significant 
+mod_RecFishing <- gam(angler_trips ~ s(year, k= 7), data = RecFishing)
 
 ##Comm License
 unique(CommLicense$productname)
@@ -416,8 +416,8 @@ mod_RecCatch <- gam(sum_catch ~ s(year, k= 8), data = RecCatch)
 
 ##Rec Rel Alive
 k_det(RecRelAlive)
-gam_diagn(RecRelAlive$relalive, 6, RecRelAlive) #p not sig at k= 6, graphs don't get much better 
-mod_RecRelAlive <- gam(relalive ~ s(year, k= 6), data = RecRelAlive)
+gam_diagn(RecRelAlive$relalive, 8, RecRelAlive) #p not sig at k= 6, graphs don't get much better 
+mod_RecRelAlive <- gam(relalive ~ s(year, k= 8), data = RecRelAlive)
 
 ##Rec Rel Alive reduced
 RecRelAliveRed <- RecRelAlive %>% filter(year > 1986)
@@ -665,7 +665,7 @@ dfpost1997_RecFishing <- filter(RecFishing, year > 1997)
 linearMod_1997<- lm(angler_trips ~ year, data=dfpost1997_RecFishing)
 summary(linearMod_1997)
 both_sig(RecFishing, RecFishing$angler_trips, intercept_RecFishing, pdata_RecFishing, mod.dsig_RecFishing, dfpost1997_RecFishing, dfpost1997_RecFishing$angler_trips, "Number of Angler Trips", "Year", "Number of Recreational Angler Trips")
-ggsave(paste0("/users/sallydowd/Desktop/Figures/", "RecFishingGAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+ggsave("/users/sallydowd/Desktop/RecFishingGAMwithTrend.png", width = 6, height = 4, dpi = 300)
 
 #Comm License
 ##Dealer: not working! 
@@ -1261,7 +1261,7 @@ dfpost1997_RecCatch <- filter(RecCatch, year > 1997)
 linearMod_1997 <- lm(sum_catch ~ year, data=dfpost1997_RecCatch)
 summary(linearMod_1997)
 both_sig(RecCatch, RecCatch$sum_catch, intercept_RecCatch, pdata_RecCatch, mod.dsig_RecCatch, dfpost1997_RecCatch, dfpost1997_RecCatch$sum_catch, "Number of Fish", "Year", "Total Recreational Catch") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
-ggsave(paste0("/users/sallydowd/Desktop/Figures/", "RecCatchAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+ggsave("/users/sallydowd/Desktop/RecCatchAMwithTrend.png", width = 6, height = 4, dpi = 300)
 
 #Rec Rel Alive
 p2mod_RecRelAlive <- GAM_predict_p2mod(RecRelAlive, mod_RecRelAlive)
@@ -1274,7 +1274,8 @@ dfpost1997_RecRelAlive <- filter(RecRelAlive, year > 1997)
 linearMod_1997 <- lm(relalive ~ year, data=dfpost1997_RecRelAlive)
 summary(linearMod_1997)
 both_sig(RecRelAlive, RecRelAlive$relalive, intercept_RecRelAlive, pdata_RecRelAlive, mod.dsig_RecRelAlive, dfpost1997_RecRelAlive, dfpost1997_RecRelAlive$relalive, "Number of Fish Released Alive", "Year", "Total Recreational Fishes Released Alive") + theme(plot.margin = margin(1,0.75,1,0.75, "cm"))
-ggsave(paste0("/users/sallydowd/Desktop/Figures/", "RecRelAliveAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
+ggsave("/users/sallydowd/Desktop/RecRelAliveAMwithTrend.png", width = 6, height = 4, dpi = 300)
+ggsave(paste0("/users/sallydowd/Desktop", "RecRelAliveAMwithTrend.png"), width = 6, height = 4, dpi = 300, units = "in", device='png')
 
 ##Rec Rel Alive reduced
 p2mod_RecRelAliveRed <- GAM_predict_p2mod(RecRelAliveRed, mod_RecRelAliveRed)
