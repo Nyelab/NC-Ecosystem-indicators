@@ -3,9 +3,9 @@ Dataset Title:,License and Vessel Lists and Statistics
 Dataset Author:,Sally Dowd
 Dataset Author Contact:,sdowd@nyelab.org
 Data Owner:,NC Wildlife Resources Commission 
-Data Owner Contact:,NA
-Link to Publically Available Data (if applicable):,
-Raw Data Citation,
+Data Owner Contact:,James Miller james.miller@ncwildlife.org
+Link to Publically Available Data (if applicable):, not publically available
+Raw Data Citation, 
 Link to Code Creating Dataset:,github/sdowd
 Variables Generated in Dataset:,"Year, Number of registered vessels used for ""Pleasure"""
 Timeframe of Dataset:,1992-2023
@@ -13,5 +13,6 @@ Data Collection Period,"County, VesselStatus, Vessel Year, VesselModel, FuelType
 Geographic Study Area:,State of North Carolina
 Does dataset include informaton governed under IRB or HIPAA?,No
 Comments:,"We requested the following information from the License and Vessel Lists and Statistics through NC Wildlife Resources Commission: Taxed county, length (inches), vessel year, manufacturer, Model, Primary Usage, Fuel Type, Propulsion, Construction Type, Vessel Type, Registered Date, and Expiration Date "
-,It is important to note that we have not received metadata for this dataset yet- we still need to learn more about these data
+,Vessel registration was voluntary until 2007, so we recommend not interpretting any trends until after 2007
+
 ,I started the time series in 1992 as there were few vessels registered before then 
