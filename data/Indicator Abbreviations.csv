@@ -1,0 +1,166 @@
+Data Source,Indicator,Abbreviated name for multivariate analyses
+1,Sea Level,"DuckSLR, BeaufortSLR, WilmingtonSLR"
+2,Tropical Storms and Hurricanes,NumNCStorms
+3,Albemarle Sound temperature,Albemarle_Temp
+4,Cape Fear River temperature,CapeFear_Temp
+5,Chowan River temperature,Chowan_Temp
+6,Neuse River temperature,Neuse_Temp
+7,New River temperature,New_Temp
+8,Pamlico River temperature,Pamlico_Temp
+9,Pamlico Sound temperature,NA
+10,Albemarle Sound salinity,Albemarle_Salinity
+11,Cape Fear River salinity,CapeFear_Salinity
+12,Chowan River salinity,Chowan_Salinity
+13,Neuse River salinity,Neuse_Salinity
+14,New River salinity,New_Salinity
+15,Pamlico River salinity,Pamlico_Salinity
+16,Pamlico Sound salinity,NA
+17,Albemarle Sound dissolved oxygen,Albemarle_DO
+18,Cape Fear River dissolved oxygen,CapeFear_DO
+19,Chowan River dissolved oxygen,Chowan_DO
+20,Neuse River dissolved oxygen,Neuse_DO
+21,New River dissolved oxygen,New_DO
+22,Pamlico River dissolved oxygen,Pamlico_DO
+23,Pamlico Sound dissolved oxygen,NA
+24,Albemarle Sound pH,Albemarle_pH
+25,Cape Fear River pH,CapeFear_pH
+26,Chowan River pH,Chowan_pH
+27,Neuse River pH,Neuse_pH
+28,New River pH,New_pH
+29,Pamlico River pH,Pamlico_pH
+30,Air Temperature Hatteras ,AirTemp_Hatteras
+31,Air Temperature New Bern,AirTemp_NewBern
+32,Air Temperature New River,AirTemp_NewRiver
+33,Air Temperature Wilmington,AirTemp_Wilmington
+34,Sea Surface Temperature North of Cape Hatteras,SST_OregonInlet
+35,Sea Surface Temperature South of Cape Hatteras,SST_CapeLookout
+36,Albemarle Sound river flow,Albemarle_RiverFlow
+37,Pamlico Sound river flow,Pamlico_RiverFlow
+38,Cape Fear River river flow,CapeFear_RiverFlow
+39,Albemarle Sound nitrogen loading,Albemarle_TotNLoad
+40,Pamlico Sound nitrogen loading,PamlicoSound_TotNLoad
+45,Cape Fear River nitrogen loading,CapeFear_TotNLoad
+46,Albemarle Sound flow-normalized nitrogen loading,Albemarle_FlowNorm_NLoad
+47,Pamlico Sound flow-normalized nitrogen loading,PamlicoSound_FlowNorm_NLoad
+48,Cape Fear River flow-normalized nitrogen loading,CapeFear_FlowNorm_NLoad
+49,Albemarle Sound phosphorus loading,Albemarle_TotPLoad
+50,Pamlico Sound phosphorus loading,PamlicoSound_TotPLoad
+51,Cape Fear River phosphorus loading,CapeFear_TotPLoad
+52,Albemarle Sound flow-normalized phosphorus loading,Albemarle_FlowNorm_PLoad
+53,Pamlico Sound flow-normalized phosphorus loading,PamlicoSound_FlowNorm_PLoad
+54,Cape Fear River flow-normalized phosphorus loading,CapeFear_FlowNorm_PLoad
+55,Albemarle Sound Total Nitrogen Concentration,Albemarle_TotNConc
+56,Pamlico River Estuary Total Nitrogen Concentration,NA
+57,Pamlico Sound Total Nitrogen Concentration,NA
+58,Neuse River Estuary Total Nitrogen Concentration,NA
+59,Cape Fear River Estuary Total Nitrogen Concentration,NA
+60,Albemarle Sound Total Phosphorus Concentration,Albemarle_TotPConc
+61,Pamlico River Estuary Total Phosphorus Concentration,NA
+62,Neuse River Estuary Total Phosphorus Concentration,NA
+63,Cape Fear River Estuary Total Phosphorus Concentration,NA
+64,Water quality monitoring effort,NA
+65,Coastal county population,CoastalCountyPop
+66,Houses in floodplain,NA
+67,Coastal county development,CoastalDevelopment
+68,Coastal county development (cumulative),NA
+69,"Beach nourishment cost, Northern",BeachNourishCost_N
+70,"Beach nourishment cost, Central",BeachNourishCost_C
+71,"Beach nourishment cost, Southern",BeachNourishCost_S
+72,"Beach nourishment volume, Northern",BeachNourishVolume_N
+73,"Beach nourishment volume, Central",BeachNourishVolume_C
+74,"Beach nourishment volume, Southern",BeachNourishVolume_S
+75,Albemarle Sound Chlorophyll a Concentration,NA
+76,Pamlico River Estuary Chlorophyll a Concentration,chl.a_Pamlico
+77,Neuse River Estuary Chlorophyll a Concentration,chl.a_Neuse
+78,Pamlico Sound Chlorophyll a Concentration,NA
+79,Pamlico River Estuary clarity,NA
+80,Pamlico Sound clarity,NA
+81,Neuse River Estuary Clarity,NA
+82,Pamlico Sound Trawl Finfish CPUE,"P195_FishCPUE_Summer, P195_FishCPUE_Fall"
+83,Pamlico Sound Trawl Macroinvertebrate CPUE,NA
+84,Pamlico Sound Trawl Non-Shrimp Macroinvertebrate CPUE,"P195_NonShrimpInvertCPUE_Summer, P195_NonShrimpInvertCPUE_Fall"
+85,Brown shrimp in Pamlico Sound,"Shrimp_Pamlico_Brown_Summer, Shrimp_Pamlico_Brown_Fall"
+86,Pink shrimp in Pamlico Sound,"Shrimp_Pamlico_Pink_Summer, Shrimp_Pamlico_Pink_Fall"
+87,White shrimp in Pamlico Sound,Shrimp_Pamlico_White_Fall
+88,Pamlico Sound Species Richness,"P195_SppRichness_Summer, P195_SppRichness_Fall"
+89,Pamlico Sound Diversity,"P195_shannonwiener_Summer, P195_shannonwiener_Fall"
+90,Pamlico Sound demersal : pelagic biomass,"P195_DtoPBioMRatio_Summer, P195_DtoPBioMRatio_Fall"
+91,Tidal Creek CPUE,P120_CPUE
+92,Tidal Creek Species Richness,P120_SppRichness
+93,Tidal Creek Diversity,P120_shannonwiener
+94,Coastal Trawl Finfish CPUE,SEAMAP_FinfishCPUE
+95,Coastal Trawl Macroinvertebrate CPUE,SEAMAP_InvertCPUE
+96,Coastal Trawl Non-Shrimp Macroinvertebrate CPUE,SEAMAP_InvertCPUE_NoShrimp
+97,Coastal Species Richness,SEAMAP_Richness
+98,Coastal Species Diversity,SEAMAP_ShannonDiversity
+99,Striped mullet spawning stock biomass,StripedMulletSSBKg
+100,Striped bass spawning stock biomass ,StripedBassSSBkg
+101,Spotted seatrout spawning stock biomass,SpottedSeaTroutSSBkg
+102,Southern flounder spawning stock biomass,SouthernFlounderSSBkg
+103,Blue crab number of adult females,NA
+104,Kingfishes larger than L50,ProportionAdultKingfishesLargerL50
+105,Juvenile sheepshead abundance,NA
+106,Juvenile red drum abundance,RedDrumJuvSeineSurveyCPUE
+107,Juvenile American shad,NA
+108,Spawning Alewife,AlewifeProportionReturnSpawner
+109,Spawning blueback herring,BluebackHerringProportionReturnSpawner
+110,Invasive blue catfish index,BlueCatfish_CPUE
+111,Colonial waterbird nests ,NA
+112,Commercial finfish landings excluding menhaden,FinfishCommCatchWeight
+113,Commercial menhaden landings,MenhadenCommCatchWeight
+114,Commercial invertebrate landings,InvertCommCatchWeight
+115,Kingfish commercial landings,NA
+116,Red drum commercial landings,NA
+117,Striped mullet  commercial landings,NA
+118,River herring commercial landings,NA
+119,Southern flounder commercial landings,NA
+120,Spotted seatrout commercial landings,NA
+121,Striped bass commercial landings,NA
+122,Oysters commercial landings,NA
+123,Hard clams commercial landings,NA
+124,Brown shrimp commercial landings,NA
+125,White shrimp commercial landings,NA
+126,Pink shrimp commercial landings,NA
+127,Blue crab commercial landings,NA
+128,Clams harvested private: public lease,Clam_HarvestRatio_Priv_Pub
+129,Oysters harvested private: public lease,Oyster_HarvestRatio_Priv_Pub
+130,Dealer licenses,Dealer_License
+131,Standard commercial fishing licenses,Comm_License_Standard
+132,Commercial fishing vessel registration licenses,Comm_VesselReg
+133,Retired standard commercial fishing licenses,Comm_License_Retired
+134,Shellfish licenses without a SCFL ,Shellfish_Only_License
+135,Number of commercial trips,CommercialTrips
+136,Kingfish commercial participants ,Participants_Kingfishes
+137,Red drum commercial participants ,Participants_RedDrum
+138,Striped mullet  commercial participants ,Participants_StripedMullet
+139,River herring commercial participants ,NA
+140,Southern flounder commercial participants ,Participants_SouthernFlounder
+141,Spotted seatrout commercial participants ,Participants_SpottedSeatrout
+142,Striped bass commercial participants ,Participants_StripedBass
+143,Oysters commercial participants ,Participants_Oyster
+144,Hard clams commercial participants ,Participants_HardClams
+145,Brown shrimp commercial participants ,Participants_ShrimpBrown
+146,White shrimp commercial participants ,Participants_ShrimpWhite
+147,Pink shrimp commercial participants ,Participants_ShrimpPink
+148,Blue crab commercial participants ,Participants_BlueCrab
+149,Bay Scallop commercial participants ,NA
+150,"Participants in shrimp fishery, Northern",Participants_Shrimp_Northern
+151,"Participants in shrimp fishery, Central",Participants_Shrimp_Central
+152,"Participants in shrimp fishery, Core Banks",Participants_Shrimp_Core_Banks
+153,"Participants in shrimp fishery, Southern",Participants_Shrimp_Southern
+154,Commercial Vessels 0-18 ft.,Vessels_<18ft
+155,Commercial Vessels 19-38 ft.,Vessels_19-38ft
+156,Commercial Vessels 39-50 ft.,Vessels_39-50ft
+157,Commercial Vessels > 50 ft. ,Vessels_>50ft
+158,Commercial Vessels < 38 ft.,SmallVessels_<38ft
+159,Commercial Vessels > 38 ft.,LargeVessels_>38ft
+160,Ratio of small to large commercial vessels ,Vessels_Sm_Lg_Ratio
+161,Total number of CRFL sold,NA
+162,Number of CRFL purchased in coastal counties,NA
+163,Number of CRFL purchased in non-coastal counties,NA
+164,Number of CRFL purchased in counties in-state,NA
+165,Number of CRFL purchased in counties out-of-state,NA
+166,Number of recreational angler trips ,Rec_Angler_Trips
+167,Total recreational catch,Rec_Catch
+168,Total recreational fishes released alive,Rec_ReleaseAlive
+170,Number of Recreational Vessels Registered ,NA
